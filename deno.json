@@ -1,0 +1,6 @@
+{
+  "imports": {
+    "@line/bot-sdk": "npm:@line/bot-sdk@^10.5.0",
+    "express": "npm:express@^5.2.1"
+  }
+}
