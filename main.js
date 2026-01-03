@@ -5,7 +5,7 @@ import * as line from "@line/bot-sdk";
 
 /*
 purple_200 : #e9d4ff
-pink_200 : #ffccd3
+rose_200 : #ffccd3
 amber_200 : #fee685
 green_200 : #b9f8cf
 */
