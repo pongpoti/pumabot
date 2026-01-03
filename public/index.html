@@ -11,6 +11,11 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap"
         rel="stylesheet">
+    <style>
+        #body {
+            display: none;
+        }
+    </style>
 </head>
 
 <body id="body" class="min-h-screen border-r-6 border-l-6 border-sky-900">
@@ -111,6 +116,7 @@
                     console.log("4")
                     if (true) {
                         console.log(liff.isLoggedIn())
+                        body.style.display = "block"
                         header.innerText = header_object[query_header][0]
                         subheader.innerText = header_object[query_header][1]
                         container.classList.add(color_object[query_color])
