@@ -27,7 +27,7 @@ app.use(express.static(path.join(import.meta.dirname, 'public')));
 app.post("/callback", (req, res) => {
   axios.post("https://api.telegram.org/bot8304418735:AAEzik9XwKKWOt5c2Ya0p72WKloJjj-_zaM/sendMessage", {
     chat_id: "1228757332",
-    text: "hi there" + req.body
+    text: JSON.parse(req.body)
   })
 })
 
