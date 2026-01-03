@@ -100,12 +100,17 @@
         }
         //
         const main = async () => {
+            console.log("1")
             if (true) {
+                console.log("2")
                 await liff.init({
                     liffId: "2008812156-UdgwP1vW"
                 })
+                console.log("3")
                 if (true) {
+                    console.log("4")
                     if (liff.isLoggedIn()) {
+                        console.log("5")
                         header.innerText = header_object[query_header][0]
                         subheader.innerText = header_object[query_header][1]
                         container.classList.add(color_object[query_color])
