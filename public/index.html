@@ -105,15 +105,9 @@
         }
         //
         const main = async () => {
-            console.log("1")
-            if (true) {
-                console.log("2")
-                await liff.init({
-                    liffId: "2008812156-UdgwP1vW"
-                })
-                console.log("3")
-                if (true) {
-                    console.log("4")
+            if (window.innerWidth < 481) {
+                await liff.init({ liffId: "2008812156-UdgwP1vW" })
+                if (liff.isInClient()) {
                     if (true) {
                         console.log(liff.isLoggedIn())
                         body.style.display = "block"
