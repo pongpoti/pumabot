@@ -1,6 +1,7 @@
 import express from "express";
 import process from "node:process";
 import path from "node:path";
+import axios from "axios";
 import * as line from "@line/bot-sdk";
 
 /*
@@ -18,8 +19,15 @@ const config = {
 const client = new line.messagingApi.MessagingApiClient({
   channelAccessToken: "uWCHXalmoUA95FiGl298LqCvCiMrRyebRez/hbfEUiV1Xilk4ZdULAImv2vAdJRmc+v9GNyL2HXQ0gNCFBNAD3aNZpWyhAxK16sIGB/BrQ7oaSLdHjClBUFk8CgXLClQlyeRngref8TbpfBZN0JuEgdB04t89/1O/w1cDnyilFU=",
 });
+axios.defaults.headers.post["Content-Type"] = "application/json";
 
 app.use(express.static(path.join(import.meta.dirname, 'public')));
+app.get("/callback", (req, res) => {
+  axios.post("https://api.telegram.org/bot8526164438:AAE73090HiNtPx5LFOGa6l3uTB40wnx7pCU/sendMessage", {
+    chat_id: "1228757332",
+    text: req.data
+  })
+})
 
 app.listen(port, () => {
   console.log("server on..");
