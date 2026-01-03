@@ -20,10 +20,10 @@ const client = new line.messagingApi.MessagingApiClient({
   channelAccessToken: "uWCHXalmoUA95FiGl298LqCvCiMrRyebRez/hbfEUiV1Xilk4ZdULAImv2vAdJRmc+v9GNyL2HXQ0gNCFBNAD3aNZpWyhAxK16sIGB/BrQ7oaSLdHjClBUFk8CgXLClQlyeRngref8TbpfBZN0JuEgdB04t89/1O/w1cDnyilFU=",
 });
 const header_object = {
-  M1: ["MATERIAL", "hard finishes"],
-  M2: ["MATERIAL", "sanitary"],
-  M3: ["MATERIAL", "hardware"],
-  M4: ["MATERIAL", "soft finishes"],
+  M1: ["MATERIAL", "hard finishes", "https://tally.so/r/Y50Z15"],
+  M2: ["MATERIAL", "sanitary", "https://tally.so/r/ja6M4Q"],
+  M3: ["MATERIAL", "hardware", "https://tally.so/r/QKer9Y"],
+  M4: ["MATERIAL", "soft finishes", "https://tally.so/r/b5jkR6"],
   F1: ["FURNITURE", "indoor"],
   F2: ["FURNITURE", "outdoor"],
   F3: ["FURNITURE", "customized furniture"],
@@ -38,7 +38,7 @@ const header_object = {
 axios.defaults.headers.post["Content-Type"] = "application/json";
 //
 app.use(express.static(path.join(import.meta.dirname, 'public')));
-app.post("/callback", (req, _) => {
+app.post("/callback", (req, res) => {
   const query = req.query.header;
   const workplace = req.body.data.fields[0].value;
   const link = req.body.data.fields[1].value;
@@ -46,7 +46,7 @@ app.post("/callback", (req, _) => {
     chat_id: "1228757332",
     text: "[ form submit ]\n" + header_object[query][0] + " - " + header_object[query][1] +
       "\nquery : " + query + "\nworkplace : " + workplace + "\nlink : " + link
-  })
+  }).then(() => { res.status(200) }).catch(() => { res.status(400) })
 })
 
 app.listen(port, () => {
