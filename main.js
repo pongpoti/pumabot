@@ -39,11 +39,13 @@ axios.defaults.headers.post["Content-Type"] = "application/json";
 //
 app.use(express.static(path.join(import.meta.dirname, 'public')));
 app.post("/callback", (req, _) => {
-  const body = req.body.data.fields[0].value;
   const query = req.query.header;
+  const workplace = req.body.data.fields[0].value;
+  const link = req.body.data.fields[1].value;
   axios.post("https://api.telegram.org/bot8304418735:AAEzik9XwKKWOt5c2Ya0p72WKloJjj-_zaM/sendMessage", {
     chat_id: "1228757332",
-    text: "[ form submit ]\n" + header_object[query][0] + " - " + header_object[query][1] + "\nbody : " + body + "\nquery : " + query
+    text: "[ form submit ]\n" + header_object[query][0] + " - " + header_object[query][1] +
+      "\nquery : " + query + "\nworkplace : " + workplace + "\nlink : " + link
   })
 })
 
