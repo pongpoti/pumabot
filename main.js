@@ -19,6 +19,21 @@ const config = { channelSecret: "c5cefb180914e47e06498b342b77582c" };
 const client = new line.messagingApi.MessagingApiClient({
   channelAccessToken: "uWCHXalmoUA95FiGl298LqCvCiMrRyebRez/hbfEUiV1Xilk4ZdULAImv2vAdJRmc+v9GNyL2HXQ0gNCFBNAD3aNZpWyhAxK16sIGB/BrQ7oaSLdHjClBUFk8CgXLClQlyeRngref8TbpfBZN0JuEgdB04t89/1O/w1cDnyilFU=",
 });
+const header_object = {
+  M1: ["MATERIAL", "hard finishes"],
+  M2: ["MATERIAL", "sanitary"],
+  M3: ["MATERIAL", "hardware"],
+  M4: ["MATERIAL", "soft finishes"],
+  F1: ["FURNITURE", "indoor"],
+  F2: ["FURNITURE", "outdoor"],
+  F3: ["FURNITURE", "customized furniture"],
+  L1: ["LIGHTING", "general"],
+  L2: ["LIGHTING", "decorative lamp"],
+  A1: ["ACCESSORIES", "artwork"],
+  A2: ["ACCESSORIES", "decorating object"],
+  A3: ["ACCESSORIES", "carpet"],
+  A4: ["ACCESSORIES", "amenity"]
+}
 //
 axios.defaults.headers.post["Content-Type"] = "application/json";
 //
@@ -28,7 +43,7 @@ app.post("/callback", (req, _) => {
   const query = req.query.header;
   axios.post("https://api.telegram.org/bot8304418735:AAEzik9XwKKWOt5c2Ya0p72WKloJjj-_zaM/sendMessage", {
     chat_id: "1228757332",
-    text: body + "\n" + query
+    text: "[ form submit ]\n" + header_object[query][0] + " - " + header_object[query][1] + "\nbody : " + body + "\nquery : " + query
   })
 })
 
