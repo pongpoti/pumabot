@@ -46,7 +46,7 @@ app.post("/callback", (req, res) => {
     chat_id: "1228757332",
     text: "[ form submit ]\n" + header_object[query][0] + " - " + header_object[query][1] +
       "\nquery : " + query + "\nworkplace : " + workplace + "\nlink : " + link
-  }).then(() => { res.status(200) }).catch(() => { res.status(400) })
+  }).then(() => { res.sendStatus(200) }).catch(() => { res.sendStatus(400) })
 })
 
 app.listen(port, () => {
