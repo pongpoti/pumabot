@@ -24,49 +24,6 @@
         <div id="subheader" class="text-center text-lg italic"></div>
     </div>
     <div class="grid grid-cols-1">
-        <p>p</p>
-        <p>p</p>
-        <p>p</p>
-        <p>p</p>
-        <p>p</p>
-        <p>p</p>
-        <p>p</p>
-        <p>p</p>
-        <p>p</p>
-        <p>p</p>
-        <p>p</p>
-        <p>p</p>
-        <p>p</p>
-        <p>p</p>
-        <p>p</p>
-        <p>p</p>
-        <p>p</p>
-        <p>p</p>
-        <p>p</p>
-        <p>p</p>
-        <p>p</p>
-        <p>p</p>
-        <p>p</p>
-        <p>p</p>
-        <p>p</p>
-        <p>p</p>
-        <p>p</p>
-        <p>p</p>
-        <p>p</p>
-        <p>p</p>
-        <p>p</p>
-        <p>p</p>
-        <p>p</p>
-        <p>p</p>
-        <p>p</p>
-        <p>p</p>
-        <p>p</p>
-        <p>p</p>
-        <p>p</p>
-        <p>p</p>
-        <p>p</p>
-        <p>p</p>
-        <p>p</p>
     </div>
 
     <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
@@ -108,13 +65,11 @@
             if (window.innerWidth < 481) {
                 await liff.init({ liffId: "2008812156-UdgwP1vW" })
                 if (liff.isInClient()) {
-                    if (liff.isLoggedIn()) {
-                        body.style.display = "block"
-                        header.innerText = header_object[query_header][0]
-                        subheader.innerText = header_object[query_header][1]
-                        container.classList.add(color_object[query_color])
-                        console.log(query_header + " : " + query_color)
-                    }
+                    body.style.display = "block"
+                    header.innerText = header_object[query_header][0]
+                    subheader.innerText = header_object[query_header][1]
+                    container.classList.add(color_object[query_color])
+                    console.log(query_header + " : " + query_color)
                 }
             }
         }
