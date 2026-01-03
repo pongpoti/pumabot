@@ -11,8 +11,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap"
         rel="stylesheet">
-    <style>
-    </style>
 </head>
 
 <body id="body" class="min-h-screen border-r-6 border-l-6 border-sky-900">
@@ -68,9 +66,11 @@
 
     <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
     <script>
-        const queryString = decodeURIComponent(window.location.search).replace("?liff.state=", "")
+        //const queryString = decodeURIComponent(window.location.search).replace("?liff.state=", "")
+        const queryString = decodeURIComponent(window.location.search)
         const query_header = new URLSearchParams(queryString).get("header")
         const query_color = new URLSearchParams(queryString).get("color")
+        console.log(query_header + " : " + query_color)
         //
         const body = document.getElementById("body")
         const container = document.getElementById("container")
