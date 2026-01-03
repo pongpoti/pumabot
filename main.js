@@ -24,7 +24,7 @@ axios.defaults.headers.post["Content-Type"] = "application/json";
 //
 app.use(express.static(path.join(import.meta.dirname, 'public')));
 app.post("/callback", (req, res) => {
-  const response = req.body;
+  const response = JSON.parse(req.body);
   axios.post("https://api.telegram.org/bot8304418735:AAEzik9XwKKWOt5c2Ya0p72WKloJjj-_zaM/sendMessage", {
     chat_id: "1228757332",
     text: "RES: " + response
