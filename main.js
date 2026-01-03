@@ -12,6 +12,8 @@ green_200 : #b9f8cf
 */
 
 const app = express();
+app.use(express.json());
+//
 const port = process.env.PORT || 3030;
 const config = {
   channelSecret: "c5cefb180914e47e06498b342b77582c",
@@ -25,7 +27,7 @@ app.use(express.static(path.join(import.meta.dirname, 'public')));
 app.post("/callback", (req, res) => {
   axios.post("https://api.telegram.org/bot8526164438:AAE73090HiNtPx5LFOGa6l3uTB40wnx7pCU/sendMessage", {
     chat_id: "1228757332",
-    text: req.body
+    text: "hi there"
   })
 })
 
