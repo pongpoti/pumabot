@@ -15,19 +15,19 @@ const app = express();
 app.use(express.json());
 //
 const port = process.env.PORT || 3030;
-const config = {
-  channelSecret: "c5cefb180914e47e06498b342b77582c",
-};
+const config = { channelSecret: "c5cefb180914e47e06498b342b77582c" };
 const client = new line.messagingApi.MessagingApiClient({
   channelAccessToken: "uWCHXalmoUA95FiGl298LqCvCiMrRyebRez/hbfEUiV1Xilk4ZdULAImv2vAdJRmc+v9GNyL2HXQ0gNCFBNAD3aNZpWyhAxK16sIGB/BrQ7oaSLdHjClBUFk8CgXLClQlyeRngref8TbpfBZN0JuEgdB04t89/1O/w1cDnyilFU=",
 });
+//
 axios.defaults.headers.post["Content-Type"] = "application/json";
-
+//
 app.use(express.static(path.join(import.meta.dirname, 'public')));
 app.post("/callback", (req, res) => {
+  const response = req.body;
   axios.post("https://api.telegram.org/bot8304418735:AAEzik9XwKKWOt5c2Ya0p72WKloJjj-_zaM/sendMessage", {
     chat_id: "1228757332",
-    text: JSON.parse(req.body)
+    text: "RES: " + response
   })
 })
 
