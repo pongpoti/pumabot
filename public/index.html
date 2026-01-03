@@ -18,8 +18,8 @@
     </style>
 </head>
 
-<body id="body" class="min-h-screen border-r-6 border-l-6 border-sky-900">
-    <div id="container" class="w-full border-sky-900 border-b-6 border-t-6 sticky top-0 py-6">
+<body id="body" class="min-h-screen border-r-10 border-l-10 border-sky-900">
+    <div id="container" class="w-full border-sky-900 border-b-10 border-t-10 sticky top-0 py-6">
         <div id="header" class="text-center text-xl font-semibold tracking-widest"></div>
         <div id="subheader" class="text-center text-lg italic"></div>
     </div>
@@ -108,8 +108,7 @@
             if (window.innerWidth < 481) {
                 await liff.init({ liffId: "2008812156-UdgwP1vW" })
                 if (liff.isInClient()) {
-                    if (true) {
-                        console.log(liff.isLoggedIn())
+                    if (liff.isLoggedIn()) {
                         body.style.display = "block"
                         header.innerText = header_object[query_header][0]
                         subheader.innerText = header_object[query_header][1]
