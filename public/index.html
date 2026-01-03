@@ -66,8 +66,7 @@
 
     <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
     <script>
-        //const queryString = decodeURIComponent(window.location.search).replace("?liff.state=", "")
-        const queryString = decodeURIComponent(window.location.search)
+        const queryString = decodeURIComponent(window.location.search).replace("?liff.state=", "")
         const query_header = new URLSearchParams(queryString).get("header")
         const query_color = new URLSearchParams(queryString).get("color")
         //
