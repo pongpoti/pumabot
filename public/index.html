@@ -11,9 +11,14 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap"
         rel="stylesheet">
+    <style>
+        #body {
+            
+        }
+    </style>
 </head>
 
-<body class="min-h-screen border-r-6 border-l-6 border-sky-900">
+<body id="body" class="min-h-screen border-r-6 border-l-6 border-sky-900">
     <div id="container" class="w-full border-sky-900 border-b-6 border-t-6 sticky top-0 py-6">
         <div id="header" class="text-center text-xl font-semibold tracking-widest"></div>
         <div id="subheader" class="text-center text-lg italic"></div>
@@ -70,6 +75,7 @@
         const query_header = new URLSearchParams(queryString).get("header")
         const query_color = new URLSearchParams(queryString).get("color")
         //
+        const body = document.getElementById("body")
         const container = document.getElementById("container")
         const header = document.getElementById("header")
         const subheader = document.getElementById("subheader")
@@ -77,7 +83,7 @@
         const header_object = {
             M1: ["MATERIAL", "hard finishes"],
             M2: ["MATERIAL", "sanitary"],
-            M3: ["MATERIAL","hardware"],
+            M3: ["MATERIAL", "hardware"],
             M4: ["MATERIAL", "soft finishes"],
             F1: ["FURNITURE", "indoor"],
             F2: ["FURNITURE", "outdoor"],
@@ -96,11 +102,23 @@
             green: "bg-green-200"
         }
         //
-        header.innerText = header_object[query_header][0]
-        subheader.innerText = header_object[query_header][1]
-        container.classList.add(color_object[query_color])
+        const main = async () => {
+            if (true) {
+                await liff.init({
+                    liffId: "2008812156-UdgwP1vW"
+                })
+                if (liff.isInClient()) {
+                    if (liff.isLoggedIn()) {
+                        body.style.display = "block"
+                        header.innerText = header_object[query_header][0]
+                        subheader.innerText = header_object[query_header][1]
+                        container.classList.add(color_object[query_color])
+                    }
+                }
+            }
+        }
         //
-        console.log(query_header + " : " + query_color)
+        main()
     </script>
 
 </body>
