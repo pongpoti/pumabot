@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>pumabot</title>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap"
+        rel="stylesheet">
+</head>
+
+<body class="min-h-screen border-r-6 border-l-6 border-sky-900">
+    <div id="container" class="w-full border-sky-900 border-b-6 border-t-6 sticky top-0 py-6">
+        <div id="header" class="text-center text-xl font-semibold tracking-widest"></div>
+        <div id="subheader" class="text-center text-lg italic"></div>
+    </div>
+    <div class="grid grid-cols-1">
+        <p>p</p>
+        <p>p</p>
+        <p>p</p>
+        <p>p</p>
+        <p>p</p>
+        <p>p</p>
+        <p>p</p>
+        <p>p</p>
+        <p>p</p>
+        <p>p</p>
+        <p>p</p>
+        <p>p</p>
+        <p>p</p>
+        <p>p</p>
+        <p>p</p>
+        <p>p</p>
+        <p>p</p>
+        <p>p</p>
+        <p>p</p>
+        <p>p</p>
+        <p>p</p>
+        <p>p</p>
+        <p>p</p>
+        <p>p</p>
+        <p>p</p>
+        <p>p</p>
+        <p>p</p>
+        <p>p</p>
+        <p>p</p>
+        <p>p</p>
+        <p>p</p>
+        <p>p</p>
+        <p>p</p>
+        <p>p</p>
+        <p>p</p>
+        <p>p</p>
+        <p>p</p>
+        <p>p</p>
+        <p>p</p>
+        <p>p</p>
+        <p>p</p>
+        <p>p</p>
+        <p>p</p>
+    </div>
+
+    <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+    <script>
+        //const queryString = decodeURIComponent(window.location.search).replace("?liff.state=", "")
+        const queryString = decodeURIComponent(window.location.search)
+        const query_header = new URLSearchParams(queryString).get("header")
+        const query_color = new URLSearchParams(queryString).get("color")
+        //
+        const container = document.getElementById("container")
+        const header = document.getElementById("header")
+        const subheader = document.getElementById("subheader")
+        //
+        const header_object = {
+            M1: ["MATERIAL", "hard finishes"],
+            M2: ["MATERIAL", "sanitary"],
+            M3: ["MATERIAL","hardware"],
+            M4: ["MATERIAL", "soft finishes"],
+            F1: ["FURNITURE", "indoor"],
+            F2: ["FURNITURE", "outdoor"],
+            F3: ["FURNITURE", "customized furniture"],
+            L1: ["LIGHTING", "general"],
+            L2: ["LIGHTING", "decorative lamp"],
+            A1: ["ACCESSORIES", "artwork"],
+            A2: ["ACCESSORIES", "decorating object"],
+            A3: ["ACCESSORIES", "carpet"],
+            A4: ["ACCESSORIES", "amenity"]
+        }
+        const color_object = {
+            purple: "bg-purple-200",
+            pink: "bg-pink-200",
+            amber: "bg-amber-200",
+            green: "bg-green-200"
+        }
+        //
+        header.innerText = header_object[query_header][0]
+        subheader.innerText = header_object[query_header][1]
+        container.classList.add(color_object[query_color])
+
+    </script>
+
+</body>
+
+</html>
