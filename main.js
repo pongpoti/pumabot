@@ -3,6 +3,7 @@ import process from "node:process";
 import path from "node:path";
 import axios from "axios";
 import * as line from "@line/bot-sdk";
+import { v4 as uuid } from "uuid";
 
 /*
 sky_900 : #024a70
@@ -37,8 +38,11 @@ const header_object = {
 }
 //
 axios.defaults.headers.post["Content-Type"] = "application/json";
-//
+axios.defaults.headers.post["Authorization"] = "Bearer tly-ASqvEMi4UuCizMUvSXDMTaH8L2Fqe7Ax";
+//  
 app.use(express.static(path.join(import.meta.dirname, 'public')));
+app.use("/tally", express.static("tally"));
+//
 app.post("/callback", (req, res) => {
   const query = req.query.header;
   const workplace = req.body.data.fields[0].value;
@@ -49,6 +53,92 @@ app.post("/callback", (req, res) => {
       "\nquery : " + query + "\nworkplace : " + workplace + "\nlink : " + link
   }).then(() => { res.sendStatus(200) }).catch(() => { res.sendStatus(400) })
 })
+
+const form = async () => {
+  //create form
+  let form_id = ""
+  const create_form = await axios.post("https://api.tally.so/forms", {
+    name: "//",
+    status: "PUBLISHED",
+    settings: {
+      styles: {
+        theme: "LIGHT",
+        color: {
+          background: "#e9d4ff",
+          text: "#024a70",
+          buttonBackground: "#024a70"
+        }
+      },
+      redirectOnCompletion: {
+        html: "https://pumabot.pongpoti.deno.net/callback?header=M1"
+      }
+    },
+    blocks: [
+      {
+        uuid: uuid(),
+        type: "FORM_TITLE",
+        groupUuid: uuid(),
+        groupType: "TEXT",
+        payload: {
+          html: "//",
+          title: "//"
+        }
+      },
+      {
+        uuid: uuid(),
+        type: "TITLE",
+        groupUuid: uuid(),
+        groupType: "QUESTION",
+        payload: {
+          html: "workplace :"
+        }
+      },
+      {
+        uuid: uuid(),
+        type: "INPUT_TEXT",
+        groupUuid: uuid(),
+        groupType: "INPUT_TEXT",
+        payload: {
+          isRequired: true,
+          placeholder: ""
+        }
+      },
+      {
+        uuid: uuid(),
+        type: "TITLE",
+        groupUuid: uuid(),
+        groupType: "QUESTION",
+        payload: {
+          html: "link :"
+        }
+      },
+      {
+        uuid: uuid(),
+        type: "INPUT_LINK",
+        groupUuid: uuid(),
+        groupType: "INPUT_LINK",
+        payload: {
+          isRequired: true,
+          placeholder: ""
+        }
+      }
+    ]
+  });
+  if (create_form.status === 201) {
+    form_id = create_form.data.id;
+  }
+  //create webhook
+  const create_webhook = await axios.post("https://api.tally.so/webhooks", {
+    formId: form_id,
+    url: "https://pumabot.pongpoti.deno.net/callback?header=M1",
+    eventTypes: ["FORM_RESPONSE"]
+  });
+  if (create_webhook.status === 201){
+    console.log("SUCCESS : " + form_id)
+  }
+}
+
+form();
 
 app.listen(port, () => {
   console.log("server on..");
