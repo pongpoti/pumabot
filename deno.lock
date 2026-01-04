@@ -2,6 +2,7 @@
   "version": "5",
   "specifiers": {
     "npm:@line/bot-sdk@^10.5.0": "10.5.0",
+    "npm:axios@^1.13.2": "1.13.2",
     "npm:express@^5.2.1": "5.2.1"
   },
   "npm": {
@@ -460,6 +461,7 @@
   "workspace": {
     "dependencies": [
       "npm:@line/bot-sdk@^10.5.0",
+      "npm:axios@^1.13.2",
       "npm:express@^5.2.1"
     ]
   }
