@@ -47,9 +47,6 @@ axios.defaults.headers.post["Authorization"] = "Bearer tly-ASqvEMi4UuCizMUvSXDMT
 app.use(express.static(path.join(import.meta.dirname, "public")));
 app.use("/tally", express.static("tally"));
 //
-app.get("/insert", (req, res) => {
-  res.redirect("");
-});
 app.post("/telegram_form", (req, res) => {
   const query = req.query.header;
   const workplace = req.body.data.fields[0].value;
@@ -80,12 +77,32 @@ app.post("/line", line.middleware(config), (req, res) => {
           axios.post("https://api.telegram.org/bot8304418735:AAEzik9XwKKWOt5c2Ya0p72WKloJjj-_zaM/sendMessage", {
             chat_id: "1228757332",
             text: "[ line chat ]\nuserId : " + event.source.userId + "\nmessage : " + message
-          }).then(() => res.sendStatus(200)).catch(() => res.sendStatus(400));
+          }).then((res) => { return res.sendStatus(200); }).catch((err) => { return err.sendStatus(400); });
         })
-        .catch(() => res.sendStatus(400));
+        .catch((err) => { return err.sendStatus(400); });
     }))
-    .then(() => res.sendStatus(200)).catch(() => res.sendStatus(400));
+    .then(() => { return res.sendStatus(200); }).catch((err) => { return err.sendStatus(400); });
 });
+
+const handleEvent = async (event) => {
+  axios.post("https://api.line.me/v2/bot/chat/loading/start",
+    {
+      "chatId": event.source.userId,
+    },
+    {
+      headers: headers,
+    })
+    .then(() => {
+      if (event.type !== "message" || event.message.type !== "text") {
+        return Promise.resolve(null);
+      }
+      const message = event.message.text.toLowerCase().trim();
+      axios.post("https://api.telegram.org/bot8304418735:AAEzik9XwKKWOt5c2Ya0p72WKloJjj-_zaM/sendMessage", {
+        chat_id: "1228757332",
+        text: "[ line chat ]\nuserId : " + event.source.userId + "\nmessage : " + message
+      }).then(() => res.sendStatus(200)).catch(() => res.sendStatus(400));
+    })
+}
 
 const form = async () => {
   //create form
