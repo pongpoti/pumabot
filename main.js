@@ -17,6 +17,10 @@ const app = express();
 app.use(express.json());
 //
 const port = process.env.PORT || 3030;
+const headers = {
+  "Content-Type": "application/json",
+  "Authorization": "Bearer uWCHXalmoUA95FiGl298LqCvCiMrRyebRez/hbfEUiV1Xilk4ZdULAImv2vAdJRmc+v9GNyL2HXQ0gNCFBNAD3aNZpWyhAxK16sIGB/BrQ7oaSLdHjClBUFk8CgXLClQlyeRngref8TbpfBZN0JuEgdB04t89/1O/w1cDnyilFU=",
+};
 const config = { channelSecret: "c5cefb180914e47e06498b342b77582c" };
 const client = new line.messagingApi.MessagingApiClient({
   channelAccessToken: "uWCHXalmoUA95FiGl298LqCvCiMrRyebRez/hbfEUiV1Xilk4ZdULAImv2vAdJRmc+v9GNyL2HXQ0gNCFBNAD3aNZpWyhAxK16sIGB/BrQ7oaSLdHjClBUFk8CgXLClQlyeRngref8TbpfBZN0JuEgdB04t89/1O/w1cDnyilFU=",
@@ -54,83 +58,34 @@ app.post("/telegram_form", (req, res) => {
     chat_id: "1228757332",
     text: "[ form submit ]\n" + header_object[query][0] + " - " + header_object[query][1] +
       "\nquery : " + query + "\nworkplace : " + workplace + "\nlink : " + link
-  }).then(() => { res.sendStatus(200) }).catch(() => { res.sendStatus(400) });
+  }).then(() => res.sendStatus(200)).catch(() => res.sendStatus(400));
 });
-app.post("/line", line.middleware(config), (req, _) => {
+app.post("/line", line.middleware(config), (req, res) => {
   Promise
-    .all(req.body.events.map(async (event) => {
-      await axios.post("https://api.line.me/v2/bot/chat/loading/start",
+    .all(req.body.events.map((event) => {
+      axios.post(
+        "https://api.line.me/v2/bot/chat/loading/start",
         {
           "chatId": event.source.userId,
         },
         {
           headers: headers,
-        });
-      if (event.type !== "message" || event.message.type !== "text") {
-        return Promise.resolve(null);
-      }
-      const message = event.message.text.toLowerCase().trim();
-      await axios.post("https://api.telegram.org/bot8304418735:AAEzik9XwKKWOt5c2Ya0p72WKloJjj-_zaM/sendMessage", {
-        chat_id: "1228757332",
-        text: "[ chat response ]\nuserId : " + event.source.userId + "\nmessage : " + message
-      })
+        },
+      )
+        .then(() => {
+          if (event.type !== "message" || event.message.type !== "text") {
+            return Promise.resolve(null);
+          }
+          const message = event.message.text.toLowerCase().trim();
+          axios.post("https://api.telegram.org/bot8304418735:AAEzik9XwKKWOt5c2Ya0p72WKloJjj-_zaM/sendMessage", {
+            chat_id: "1228757332",
+            text: "[ line chat ]\nuserId : " + event.source.userId + "\nmessage : " + message
+          }).then(() => res.sendStatus(200)).catch(() => res.sendStatus(400));
+        })
+        .catch(() => res.sendStatus(400));
     }))
+    .then(() => res.sendStatus(200)).catch(() => res.sendStatus(400));
 });
-/*
-if (message === "status") {
-  client.replyMessage({
-    "replyToken": event.replyToken,
-    "messages": [
-      {
-        "type": "flex",
-        "altText": "เลือกเดือนที่ต้องการ",
-        "contents": assembleLists(),
-      },
-    ],
-  });
-} else if (message === "send") {
-  client.replyMessage({
-    "replyToken": event.replyToken,
-    "messages": [
-      {
-        "type": "text",
-        "text": "บริการนี้ยังไม่เปิดใช้งาน",
-      },
-    ],
-  });
-} else if (message === "sign") {
-  client.replyMessage({
-    "replyToken": event.replyToken,
-    "messages": [
-      {
-        "type": "text",
-        "text": "บริการนี้ยังไม่เปิดใช้งาน",
-      },
-    ],
-  });
-} else if (message === "admin") {
-  client.replyMessage({
-    "replyToken": event.replyToken,
-    "messages": [
-      {
-        "type": "flex",
-        "altText": "admin",
-        "contents": adminList()
-      },
-    ],
-  });
-} else if (message === Deno.env.get("ADMIN_PASSWORD")) {
-  client.replyMessage({
-    "replyToken": event.replyToken,
-    "messages": [
-      {
-        "type": "text",
-        "text": "admin session",
-      },
-    ],
-  });
-}
-*/
 
 const form = async () => {
   //create form
