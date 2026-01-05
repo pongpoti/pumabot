@@ -3,17 +3,18 @@
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
   <title></title>
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+    rel="stylesheet">
   <script async src="https://tally.so/widgets/embed.js"></script>
   <style type="text/css">
-    html {
-      margin: 0;
-      height: 100%;
-      overflow: hidden;
-    }
-
     #iframe {
-      position: absolute;
-      top: 0;
+      position: relative;
+
       right: 0;
       bottom: 0;
       left: 0;
@@ -22,12 +23,20 @@
   </style>
 </head>
 
-<body>
-  <iframe id="iframe"></iframe>
+<body class="min-h-screen border-10 border-sky-900 overflow-y-hidden">
+  <select class="select select-xl w-full bg-purple-300 z-10 h-24 font-semibold">
+    <option disabled selected>Pick a color</option>
+    <option>Crimson</option>
+    <option>Amber</option>
+    <option>Velvet</option>
+  </select>
+  <div>
+    <iframe id="iframe" class="absolute inset-0 z-0"></iframe>
+  </div>
   <script>
     const iframe = document.getElementById("iframe")
-    if (window.innerWidth < 481) {
-      iframe.src = "https://tally.so/r/b5jLjg?transparentBackground=0"
+    if (true) {
+      iframe.src = "https://tally.so/r/NplL7Q?transparentBackground=0"
       iframe.width = "100%"
       iframe.height = "100%"
       iframe.frameBorder = "0"

@@ -76,16 +76,6 @@ const form = async () => {
     blocks: [
       {
         uuid: uuid(),
-        type: "FORM_TITLE",
-        groupUuid: uuid(),
-        groupType: "TEXT",
-        payload: {
-          html: "//",
-          title: "//"
-        }
-      },
-      {
-        uuid: uuid(),
         type: "TITLE",
         groupUuid: uuid(),
         groupType: "QUESTION",
@@ -138,7 +128,7 @@ const form = async () => {
   }
 }
 
-form();
+//form();
 
 app.listen(port, () => {
   console.log("server on..");
