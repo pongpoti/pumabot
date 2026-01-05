@@ -59,49 +59,41 @@ app.post("/telegram_form", (req, res) => {
 });
 app.post("/line", line.middleware(config), (req, res) => {
   Promise
-    .all(req.body.events.map((event) => {
-      axios.post(
-        "https://api.line.me/v2/bot/chat/loading/start",
-        {
-          "chatId": event.source.userId,
-        },
-        {
-          headers: headers,
-        },
-      )
-        .then(() => {
-          if (event.type !== "message" || event.message.type !== "text") {
-            return Promise.resolve(null);
-          }
-          const message = event.message.text.toLowerCase().trim();
-          axios.post("https://api.telegram.org/bot8304418735:AAEzik9XwKKWOt5c2Ya0p72WKloJjj-_zaM/sendMessage", {
-            chat_id: "1228757332",
-            text: "[ line chat ]\nuserId : " + event.source.userId + "\nmessage : " + message
-          }).then((res) => { return res.sendStatus(200); }).catch((err) => { return err.sendStatus(400); });
-        })
-        .catch((err) => { return err.sendStatus(400); });
-    }))
-    .then(() => { return res.sendStatus(200); }).catch((err) => { return err.sendStatus(400); });
+    .all(req.body.events.map(handleEvent))
+    .then((result) => res.json(result))
+    .catch((err) => {
+      console.error(err);
+      res.status(500).end();
+    });
 });
 
 const handleEvent = async (event) => {
-  axios.post("https://api.line.me/v2/bot/chat/loading/start",
+  await axios.post(
+    "https://api.line.me/v2/bot/chat/loading/start",
     {
       "chatId": event.source.userId,
     },
     {
       headers: headers,
-    })
-    .then(() => {
-      if (event.type !== "message" || event.message.type !== "text") {
-        return Promise.resolve(null);
-      }
-      const message = event.message.text.toLowerCase().trim();
-      axios.post("https://api.telegram.org/bot8304418735:AAEzik9XwKKWOt5c2Ya0p72WKloJjj-_zaM/sendMessage", {
-        chat_id: "1228757332",
-        text: "[ line chat ]\nuserId : " + event.source.userId + "\nmessage : " + message
-      }).then(() => res.sendStatus(200)).catch(() => res.sendStatus(400));
-    })
+    },
+  )
+  if (event.type !== "message" || event.message.type !== "text") {
+    return Promise.resolve(null);
+  }
+  const message = event.message.text.toLowerCase().trim();
+  await axios.post("https://api.telegram.org/bot8304418735:AAEzik9XwKKWOt5c2Ya0p72WKloJjj-_zaM/sendMessage", {
+    chat_id: "1228757332",
+    text: "[ line chat ]\nuserId : " + event.source.userId + "\nmessage : " + message
+  });
+  return client.replyMessage({
+    "replyToken": event.replyToken,
+    "messages": [
+      {
+        "type": "text",
+        "text": message,
+      },
+    ],
+  });
 }
 
 const form = async () => {
