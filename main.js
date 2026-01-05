@@ -67,7 +67,7 @@ app.post("/line", line.middleware(config), (req, res) => {
     });
 });
 
-const handleEvent = (event) => {
+function handleEvent(event) {
   /*
   await axios.post(
     "https://api.line.me/v2/bot/chat/loading/start",
