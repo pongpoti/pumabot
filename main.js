@@ -58,9 +58,8 @@ app.post("/telegram_form", (req, res) => {
   }).then(() => res.sendStatus(200)).catch(() => res.sendStatus(400))
 })
 
-app.post('/line', line.middleware(config), (req, res) => {
-  const event = req.body.events[0]
-  res.json(event)
+app.post("/line", line.middleware(config), (req, res) => {
+  res.json(req.body.events)
 });
 
 /*
