@@ -61,12 +61,79 @@ app.post("/telegram_form", (req, res) => {
 
 app.post("/line", line.middleware(config), (req, res) => {
   Promise
-    .all(req.body.events.map(handleEvent))
+    .all(req.body.events.map((event) => {
+      axios.post(
+        "https://api.line.me/v2/bot/chat/loading/start",
+        {
+          "chatId": event.source.userId,
+        },
+        {
+          headers: headers,
+        },
+      )
+        .then(() => {
+          if (event.type !== "message" || event.message.type !== "text") {
+            return Promise.resolve(null);
+          }
+          const message = event.message.text.toLowerCase().trim();
+          if (message === "status") {
+            client.replyMessage({
+              "replyToken": event.replyToken,
+              "messages": [
+                {
+                  "type": "flex",
+                  "altText": "เลือกเดือนที่ต้องการ",
+                  "contents": assembleLists(),
+                },
+              ],
+            });
+          } else if (message === "send") {
+            client.replyMessage({
+              "replyToken": event.replyToken,
+              "messages": [
+                {
+                  "type": "text",
+                  "text": "บริการนี้ยังไม่เปิดใช้งาน",
+                },
+              ],
+            });
+          } else if (message === "sign") {
+            client.replyMessage({
+              "replyToken": event.replyToken,
+              "messages": [
+                {
+                  "type": "text",
+                  "text": "บริการนี้ยังไม่เปิดใช้งาน",
+                },
+              ],
+            });
+          } else if (message === "admin") {
+            client.replyMessage({
+              "replyToken": event.replyToken,
+              "messages": [
+                {
+                  "type": "flex",
+                  "altText": "admin",
+                  "contents": adminList()
+                },
+              ],
+            });
+          } else if (message === Deno.env.get("ADMIN_PASSWORD")) {
+            client.replyMessage({
+              "replyToken": event.replyToken,
+              "messages": [
+                {
+                  "type": "text",
+                  "text": "admin session",
+                },
+              ],
+            });
+          }
+        })
+        .catch((error) => console.error(error));
+    }))
     .then((result) => res.json(result))
-    .catch((err) => {
-      console.error(err);
-      res.status(500).end();
-    });
+    .catch((error) => console.error(error));
 });
 
 // event handler
