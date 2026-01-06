@@ -14,7 +14,6 @@ green_200 : #b9f8cf
 */
 
 const app = express()
-app.use(express.json())
 //
 const port = process.env.PORT || 3030
 const headers = {
@@ -59,8 +58,30 @@ app.post("/telegram_form", (req, res) => {
 })
 
 app.post("/line", line.middleware(config), (req, res) => {
-  res.json(req.body.events)
+  Promise
+    .all(req.body.events.map(handleEvent))
+    .then((result) => res.json(result))
+    .catch((err) => {
+      console.error(err);
+      res.status(500).end();
+    });
 });
+
+function handleEvent(event) {
+  if (event.type !== 'message' || event.message.type !== 'text') {
+    // ignore non-text-message event
+    return Promise.resolve(null);
+  }
+
+  // create an echoing text message
+  const echo = { type: 'text', text: event.message.text };
+
+  // use reply API
+  return client.replyMessage({
+    replyToken: event.replyToken,
+    messages: [echo],
+  });
+}
 
 /*
 function handleEvent(event) {
