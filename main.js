@@ -1,9 +1,9 @@
-import express from "express";
-import process from "node:process";
-import path from "node:path";
-import axios from "axios";
-import * as line from "@line/bot-sdk";
-import { v4 as uuid } from "uuid";
+import express from "express"
+import process from "node:process"
+import path from "node:path"
+import axios from "axios"
+import * as line from "@line/bot-sdk"
+import { v4 as uuid } from "uuid"
 
 /*
 sky_900 : #024a70
@@ -13,18 +13,18 @@ amber_200 : #fee685
 green_200 : #b9f8cf
 */
 
-const app = express();
-app.use(express.json());
+const app = express()
+app.use(express.json())
 //
-const port = process.env.PORT || 3030;
+const port = process.env.PORT || 3030
 const headers = {
   "Content-Type": "application/json",
   "Authorization": "Bearer uWCHXalmoUA95FiGl298LqCvCiMrRyebRez/hbfEUiV1Xilk4ZdULAImv2vAdJRmc+v9GNyL2HXQ0gNCFBNAD3aNZpWyhAxK16sIGB/BrQ7oaSLdHjClBUFk8CgXLClQlyeRngref8TbpfBZN0JuEgdB04t89/1O/w1cDnyilFU=",
-};
-const config = { channelSecret: "c5cefb180914e47e06498b342b77582c" };
+}
+const config = { channelSecret: "c5cefb180914e47e06498b342b77582c" }
 const client = new line.messagingApi.MessagingApiClient({
   channelAccessToken: "uWCHXalmoUA95FiGl298LqCvCiMrRyebRez/hbfEUiV1Xilk4ZdULAImv2vAdJRmc+v9GNyL2HXQ0gNCFBNAD3aNZpWyhAxK16sIGB/BrQ7oaSLdHjClBUFk8CgXLClQlyeRngref8TbpfBZN0JuEgdB04t89/1O/w1cDnyilFU=",
-});
+})
 const header_object = {
   M1: ["MATERIAL", "hard finishes", "https://tally.so/r/Y50Z15"],
   M2: ["MATERIAL", "sanitary", "https://tally.so/r/ja6M4Q"],
@@ -39,24 +39,26 @@ const header_object = {
   A2: ["ACCESSORIES", "decorating object"],
   A3: ["ACCESSORIES", "carpet"],
   A4: ["ACCESSORIES", "amenity"]
-};
+}
 //
-axios.defaults.headers.post["Content-Type"] = "application/json";
-axios.defaults.headers.post["Authorization"] = "Bearer tly-ASqvEMi4UuCizMUvSXDMTaH8L2Fqe7Ax";
+axios.defaults.headers.post["Content-Type"] = "application/json"
+axios.defaults.headers.post["Authorization"] = "Bearer tly-ASqvEMi4UuCizMUvSXDMTaH8L2Fqe7Ax"
 //  
-app.use(express.static(path.join(import.meta.dirname, "public")));
-app.use("/tally", express.static("tally"));
+app.use(express.static(path.join(import.meta.dirname, "public")))
+app.use("/tally", express.static("tally"))
 //
 app.post("/telegram_form", (req, res) => {
-  const query = req.query.header;
-  const workplace = req.body.data.fields[0].value;
-  const link = req.body.data.fields[1].value;
+  const query = req.query.header
+  const workplace = req.body.data.fields[0].value
+  const link = req.body.data.fields[1].value
   axios.post("https://api.telegram.org/bot8304418735:AAEzik9XwKKWOt5c2Ya0p72WKloJjj-_zaM/sendMessage", {
     chat_id: "1228757332",
     text: "[ form submit ]\n" + header_object[query][0] + " - " + header_object[query][1] +
       "\nquery : " + query + "\nworkplace : " + workplace + "\nlink : " + link
-  }).then(() => res.sendStatus(200)).catch(() => res.sendStatus(400));
-});
+  }).then(() => res.sendStatus(200)).catch(() => res.sendStatus(400))
+})
+
+
 app.post("/line", line.middleware(config), (req, res) => {
   Promise
     .all(req.body.events.map(handleEvent))
@@ -67,9 +69,30 @@ app.post("/line", line.middleware(config), (req, res) => {
     });
 });
 
+// event handler
 function handleEvent(event) {
-  /*
-  await axios.post(
+  if (event.type !== 'message' || event.message.type !== 'text') {
+    // ignore non-text-message event
+    return Promise.resolve(null);
+  }
+
+  // create an echoing text message
+  const echo = { type: 'text', text: event.message.text };
+
+  // use reply API
+  return client.replyMessage({
+    replyToken: event.replyToken,
+    messages: [echo],
+  });
+}
+
+
+
+
+
+/*
+function handleEvent(event) {
+  axios.post(
     "https://api.line.me/v2/bot/chat/loading/start",
     {
       "chatId": event.source.userId,
@@ -78,17 +101,16 @@ function handleEvent(event) {
       headers: headers,
     },
   )
-    */
   if (event.type !== "message" || event.message.type !== "text") {
-    return Promise.resolve(null);
+    return Promise.resolve(null)
   }
-  const message = event.message.text.toLowerCase().trim();
-  /*
-  await axios.post("https://api.telegram.org/bot8304418735:AAEzik9XwKKWOt5c2Ya0p72WKloJjj-_zaM/sendMessage", {
+  const message = event.message.text.toLowerCase().trim()
+
+  axios.post("https://api.telegram.org/bot8304418735:AAEzik9XwKKWOt5c2Ya0p72WKloJjj-_zaM/sendMessage", {
     chat_id: "1228757332",
     text: "[ line chat ]\nuserId : " + event.source.userId + "\nmessage : " + message
-  });
-  */
+  })
+
   return client.replyMessage({
     replyToken: event.replyToken,
     messages: [
@@ -97,12 +119,15 @@ function handleEvent(event) {
         text: message,
       },
     ],
-  });
+  })
+
 }
+  */
+
 
 const form = async () => {
   //create form
-  let form_id = "";
+  let form_id = ""
   const create_form = await axios.post("https://api.tally.so/forms", {
     name: "//",
     status: "PUBLISHED",
@@ -159,23 +184,23 @@ const form = async () => {
         }
       }
     ]
-  });
+  })
   if (create_form.status === 201) {
-    form_id = create_form.data.id;
-  };
+    form_id = create_form.data.id
+  }
   //create webhook
   const create_webhook = await axios.post("https://api.tally.so/webhooks", {
     formId: form_id,
     url: "https://pumabot.pongpoti.deno.net/callback?header=M1",
     eventTypes: ["FORM_RESPONSE"]
-  });
+  })
   if (create_webhook.status === 201) {
     console.log("SUCCESS : " + form_id)
-  };
-};
+  }
+}
 
-//form();
+//form()
 
 app.listen(port, () => {
-  console.log("server on..");
-});
+  console.log("server on..")
+})
