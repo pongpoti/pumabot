@@ -67,9 +67,12 @@ app.post("/line", line.middleware(config), (req, res) => {
     });
 });
 
-function handleEvent(event) {
+const handleEvent = async (event) => {
+  await axios.post("https://api.line.me/v2/bot/chat/loading/start",
+    { "chatId": event.source.userId },
+    { headers: headers }
+  )
   if (event.type !== 'message' || event.message.type !== 'text') {
-    // ignore non-text-message event
     return Promise.resolve(null);
   }
 
