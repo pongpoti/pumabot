@@ -67,6 +67,9 @@ app.post("/telegram_form", (req, res) => {
       "\nquery : " + query + "\nworkplace : " + workplace + "\nlink : " + link
   }).then(() => res.sendStatus(200)).catch(() => res.sendStatus(400))
 })
+app.get("/test", (_,res) => {
+  form().then(form_id => res.send("form id : " + form_id))
+})
 
 app.post("/line", line.middleware(config), (req, res) => {
   Promise
@@ -106,7 +109,7 @@ const handleEvent = async (event) => {
   })
 }
 
-const form = async (param) => {
+const form = async () => {
   let create_form, create_webhook = null
   //create form
   try {
