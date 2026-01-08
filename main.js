@@ -68,7 +68,7 @@ app.post("/telegram_form", (req, res) => {
   }).then(() => res.sendStatus(200)).catch(() => res.sendStatus(400))
 })
 app.get("/insert", (req,res) => {
-  form(req.query.header).then(form_id => res.redirect("https://pumanbot.pongpoti.deno.net/form?id=" + form_id))
+  form(req.query.header).then(form_id => res.redirect("https://pumabot.pongpoti.deno.net/form?id=" + form_id))
 })
 
 app.post("/line", line.middleware(config), (req, res) => {
