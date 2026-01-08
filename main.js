@@ -67,8 +67,8 @@ app.post("/telegram_form", (req, res) => {
       "\nquery : " + query + "\nworkplace : " + workplace + "\nlink : " + link
   }).then(() => res.sendStatus(200)).catch(() => res.sendStatus(400))
 })
-app.get("/test", (_,res) => {
-  form().then(form_id => res.send("form id : " + form_id))
+app.get("/test", (req,res) => {
+  form(req.query.header).then(form_id => res.send("form id : " + form_id))
 })
 
 app.post("/line", line.middleware(config), (req, res) => {
@@ -109,18 +109,20 @@ const handleEvent = async (event) => {
   })
 }
 
-const form = async () => {
+const form = async (param) => {
   let create_form, create_webhook = null
+  const form_name = header_object[param][0] + " - " + header_object[param][1]
+  const form_color = color_object[param.charAt(0)]
   //create form
   try {
     create_form = await axios.post("https://api.tally.so/forms", {
-      name: "//",
+      name: form_name,
       status: "PUBLISHED",
       settings: {
         styles: {
           theme: "LIGHT",
           color: {
-            background: "#e9d4ff",
+            background: form_color,
             text: "#024a70",
             buttonBackground: "#024a70"
           }
@@ -130,6 +132,16 @@ const form = async () => {
         }
       },
       blocks: [
+        {
+          uuid: uuid(),
+          type: "FORM_TITLE",
+          groupUuid: uuid(),
+          groupType: "FORM_TITLE",
+          payload: {
+            html: form_name,
+            title: form_name
+          }
+        },
         {
           uuid: uuid(),
           type: "TITLE",
