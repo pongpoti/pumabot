@@ -55,7 +55,7 @@ axios.defaults.headers.post["Content-Type"] = "application/json"
 axios.defaults.headers.post["Authorization"] = "Bearer tly-ASqvEMi4UuCizMUvSXDMTaH8L2Fqe7Ax"
 //  
 app.use(express.static(path.join(import.meta.dirname, "public")))
-app.use("/tally", express.static("tally"))
+app.use("/form", express.static("form"))
 //
 app.post("/telegram_form", (req, res) => {
   const query = req.query.header
@@ -67,8 +67,8 @@ app.post("/telegram_form", (req, res) => {
       "\nquery : " + query + "\nworkplace : " + workplace + "\nlink : " + link
   }).then(() => res.sendStatus(200)).catch(() => res.sendStatus(400))
 })
-app.get("/test", (req,res) => {
-  form(req.query.header).then(form_id => res.send("form id : " + form_id))
+app.get("/insert", (req,res) => {
+  form(req.query.header).then(form_id => res.redirect("https://pumanbot.pongpoti.deno.net/form?id=" + form_id))
 })
 
 app.post("/line", line.middleware(config), (req, res) => {
