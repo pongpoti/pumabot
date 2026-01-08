@@ -25,10 +25,10 @@ const client = new line.messagingApi.MessagingApiClient({
   channelAccessToken: "uWCHXalmoUA95FiGl298LqCvCiMrRyebRez/hbfEUiV1Xilk4ZdULAImv2vAdJRmc+v9GNyL2HXQ0gNCFBNAD3aNZpWyhAxK16sIGB/BrQ7oaSLdHjClBUFk8CgXLClQlyeRngref8TbpfBZN0JuEgdB04t89/1O/w1cDnyilFU=",
 })
 const header_object = {
-  M1: ["MATERIAL", "hard finishes", "https://tally.so/r/Y50Z15"],
-  M2: ["MATERIAL", "sanitary", "https://tally.so/r/ja6M4Q"],
-  M3: ["MATERIAL", "hardware", "https://tally.so/r/QKer9Y"],
-  M4: ["MATERIAL", "soft finishes", "https://tally.so/r/b5jkR6"],
+  M1: ["MATERIAL", "hard finishes"],
+  M2: ["MATERIAL", "soft finishes"],
+  M3: ["MATERIAL", "hardware"],
+  M4: ["MATERIAL", "sanitary"],
   F1: ["FURNITURE", "indoor"],
   F2: ["FURNITURE", "outdoor"],
   F3: ["FURNITURE", "customized furniture"],
@@ -80,49 +80,12 @@ const handleEvent = async (event) => {
     chat_id: "1228757332",
     text: "[ line chat ]\nuserId : " + event.source.userId + "\nmessage : " + message
   })
-  /*
-    const echo = { type: 'text', text: event.message.text };
-    return client.replyMessage({
-      replyToken: event.replyToken,
-      messages: [echo],
-    });
-  */
-}
-
-/*
-function handleEvent(event) {
-  axios.post(
-    "https://api.line.me/v2/bot/chat/loading/start",
-    {
-      "chatId": event.source.userId,
-    },
-    {
-      headers: headers,
-    },
-  )
-  if (event.type !== "message" || event.message.type !== "text") {
-    return Promise.resolve(null)
-  }
-  const message = event.message.text.toLowerCase().trim()
-
-  axios.post("https://api.telegram.org/bot8304418735:AAEzik9XwKKWOt5c2Ya0p72WKloJjj-_zaM/sendMessage", {
-    chat_id: "1228757332",
-    text: "[ line chat ]\nuserId : " + event.source.userId + "\nmessage : " + message
-  })
-
+  const echo = { type: 'text', text: message };
   return client.replyMessage({
     replyToken: event.replyToken,
-    messages: [
-      {
-        type: "text",
-        text: message,
-      },
-    ],
-  })
-
+    messages: [echo],
+  });
 }
-  */
-
 
 const form = async () => {
   //create form
