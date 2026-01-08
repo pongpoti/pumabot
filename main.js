@@ -13,9 +13,14 @@ amber_200 : #fee685
 green_200 : #b9f8cf
 */
 
+/*
+Ue1dfcb3859e9e726d1839fcbd40ac8ac
+U9cde6d2edaf30e56479c95ee8618c9cd
+*/
+
 const app = express()
-//
 const port = process.env.PORT || 3030
+//
 const headers = {
   "Content-Type": "application/json",
   "Authorization": "Bearer uWCHXalmoUA95FiGl298LqCvCiMrRyebRez/hbfEUiV1Xilk4ZdULAImv2vAdJRmc+v9GNyL2HXQ0gNCFBNAD3aNZpWyhAxK16sIGB/BrQ7oaSLdHjClBUFk8CgXLClQlyeRngref8TbpfBZN0JuEgdB04t89/1O/w1cDnyilFU=",
@@ -35,9 +40,15 @@ const header_object = {
   L1: ["LIGHTING", "general"],
   L2: ["LIGHTING", "decorative lamp"],
   A1: ["ACCESSORIES", "artwork"],
-  A2: ["ACCESSORIES", "decorating object"],
+  A2: ["ACCESSORIES", "props"],
   A3: ["ACCESSORIES", "carpet"],
   A4: ["ACCESSORIES", "amenity"]
+}
+const color_object = {
+  M: "#e9d4ff",
+  F: "#ffccd3",
+  L: "#fee685",
+  A: "#b9f8cf"
 }
 //
 axios.defaults.headers.post["Content-Type"] = "application/json"
@@ -81,7 +92,7 @@ const handleEvent = async (event) => {
   }
   const message = event.message.text.trim().toLowerCase()
   try {
-    axios.post("https://api.telegram.org/bot8304418735:AAEzik9XwKKWOt5c2Ya0p72WKloJjj-_zaM/sendMessage", {
+    await axios.post("https://api.telegram.org/bot8304418735:AAEzik9XwKKWOt5c2Ya0p72WKloJjj-_zaM/sendMessage", {
       chat_id: "1228757332",
       text: "[ line chat ]\nuserId : " + event.source.userId + "\nmessage : " + message
     })
@@ -95,77 +106,80 @@ const handleEvent = async (event) => {
   })
 }
 
-const form = async () => {
+const form = async (param) => {
+  let create_form, create_webhook = null
   //create form
-  let form_id = ""
-  const create_form = await axios.post("https://api.tally.so/forms", {
-    name: "//",
-    status: "PUBLISHED",
-    settings: {
-      styles: {
-        theme: "LIGHT",
-        color: {
-          background: "#e9d4ff",
-          text: "#024a70",
-          buttonBackground: "#024a70"
+  try {
+    create_form = await axios.post("https://api.tally.so/forms", {
+      name: "//",
+      status: "PUBLISHED",
+      settings: {
+        styles: {
+          theme: "LIGHT",
+          color: {
+            background: "#e9d4ff",
+            text: "#024a70",
+            buttonBackground: "#024a70"
+          }
+        },
+        redirectOnCompletion: {
+          html: "https://pumabot.pongpoti.deno.net/callback?header=M1"
         }
       },
-      redirectOnCompletion: {
-        html: "https://pumabot.pongpoti.deno.net/callback?header=M1"
-      }
-    },
-    blocks: [
-      {
-        uuid: uuid(),
-        type: "TITLE",
-        groupUuid: uuid(),
-        groupType: "QUESTION",
-        payload: {
-          html: "workplace :"
+      blocks: [
+        {
+          uuid: uuid(),
+          type: "TITLE",
+          groupUuid: uuid(),
+          groupType: "QUESTION",
+          payload: {
+            html: "workplace :"
+          }
+        },
+        {
+          uuid: uuid(),
+          type: "INPUT_TEXT",
+          groupUuid: uuid(),
+          groupType: "INPUT_TEXT",
+          payload: {
+            isRequired: true,
+            placeholder: ""
+          }
+        },
+        {
+          uuid: uuid(),
+          type: "TITLE",
+          groupUuid: uuid(),
+          groupType: "QUESTION",
+          payload: {
+            html: "link :"
+          }
+        },
+        {
+          uuid: uuid(),
+          type: "INPUT_LINK",
+          groupUuid: uuid(),
+          groupType: "INPUT_LINK",
+          payload: {
+            isRequired: true,
+            placeholder: ""
+          }
         }
-      },
-      {
-        uuid: uuid(),
-        type: "INPUT_TEXT",
-        groupUuid: uuid(),
-        groupType: "INPUT_TEXT",
-        payload: {
-          isRequired: true,
-          placeholder: ""
-        }
-      },
-      {
-        uuid: uuid(),
-        type: "TITLE",
-        groupUuid: uuid(),
-        groupType: "QUESTION",
-        payload: {
-          html: "link :"
-        }
-      },
-      {
-        uuid: uuid(),
-        type: "INPUT_LINK",
-        groupUuid: uuid(),
-        groupType: "INPUT_LINK",
-        payload: {
-          isRequired: true,
-          placeholder: ""
-        }
-      }
-    ]
-  })
-  if (create_form.status === 201) {
-    form_id = create_form.data.id
+      ]
+    })
+  } catch (error) {
+    console.error(error)
   }
   //create webhook
-  const create_webhook = await axios.post("https://api.tally.so/webhooks", {
-    formId: form_id,
-    url: "https://pumabot.pongpoti.deno.net/callback?header=M1",
-    eventTypes: ["FORM_RESPONSE"]
-  })
-  if (create_webhook.status === 201) {
-    console.log("SUCCESS : " + form_id)
+  try {
+    create_webhook = await axios.post("https://api.tally.so/webhooks", {
+      formId: create_form.data.id,
+      url: "https://pumabot.pongpoti.deno.net/line?header=M1",
+      eventTypes: ["FORM_RESPONSE"]
+    })
+    return create_form.data.id
+  } catch (error) {
+    console.error(error)
   }
 }
 
