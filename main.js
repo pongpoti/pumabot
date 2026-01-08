@@ -110,12 +110,12 @@ const handleEvent = async (event) => {
 }
 
 const form = async (param) => {
-  let create_form, create_webhook = null
+  let form_id = null
   const form_name = header_object[param][0] + " - " + header_object[param][1]
   const form_color = color_object[param.charAt(0)]
   //create form
   try {
-    create_form = await axios.post("https://api.tally.so/forms", {
+    const create_form = await axios.post("https://api.tally.so/forms", {
       name: form_name,
       status: "PUBLISHED",
       settings: {
@@ -182,17 +182,18 @@ const form = async (param) => {
         }
       ]
     })
+    form_id = create_form.data.id
   } catch (error) {
     console.error(error)
   }
   //create webhook
   try {
-    create_webhook = await axios.post("https://api.tally.so/webhooks", {
-      formId: create_form.data.id,
-      url: "https://pumabot.pongpoti.deno.net/line?header=M1",
+    await axios.post("https://api.tally.so/webhooks", {
+      formId: form_id,
+      url: "https://pumabot.pongpoti.deno.net/line?header=" + param,
       eventTypes: ["FORM_RESPONSE"]
     })
-    return create_form.data.id
+    return form_id
   } catch (error) {
     console.error(error)
   }
