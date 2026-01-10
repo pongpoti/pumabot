@@ -214,11 +214,11 @@ const createForm = async (header) => {
   //create webhook
   try {
     await axios.post("https://api.tally.so/webhooks", {
-      formId: form_id,
-      url: "https://pumabot.pongpoti.deno.net/callback?header=" + param,
+      formId: id,
+      url: "https://pumabot.pongpoti.deno.net/callback?header=" + header,
       eventTypes: ["FORM_RESPONSE"]
     })
-    return form_id
+    return id
   } catch (error) {
     console.error(error)
   }
