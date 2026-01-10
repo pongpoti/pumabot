@@ -85,11 +85,18 @@ app.post("/callback", (req, res) => {
   const header = req.query.header
   const workplace = req.body.data.fields[0].value
   const link = req.body.data.fields[1].value
+  res.json({
+    header: header,
+    workplace: workplace,
+    link: link
+  })
+  /*
   axios.post("https://api.telegram.org/bot8304418735:AAEzik9XwKKWOt5c2Ya0p72WKloJjj-_zaM/sendMessage", {
     chat_id: "1228757332",
     text: "[ form submit ]\n" + header_object[header][0] + " - " + header_object[header][1] +
       "\nheader : " + header + "\nworkplace : " + workplace + "\nlink : " + link
   }).then(() => res.sendStatus(200)).catch(() => res.sendStatus(400))
+  */
 })
 //
 

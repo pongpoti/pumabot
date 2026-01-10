@@ -17,17 +17,19 @@
   <script>
     const main = async () => {
       await liff.init({ liffId: "2008812156-MigabOZT" })
-      const query = new URLSearchParams(window.location.search)
-      const color = query.get("color")
-      const body = document.getElementById("body")
-      body.classList.add("bg-" + color)
-      const container = document.getElementById("container")
-      const load = document.createElement("div")
-      load.classList.add("loading", "loading-dots", "loading-xl")
-      container.appendChild(load)
-      setTimeout(() => {
-        liff.closeWindow()
-      }, 3000)
+      if (liff.isInClient()) {
+        const query = new URLSearchParams(window.location.search)
+        const color = query.get("color")
+        const body = document.getElementById("body")
+        body.classList.add("bg-" + color)
+        const container = document.getElementById("container")
+        const load = document.createElement("div")
+        load.classList.add("loading", "loading-dots", "loading-xl")
+        container.appendChild(load)
+        setTimeout(() => {
+          liff.closeWindow()
+        }, 3000)
+      }
     }
     main()
     //
