@@ -23,7 +23,7 @@ const client = new line.messagingApi.MessagingApiClient({
   channelAccessToken: "uWCHXalmoUA95FiGl298LqCvCiMrRyebRez/hbfEUiV1Xilk4ZdULAImv2vAdJRmc+v9GNyL2HXQ0gNCFBNAD3aNZpWyhAxK16sIGB/BrQ7oaSLdHjClBUFk8CgXLClQlyeRngref8TbpfBZN0JuEgdB04t89/1O/w1cDnyilFU=",
 })
 //
-//const supabase = createClient()
+const supabase = createClient("https://lbgaqfzogwnvssnmcdxo.supabase.co", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxiZ2FxZnpvZ3dudnNzbm1jZHhvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njc0NTU1NjcsImV4cCI6MjA4MzAzMTU2N30.MD5gKKP7jhAVyW7bd4tscxTPZllvWM1OGIe9l8hFxuU")
 //
 const header_object = {
   M1: ["MATERIAL", "hard finishes"],
@@ -124,16 +124,16 @@ const createForm = (header) => {
   const form_name = header_object[header][0] + " - " + header_object[header][1]
   const form_color_hex = color_object[header.charAt(0)][0]
   const form_color_tw = color_object[header.charAt(0)][1]
-  const id = initiateForm(form_name, form_color_hex)
-  patchForm(id, form_color_tw)
-  addWebhook(id, header)
+  initiateForm(form_name, form_color_hex)
+  //patchForm(id, form_color_tw)
+  //addWebhook(id, header)
   return id
 }
 
 const initiateForm = async (form_name, form_color_hex) => {
   console.log("initiateForm()")
   try {
-    const { data } = await axios.post("https://api.tally.so/forms", {
+    const response = await axios.post("https://api.tally.so/forms", {
       name: form_name,
       status: "PUBLISHED",
       settings: {
@@ -197,7 +197,7 @@ const initiateForm = async (form_name, form_color_hex) => {
         }
       ]
     })
-    return data.id
+    console.log(response)
   } catch (error) {
     console.error(error)
   }
