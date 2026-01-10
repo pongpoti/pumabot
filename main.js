@@ -54,7 +54,7 @@ const color_object = {
 //
 axios.defaults.headers.post["Content-Type"] = "application/json"
 axios.defaults.headers.post["Authorization"] = "Bearer tly-ASqvEMi4UuCizMUvSXDMTaH8L2Fqe7Ax"
-//  
+//
 app.use(express.static(path.join(import.meta.dirname, "public")))
 app.use("/form/insert/active", express.static("form-insert"))
 app.use("/form/submit/active", express.static("form-submit"))
@@ -75,6 +75,15 @@ app.get("/form/submit/initiate", (req, res) => {
   })
 })
 //
+app.post("/line", line.middleware(config), (req, res) => {
+  Promise
+    .all(req.body.events.map(handleEvent))
+    .then((result) => res.json(result))
+    .catch((err) => {
+      console.error(err)
+      res.status(500).end()
+    })
+})
 app.post("/callback", (req, res) => {
   const header = req.query.header
   const workplace = req.body.data.fields[0].value
@@ -86,15 +95,7 @@ app.post("/callback", (req, res) => {
   }).then(() => res.sendStatus(200)).catch(() => res.sendStatus(400))
 })
 //
-app.post("/line", line.middleware(config), (req, res) => {
-  Promise
-    .all(req.body.events.map(handleEvent))
-    .then((result) => res.json(result))
-    .catch((err) => {
-      console.error(err)
-      res.status(500).end()
-    })
-})
+
 
 const handleEvent = async (event) => {
   try {
@@ -125,6 +126,7 @@ const handleEvent = async (event) => {
 }
 
 const createForm = (header) => {
+  let id = null
   const form_name = header_object[header][0] + " - " + header_object[header][1]
   const form_color_hex = color_object[header.charAt(0)][0]
   const form_color_tw = color_object[header.charAt(0)][1]
@@ -193,7 +195,7 @@ const createForm = (header) => {
       }
     ]
   }).then(response => {
-    const id = response.data.id
+    id = response.data.id
     axios.patch("https://api.tally.so/forms/" + id, {
       settings: {
         redirectOnCompletion: {
