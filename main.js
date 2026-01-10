@@ -30,6 +30,9 @@ const config = { channelSecret: "c5cefb180914e47e06498b342b77582c" }
 const client = new line.messagingApi.MessagingApiClient({
   channelAccessToken: "uWCHXalmoUA95FiGl298LqCvCiMrRyebRez/hbfEUiV1Xilk4ZdULAImv2vAdJRmc+v9GNyL2HXQ0gNCFBNAD3aNZpWyhAxK16sIGB/BrQ7oaSLdHjClBUFk8CgXLClQlyeRngref8TbpfBZN0JuEgdB04t89/1O/w1cDnyilFU=",
 })
+//
+const supabase = createClient()
+//
 const header_object = {
   M1: ["MATERIAL", "hard finishes"],
   M2: ["MATERIAL", "soft finishes"],
@@ -126,98 +129,113 @@ const handleEvent = async (event) => {
 }
 
 const createForm = (header) => {
-  let id = null
   const form_name = header_object[header][0] + " - " + header_object[header][1]
   const form_color_hex = color_object[header.charAt(0)][0]
   const form_color_tw = color_object[header.charAt(0)][1]
-  //
-  axios.post("https://api.tally.so/forms", {
-    name: form_name,
-    status: "PUBLISHED",
-    settings: {
-      styles: {
-        theme: "LIGHT",
-        color: {
-          background: form_color_hex,
-          text: "#024a70",
-          buttonBackground: "#024a70"
-        }
-      }
-    },
-    blocks: [
-      {
-        uuid: uuid(),
-        type: "FORM_TITLE",
-        groupUuid: uuid(),
-        groupType: "FORM_TITLE",
-        payload: {
-          html: form_name,
-          title: form_name
+  const id = initiateForm(form_name, form_color_hex)
+  patchForm(id, form_color_tw)
+  addWebhook(id, header)
+}
+
+const initiateForm = async (form_name, form_color_hex) => {
+  console.log("initiateForm()")
+  try {
+    const { data } = await axios.post("https://api.tally.so/forms", {
+      name: form_name,
+      status: "PUBLISHED",
+      settings: {
+        styles: {
+          theme: "LIGHT",
+          color: {
+            background: form_color_hex,
+            text: "#024a70",
+            buttonBackground: "#024a70"
+          }
         }
       },
-      {
-        uuid: uuid(),
-        type: "TITLE",
-        groupUuid: uuid(),
-        groupType: "QUESTION",
-        payload: {
-          html: "workplace :"
+      blocks: [
+        {
+          uuid: uuid(),
+          type: "FORM_TITLE",
+          groupUuid: uuid(),
+          groupType: "FORM_TITLE",
+          payload: {
+            html: form_name,
+            title: form_name
+          }
+        },
+        {
+          uuid: uuid(),
+          type: "TITLE",
+          groupUuid: uuid(),
+          groupType: "QUESTION",
+          payload: {
+            html: "workplace :"
+          }
+        },
+        {
+          uuid: uuid(),
+          type: "INPUT_TEXT",
+          groupUuid: uuid(),
+          groupType: "INPUT_TEXT",
+          payload: {
+            isRequired: true,
+            placeholder: ""
+          }
+        },
+        {
+          uuid: uuid(),
+          type: "TITLE",
+          groupUuid: uuid(),
+          groupType: "QUESTION",
+          payload: {
+            html: "link :"
+          }
+        },
+        {
+          uuid: uuid(),
+          type: "INPUT_LINK",
+          groupUuid: uuid(),
+          groupType: "INPUT_LINK",
+          payload: {
+            isRequired: true,
+            placeholder: ""
+          }
         }
-      },
-      {
-        uuid: uuid(),
-        type: "INPUT_TEXT",
-        groupUuid: uuid(),
-        groupType: "INPUT_TEXT",
-        payload: {
-          isRequired: true,
-          placeholder: ""
-        }
-      },
-      {
-        uuid: uuid(),
-        type: "TITLE",
-        groupUuid: uuid(),
-        groupType: "QUESTION",
-        payload: {
-          html: "link :"
-        }
-      },
-      {
-        uuid: uuid(),
-        type: "INPUT_LINK",
-        groupUuid: uuid(),
-        groupType: "INPUT_LINK",
-        payload: {
-          isRequired: true,
-          placeholder: ""
-        }
-      }
-    ]
-  }).then(response => {
-    id = response.data.id
-    axios.patch("https://api.tally.so/forms/" + id, {
+      ]
+    })
+    return data.id
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+const patchForm = async (id, form_color_tw) => {
+  console.log("patchForm()")
+  try {
+    await axios.patch("https://api.tally.so/forms/" + id, {
       settings: {
         redirectOnCompletion: {
           html: "https://pumabot.pongpoti.deno.net/form/submit/initiate?id=" + id + "&color=" + form_color_tw
         }
       }
-    }).then(() => {
-      axios.post("https://api.tally.so/webhooks", {
-        formId: id,
-        url: "https://pumabot.pongpoti.deno.net/callback?header=" + header,
-        eventTypes: ["FORM_RESPONSE"]
-      }).then(() => {
-        return id
-      }).catch(error => {
-        console.error(error)
-      })
-    }).catch(error => {
-      console.error(error)
     })
-  }).catch(error => {
+  } catch (error) {
     console.error(error)
-  })
+  }
+}
+
+const addWebhook = async (id, header) => {
+  console.log("addWebhook()")
+  try {
+    await axios.post("https://api.tally.so/webhooks", {
+      formId: id,
+      url: "https://pumabot.pongpoti.deno.net/callback?header=" + header,
+      eventTypes: ["FORM_RESPONSE"]
+    })
+  } catch (error) {
+    console.error(error)
+  }
 }
 
 app.listen(port, () => {
