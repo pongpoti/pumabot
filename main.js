@@ -124,9 +124,10 @@ const createForm = (header) => {
   const form_name = header_object[header][0] + " - " + header_object[header][1]
   const form_color_hex = color_object[header.charAt(0)][0]
   const form_color_tw = color_object[header.charAt(0)][1]
-  initiateForm(form_name, form_color_hex)
-  //patchForm(id, form_color_tw)
-  //addWebhook(id, header)
+  const id = initiateForm(form_name, form_color_hex)
+  console.log(id + typeof id)
+  patchForm(id, form_color_tw)
+  addWebhook(id, header)
   return id
 }
 
@@ -197,7 +198,7 @@ const initiateForm = async (form_name, form_color_hex) => {
         }
       ]
     })
-    console.log(response)
+    return response.data.id
   } catch (error) {
     console.error(error)
   }
