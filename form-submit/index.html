@@ -15,39 +15,27 @@
   <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <script>
-    const main = async () => {
-      if (true) {
-        await liff.init({ liffId: "2008812156-MigabOZT" })
-        if (true) {
-          const query = new URLSearchParams(window.location.search)
-          console.log(query)
-          const id = query.get("id")
-          const color = query.get("color")
-          const body = document.getElementById("body")
-          body.classList.add("bg-" + color)
-          const container = document.getElementById("container")
-          const load = document.createElement("div")
-          load.classList.add("loading", "loading-dots", "loading-xl")
-          container.appendChild(load)
-          setTimeout(async () => {
-            try {
-              const response = await axios.delete("https://api.tally.so/forms/" + id, {
-                headers: {
-                  "Authorization": "Bearer tly-ASqvEMi4UuCizMUvSXDMTaH8L2Fqe7Ax",
-                  "Content-Type": "application/json"
-                }
-              })
-              if (response.status === 204) {
-                liff.closeWindow()
-              }
-            } catch (error) {
-              console.error(error)
-            }
-          }, 2000);
-        }
+    const query = new URLSearchParams(window.location.search)
+    const id = query.get("id")
+    const color = query.get("color")
+    const body = document.getElementById("body")
+    body.classList.add("bg-" + color)
+    const container = document.getElementById("container")
+    const load = document.createElement("div")
+    load.classList.add("loading", "loading-dots", "loading-xl")
+    container.appendChild(load)
+    setTimeout(async () => {
+      try {
+        const response = await axios.delete("https://api.tally.so/forms/" + id, {
+          headers: {
+            "Authorization": "Bearer tly-ASqvEMi4UuCizMUvSXDMTaH8L2Fqe7Ax",
+            "Content-Type": "application/json"
+          }
+        })
+      } catch (error) {
+        console.error(error)
       }
-    }
-    main()
+    }, 1000);
   </script>
 </body>
 
