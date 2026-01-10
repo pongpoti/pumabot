@@ -198,7 +198,9 @@ const initiateForm = async (form_name, form_color_hex) => {
         }
       ]
     })
-    return response.data.id
+    const a = JSON.parse(response)
+    console.log(a)
+    console.log(typeof a)
   } catch (error) {
     console.error(error)
   }
