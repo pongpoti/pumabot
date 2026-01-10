@@ -82,6 +82,19 @@ app.post("/line", line.middleware(config), (req, res) => {
     })
 })
 app.post("/callback", (req, res) => {
+  let body = ""
+  req.on("data", chunk => {
+    body += chunk.toString()
+  })
+  req.on("end", () => {
+    try {
+      const parsedData = JSON.parse(body)
+      res.send("OK")
+    } catch (error) {
+      res.status(400).send("Bad Request")
+    }
+  })
+  /*
   const header = req.query.header
   const response = JSON.parse(req.body)
   const workplace = response.data.fields[0].value
@@ -91,6 +104,7 @@ app.post("/callback", (req, res) => {
     workplace: workplace,
     link: link
   })
+  */
   /*
   axios.post("https://api.telegram.org/bot8304418735:AAEzik9XwKKWOt5c2Ya0p72WKloJjj-_zaM/sendMessage", {
     chat_id: "1228757332",
@@ -145,6 +159,7 @@ const createForm = async (form_name, form_color_hex) => {
     const { data } = await axios.post("https://api.tally.so/forms", {
       name: form_name,
       status: "PUBLISHED",
+      workspaceId: "mKVXND",
       settings: {
         styles: {
           theme: "LIGHT",
