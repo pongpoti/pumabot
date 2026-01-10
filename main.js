@@ -7,14 +7,6 @@ import { v4 as uuid } from "uuid"
 import { createClient } from '@supabase/supabase-js'
 
 /*
-sky_900 : #024a70
-purple_200 : #e9d4ff
-rose_200 : #ffccd3
-amber_200 : #fee685
-green_200 : #b9f8cf
-*/
-
-/*
 Ue1dfcb3859e9e726d1839fcbd40ac8ac
 U9cde6d2edaf30e56479c95ee8618c9cd
 */
@@ -31,7 +23,7 @@ const client = new line.messagingApi.MessagingApiClient({
   channelAccessToken: "uWCHXalmoUA95FiGl298LqCvCiMrRyebRez/hbfEUiV1Xilk4ZdULAImv2vAdJRmc+v9GNyL2HXQ0gNCFBNAD3aNZpWyhAxK16sIGB/BrQ7oaSLdHjClBUFk8CgXLClQlyeRngref8TbpfBZN0JuEgdB04t89/1O/w1cDnyilFU=",
 })
 //
-const supabase = createClient()
+//const supabase = createClient()
 //
 const header_object = {
   M1: ["MATERIAL", "hard finishes"],
