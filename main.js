@@ -200,6 +200,7 @@ const createForm = async (header) => {
     console.error(error)
   }
   //patch form
+  console.log("form id : " + id)
   try {
     await axios.patch("https://api.tally.so/forms/" + id, {
       settings: {
