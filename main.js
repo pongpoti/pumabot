@@ -134,6 +134,28 @@ const createForm = async (header) => {
     const { data } = await axios.post("https://api.tally.so/forms", {
       name: form_name,
       status: "PUBLISHED",
+      blocks: [
+        {
+          uuid: uuid(),
+          type: "FORM_TITLE",
+          groupUuid: uuid(),
+          groupType: "FORM_TITLE",
+          payload: {
+            html: form_name,
+            title: form_name
+          }
+        }
+      ]
+    })
+    id = data.id
+  } catch (error) {
+    console.error(error)
+  }
+  //patch form
+  try {
+    await axios.patch("https://api.tally.so/forms/" + id, {
+      name: form_name,
+      status: "PUBLISHED",
       settings: {
         styles: {
           theme: "LIGHT",
@@ -142,6 +164,9 @@ const createForm = async (header) => {
             text: "#024a70",
             buttonBackground: "#024a70"
           }
+        },
+        redirectOnCompletion: {
+          html: "https://pumabot.pongpoti.deno.net/form/submit/initiate?id=" + id + "&color=" + form_color_tw
         }
       },
       blocks: [
@@ -194,19 +219,6 @@ const createForm = async (header) => {
           }
         }
       ]
-    })
-    id = data.id
-  } catch (error) {
-    console.error(error)
-  }
-  //patch form
-  try {
-    await axios.patch("https://api.tally.so/forms/" + id, {
-      settings: {
-        redirectOnCompletion: {
-          html: "https://pumabot.pongpoti.deno.net/form/submit/initiate?id=" + id + "&color=" + form_color_tw
-        }
-      }
     })
   } catch (error) {
     console.error(error)
