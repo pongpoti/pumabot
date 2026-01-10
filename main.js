@@ -55,7 +55,7 @@ app.use("/form/insert/active", express.static("form-insert"))
 app.use("/form/submit/active", express.static("form-submit"))
 //
 app.get("/form/insert/initiate", (req, res) => {
-  createForm(req.query.header).then(id => res.redirect("https://pumabot.pongpoti.deno.net/form/insert/active?id=" + id))
+  form(req.query.header).then(id => res.redirect("https://pumabot.pongpoti.deno.net/form/insert/active?id=" + id))
 })
 app.get("/form/submit/initiate", (req, res) => {
   axios.delete("https://api.tally.so/forms/" + req.query.id, {
@@ -120,17 +120,17 @@ const handleEvent = async (event) => {
   })
 }
 
-const createForm = async (header) => {
+const form = async (header) => {
   const form_name = header_object[header][0] + " - " + header_object[header][1]
   const form_color_hex = color_object[header.charAt(0)][0]
   const form_color_tw = color_object[header.charAt(0)][1]
-  const id = await initiateForm(form_name, form_color_hex)
+  const id = await createForm(form_name, form_color_hex)
   await patchForm(id, form_color_tw)
   await addWebhook(id, header)
   return id
 }
 
-const initiateForm = async (form_name, form_color_hex) => {
+const createForm = async (form_name, form_color_hex) => {
   console.log("initiateForm()")
   try {
     const {data} = await axios.post("https://api.tally.so/forms", {
