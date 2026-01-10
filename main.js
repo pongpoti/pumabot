@@ -83,8 +83,9 @@ app.post("/line", line.middleware(config), (req, res) => {
 })
 app.post("/callback", (req, res) => {
   const header = req.query.header
-  const workplace = req.body.data.fields[0].value
-  const link = req.body.data.fields[1].value
+  const response = JSON.parse(req.body)
+  const workplace = response.data.fields[0].value
+  const link = response.data.fields[1].value
   res.json({
     header: header,
     workplace: workplace,
