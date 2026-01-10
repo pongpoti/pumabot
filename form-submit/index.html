@@ -19,10 +19,10 @@
       if (true) {
         await liff.init({ liffId: "2008812156-MigabOZT" })
         if (true) {
-          const query_string = new URLSearchParams(decodeURIComponent(window.location.search))
-          console.log(query_string)
-          const id = query_string.get("id")
-          const color = query_string.get("color")
+          const query = new URLSearchParams(window.location.search)
+          console.log(query)
+          const id = query.get("id")
+          const color = query.get("color")
           const body = document.getElementById("body")
           body.classList.add("bg-" + color)
           const container = document.getElementById("container")
