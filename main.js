@@ -89,7 +89,7 @@ app.post("/callback", (req, res) => {
   req.on("end", () => {
     try {
       const parsedData = JSON.parse(body)
-      res.send("OK")
+      res.send(parsedData)
     } catch (error) {
       res.status(400).send("Bad Request")
     }
