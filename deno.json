@@ -1,6 +1,7 @@
 {
   "imports": {
     "@line/bot-sdk": "npm:@line/bot-sdk@^10.5.0",
+    "@supabase/supabase-js": "npm:@supabase/supabase-js@^2.90.1",
     "axios": "npm:axios@^1.13.2",
     "express": "npm:express@^5.2.1",
     "uuid": "npm:uuid@^13.0.0"
