@@ -49,6 +49,8 @@ const color_object = {
 //
 axios.defaults.headers.post["Content-Type"] = "application/json"
 axios.defaults.headers.post["Authorization"] = "Bearer tly-ASqvEMi4UuCizMUvSXDMTaH8L2Fqe7Ax"
+axios.defaults.headers.patch["Content-Type"] = "application/json"
+axios.defaults.headers.patch["Authorization"] = "Bearer tly-ASqvEMi4UuCizMUvSXDMTaH8L2Fqe7Ax"
 //
 app.use(express.static(path.join(import.meta.dirname, "public")))
 app.use("/form/insert/active", express.static("form-insert"))
@@ -131,9 +133,8 @@ const form = async (header) => {
 }
 
 const createForm = async (form_name, form_color_hex) => {
-  console.log("initiateForm()")
   try {
-    const {data} = await axios.post("https://api.tally.so/forms", {
+    const { data } = await axios.post("https://api.tally.so/forms", {
       name: form_name,
       status: "PUBLISHED",
       settings: {
@@ -204,7 +205,6 @@ const createForm = async (form_name, form_color_hex) => {
 }
 
 const patchForm = async (id, form_color_tw) => {
-  console.log("patchForm()")
   try {
     await axios.patch("https://api.tally.so/forms/" + id, {
       settings: {
@@ -219,7 +219,6 @@ const patchForm = async (id, form_color_tw) => {
 }
 
 const addWebhook = async (id, header) => {
-  console.log("addWebhook()")
   try {
     await axios.post("https://api.tally.so/webhooks", {
       formId: id,
