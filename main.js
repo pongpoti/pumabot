@@ -125,9 +125,8 @@ const createForm = async (header) => {
   const form_color_hex = color_object[header.charAt(0)][0]
   const form_color_tw = color_object[header.charAt(0)][1]
   const id = await initiateForm(form_name, form_color_hex)
-  console.log(id + typeof id)
-  //await patchForm(id, form_color_tw)
-  //await addWebhook(id, header)
+  await patchForm(id, form_color_tw)
+  await addWebhook(id, header)
   return id
 }
 
@@ -203,8 +202,6 @@ const initiateForm = async (form_name, form_color_hex) => {
     console.error(error)
   }
 }
-
-
 
 const patchForm = async (id, form_color_tw) => {
   console.log("patchForm()")
