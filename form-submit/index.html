@@ -16,9 +16,9 @@
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <script>
     const main = async () => {
-      if (window.innerWidth < 481) {
+      if (true) {
         await liff.init({ liffId: "2008812156-MigabOZT" })
-        if (liff.isInClient()) {
+        if (true) {
           const query_string = new URLSearchParams(decodeURIComponent(window.location.search))
           console.log(query_string)
           const id = query_string.get("id")
