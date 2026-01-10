@@ -4,6 +4,7 @@ import path from "node:path"
 import axios from "axios"
 import * as line from "@line/bot-sdk"
 import { v4 as uuid } from "uuid"
+import { createClient } from '@supabase/supabase-js'
 
 /*
 sky_900 : #024a70
@@ -45,32 +46,34 @@ const header_object = {
   A4: ["ACCESSORIES", "amenity"]
 }
 const color_object = {
-  M: "#e9d4ff",
-  F: "#ffccd3",
-  L: "#fee685",
-  A: "#b9f8cf"
+  M: ["#e9d4ff", "purple-200"],
+  F: ["#ffccd3", "rose-200"],
+  L: ["#fee685", "amber-200"],
+  A: ["#b9f8cf", "green-200"]
 }
 //
 axios.defaults.headers.post["Content-Type"] = "application/json"
 axios.defaults.headers.post["Authorization"] = "Bearer tly-ASqvEMi4UuCizMUvSXDMTaH8L2Fqe7Ax"
 //  
 app.use(express.static(path.join(import.meta.dirname, "public")))
-app.use("/form", express.static("form"))
+app.use("/form/insert", express.static("form-insert"))
+app.use("/form/submit", express.static("form-submit"))
 //
-app.post("/telegram_form", (req, res) => {
-  const query = req.query.header
+app.get("/form/create", (req,res) => {
+  form(req.query.header).then(form_id => res.redirect("https://pumabot.pongpoti.deno.net/form?id=" + form_id))
+})
+//
+app.post("/callback", (req, res) => {
+  const header = req.query.header
   const workplace = req.body.data.fields[0].value
   const link = req.body.data.fields[1].value
   axios.post("https://api.telegram.org/bot8304418735:AAEzik9XwKKWOt5c2Ya0p72WKloJjj-_zaM/sendMessage", {
     chat_id: "1228757332",
-    text: "[ form submit ]\n" + header_object[query][0] + " - " + header_object[query][1] +
-      "\nquery : " + query + "\nworkplace : " + workplace + "\nlink : " + link
+    text: "[ form submit ]\n" + header_object[header][0] + " - " + header_object[header][1] +
+      "\nheader : " + header + "\nworkplace : " + workplace + "\nlink : " + link
   }).then(() => res.sendStatus(200)).catch(() => res.sendStatus(400))
 })
-app.get("/insert", (req,res) => {
-  form(req.query.header).then(form_id => res.redirect("https://pumabot.pongpoti.deno.net/form?id=" + form_id))
-})
-
+//
 app.post("/line", line.middleware(config), (req, res) => {
   Promise
     .all(req.body.events.map(handleEvent))
@@ -112,23 +115,21 @@ const handleEvent = async (event) => {
 const form = async (param) => {
   let form_id = null
   const form_name = header_object[param][0] + " - " + header_object[param][1]
-  const form_color = color_object[param.charAt(0)]
+  const form_color_hex = color_object[param.charAt(0)][0]
+  const form_color_tw = color_object[param.charAt(0)][1]
   //create form
   try {
-    const create_form = await axios.post("https://api.tally.so/forms", {
+    const {data} = await axios.post("https://api.tally.so/forms", {
       name: form_name,
       status: "PUBLISHED",
       settings: {
         styles: {
           theme: "LIGHT",
           color: {
-            background: form_color,
+            background: form_color_hex,
             text: "#024a70",
             buttonBackground: "#024a70"
           }
-        },
-        redirectOnCompletion: {
-          html: "https://pumabot.pongpoti.deno.net/callback?header=M1"
         }
       },
       blocks: [
@@ -182,15 +183,26 @@ const form = async (param) => {
         }
       ]
     })
-    form_id = create_form.data.id
+    form_id = data.id
   } catch (error) {
+    console.error(error)
+  }
+  //patch form
+  try {
+    await axios.patch("https://api.tally.so/forms/" + form_id, {
+      settings: {
+        redirectOnCompletion: {
+          html: "https://pumabot.pongpoti.deno.net/form/submit?id=" + form_id + "&color=" + form_color_tw
+        }
+      }
+    })  } catch (error) {
     console.error(error)
   }
   //create webhook
   try {
     await axios.post("https://api.tally.so/webhooks", {
       formId: form_id,
-      url: "https://pumabot.pongpoti.deno.net/line?header=" + param,
+      url: "https://pumabot.pongpoti.deno.net/callback?header=" + param,
       eventTypes: ["FORM_RESPONSE"]
     })
     return form_id
