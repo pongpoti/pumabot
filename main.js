@@ -120,21 +120,21 @@ const handleEvent = async (event) => {
   })
 }
 
-const createForm = (header) => {
+const createForm = async (header) => {
   const form_name = header_object[header][0] + " - " + header_object[header][1]
   const form_color_hex = color_object[header.charAt(0)][0]
   const form_color_tw = color_object[header.charAt(0)][1]
-  const id = initiateForm(form_name, form_color_hex)
+  const id = await initiateForm(form_name, form_color_hex)
   console.log(id + typeof id)
-  patchForm(id, form_color_tw)
-  addWebhook(id, header)
+  //await patchForm(id, form_color_tw)
+  //await addWebhook(id, header)
   return id
 }
 
 const initiateForm = async (form_name, form_color_hex) => {
   console.log("initiateForm()")
   try {
-    const response = await axios.post("https://api.tally.so/forms", {
+    const {data} = await axios.post("https://api.tally.so/forms", {
       name: form_name,
       status: "PUBLISHED",
       settings: {
@@ -198,13 +198,13 @@ const initiateForm = async (form_name, form_color_hex) => {
         }
       ]
     })
-    const a = JSON.parse(response)
-    console.log(a)
-    console.log(typeof a)
+    return data.id
   } catch (error) {
     console.error(error)
   }
 }
+
+
 
 const patchForm = async (id, form_color_tw) => {
   console.log("patchForm()")
