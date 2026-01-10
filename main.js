@@ -127,6 +127,7 @@ const createForm = (header) => {
   const id = initiateForm(form_name, form_color_hex)
   patchForm(id, form_color_tw)
   addWebhook(id, header)
+  return id
 }
 
 const initiateForm = async (form_name, form_color_hex) => {
