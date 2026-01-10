@@ -82,6 +82,7 @@ app.post("/line", line.middleware(config), (req, res) => {
     })
 })
 app.post("/callback", (req, res) => {
+  const header = req.query.header
   let body = ""
   req.on("data", chunk => {
     body += chunk.toString()
@@ -89,29 +90,17 @@ app.post("/callback", (req, res) => {
   req.on("end", () => {
     try {
       const parsedData = JSON.parse(body)
-      res.send(parsedData)
+      const workplace = parsedData.data.fields[0].value
+      const link = parsedData.data.fields[1].value
+      axios.post("https://api.telegram.org/bot8304418735:AAEzik9XwKKWOt5c2Ya0p72WKloJjj-_zaM/sendMessage", {
+        chat_id: "1228757332",
+        text: "[ form submit ]\n" + header_object[header][0] + " - " + header_object[header][1] +
+          "\nheader : " + header + "\nworkplace : " + workplace + "\nlink : " + link
+      }).then(() => res.sendStatus(200)).catch(() => res.sendStatus(400))
     } catch (error) {
       res.status(400).send("Bad Request")
     }
   })
-  /*
-  const header = req.query.header
-  const response = JSON.parse(req.body)
-  const workplace = response.data.fields[0].value
-  const link = response.data.fields[1].value
-  res.json({
-    header: header,
-    workplace: workplace,
-    link: link
-  })
-  */
-  /*
-  axios.post("https://api.telegram.org/bot8304418735:AAEzik9XwKKWOt5c2Ya0p72WKloJjj-_zaM/sendMessage", {
-    chat_id: "1228757332",
-    text: "[ form submit ]\n" + header_object[header][0] + " - " + header_object[header][1] +
-      "\nheader : " + header + "\nworkplace : " + workplace + "\nlink : " + link
-  }).then(() => res.sendStatus(200)).catch(() => res.sendStatus(400))
-  */
 })
 //
 
