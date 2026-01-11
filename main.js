@@ -95,6 +95,7 @@ app.post("/callback", (req, res) => {
         res.sendStatus(500)
       } else {
         const filteredData = data
+        console.log(filteredData)
         if (filteredData.length === 0) {
           //insert
           const { error } = await supabase
@@ -108,10 +109,13 @@ app.post("/callback", (req, res) => {
           }
         } else {
           //update
-          const { error } = await supabase
+          console.log("update")
+          const { data, error } = await supabase
             .from("src")
             .update({ header: header, workplace: workplace, link: link })
             .eq("id", filteredData[0].id)
+            .select()
+          console.log(data)
           if (error) {
             console.error(error)
             res.sendStatus(500)
