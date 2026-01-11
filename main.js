@@ -60,7 +60,7 @@ app.use(express.static(path.join(import.meta.dirname, "public")))
 app.use("/form/insert/activate", express.static("form"))
 //
 app.get("/form/insert/initiate", (req, res) => {
-  form(req.query.header).then(id => res.redirect("https://pumabot.pongpoti.deno.net/form/insert/activate?id=" + id))
+  form(req.query.header).then(id => res.redirect("https://pumabot.pongpoti.deno.net/form/insert/activate?header=" + req.query.header + "&id=" + id))
 })
 //
 app.post("/line", line.middleware(config), (req, res) => {
@@ -73,7 +73,6 @@ app.post("/line", line.middleware(config), (req, res) => {
     })
 })
 app.post("/callback", (req, res) => {
-  const header = req.query.header
   let body = ""
   req.on("data", chunk => {
     body += chunk.toString()
@@ -83,7 +82,8 @@ app.post("/callback", (req, res) => {
       const parsedData = JSON.parse(body)
       const workplace = parsedData.data.fields[0].value.trim()
       const link = parsedData.data.fields[1].value.trim().toLowerCase()
-      const id = parsedData.data.fields[2].value
+      const header = parsedData.data.fields[2].value
+      const id = parsedData.data.fields[3].value
       await notifyBot(header, workplace, link, id)
       //check repeated submission
       const { data, error } = await supabase
@@ -238,6 +238,20 @@ const createForm = async (form_name, form_color_hex) => {
             hiddenFields: [
               {
                 "uuid": uuid(),
+                "name": "header"
+              }
+            ]
+          }
+        },
+        {
+          uuid: uuid(),
+          type: "HIDDEN_FIELDS",
+          groupUuid: uuid(),
+          groupType: "HIDDEN_FIELDS",
+          payload: {
+            hiddenFields: [
+              {
+                "uuid": uuid(),
                 "name": "id"
               }
             ]
@@ -255,7 +269,7 @@ const addWebhook = async (id, header) => {
   try {
     await axios.post("https://api.tally.so/webhooks", {
       formId: id,
-      url: "https://pumabot.pongpoti.deno.net/callback?header=" + header + "&id=" + id,
+      url: "https://pumabot.pongpoti.deno.net/callback",
       eventTypes: ["FORM_RESPONSE"]
     })
   } catch (error) {
