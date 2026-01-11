@@ -57,6 +57,7 @@ app.listen(port, () => {
 app.use(express.static(path.join(import.meta.dirname, "public")))
 app.use("/form/insert/activate", express.static("form"))
 //
+const i = 0
 app.get("/form/insert/initiate", (req, res) => {
   form(req.query.header).then(id => res.redirect("https://pumabot.pongpoti.deno.net/form/insert/activate?id=" + id))
 })
