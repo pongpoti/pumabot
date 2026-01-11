@@ -98,9 +98,7 @@ app.post("/callback", (req, res) => {
           //insert
           const { error } = await supabase
             .from("src")
-            .insert([
-              { header: header, workplace: workplace, link: link }
-            ])
+            .insert({ header: header, workplace: workplace, link: link })
           if (error) {
             console.error(error)
             res.sendStatus(500)
@@ -108,11 +106,10 @@ app.post("/callback", (req, res) => {
             res.sendStatus(200)
           }
         } else {
-          //update
+          //upsert
           const { error } = await supabase
             .from("src")
-            .update({ header: header, link: link })
-            .eq("id", data[0].id)
+            .upsert({ id: data[0].id, header: header, link: link })
           if (error) {
             console.error(error)
             res.sendStatus(500)
