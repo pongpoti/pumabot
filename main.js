@@ -83,15 +83,16 @@ app.post("/callback", (req, res) => {
       const link = parsedData.data.fields[1].value
       const id = parsedData.data.fields[2].value
       await notifyBot(header, workplace, link, id)
-      const { data, error } = await supabase
+      const { error } = await supabase
         .from("src")
         .insert([
           { header: header, workplace: workplace, link: link }
         ])
-      if (data.status === 201) {
-        res.sendStatus(200)
-      } else {
+      if (error) {
+        console.error(error)
         res.sendStatus(500)
+      } else {
+        res.sendStatus(200)
       }
     } catch (error) {
       console.error(error)
