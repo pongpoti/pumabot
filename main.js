@@ -49,6 +49,8 @@ const color_object = {
 //
 axios.defaults.headers.post["Content-Type"] = "application/json"
 axios.defaults.headers.post["Authorization"] = "Bearer tly-ASqvEMi4UuCizMUvSXDMTaH8L2Fqe7Ax"
+axios.defaults.headers.delete["Content-Type"] = "application/json"
+axios.defaults.headers.delete["Authorization"] = "Bearer tly-ASqvEMi4UuCizMUvSXDMTaH8L2Fqe7Ax"
 //
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`)
@@ -79,20 +81,33 @@ app.post("/callback", (req, res) => {
   req.on("end", async () => {
     try {
       const parsedData = JSON.parse(body)
-      const workplace = parsedData.data.fields[0].value
-      const link = parsedData.data.fields[1].value
+      const workplace = parsedData.data.fields[0].value.trim().toLowerCase()
+      const link = parsedData.data.fields[1].value.trim().toLowerCase()
       const id = parsedData.data.fields[2].value
       await notifyBot(header, workplace, link, id)
-      const { error } = await supabase
+      const { data, error } = await supabase
         .from("src")
-        .insert([
-          { header: header, workplace: workplace, link: link }
-        ])
+        .select()
+        .eq("workplace", workplace)
       if (error) {
         console.error(error)
         res.sendStatus(500)
       } else {
-        res.sendStatus(200)
+        if (data.length === 0) {
+          const { error } = await supabase
+            .from("src")
+            .insert([
+              { header: header, workplace: workplace, link: link }
+            ])
+          if (error) {
+            console.error(error)
+            res.sendStatus(500)
+          } else {
+            res.sendStatus(200)
+          }
+        } else {
+          res.sendStatus(200)
+        }
       }
     } catch (error) {
       console.error(error)
@@ -242,6 +257,14 @@ const notifyBot = async (header, workplace, link, id) => {
       text: "[ form submit ]\n" + header_object[header][0] + " - " + header_object[header][1] +
         "\nheader : " + header + "\nworkplace : " + workplace + "\nlink : " + link + "\nid : " + id
     })
+  } catch (error) {
+    console.error(error)
+  }
+}
+//
+const deleteForm = async (id) => {
+  try {
+    await axios.delete("https://api.tally.so/forms/" + id)
   } catch (error) {
     console.error(error)
   }
