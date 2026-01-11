@@ -94,8 +94,8 @@ app.post("/callback", (req, res) => {
         console.error(error)
         res.sendStatus(500)
       } else {
-        console.log(data) 
-        if (data.length === 0) {
+        const filteredData = data
+        if (filteredData.length === 0) {
           //insert
           const { error } = await supabase
             .from("src")
@@ -108,13 +108,10 @@ app.post("/callback", (req, res) => {
           }
         } else {
           //update
-          console.log("update")
-          const { data, error } = await supabase
+          const { error } = await supabase
             .from("src")
             .update({ header: header, workplace: workplace, link: link })
-            .eq("id", data[0].id)
-            .select()
-          console.log(data)
+            .eq("id", filteredData[0].id)
           if (error) {
             console.error(error)
             res.sendStatus(500)
