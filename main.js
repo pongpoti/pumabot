@@ -104,7 +104,7 @@ app.post("/callback", (req, res) => {
             console.error(error)
             res.sendStatus(500)
           } else {
-            await deleteForm(id)
+            //await deleteForm(id)
             res.sendStatus(200)
           }
         } else {
@@ -117,7 +117,7 @@ app.post("/callback", (req, res) => {
             console.error(error)
             res.sendStatus(500)
           } else {
-            await deleteForm(id)
+            //await deleteForm(id)
             res.sendStatus(200)
           }
         }
