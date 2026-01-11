@@ -94,6 +94,7 @@ app.post("/callback", (req, res) => {
         console.error(error)
         res.sendStatus(500)
       } else {
+        console.log(data) 
         if (data.length === 0) {
           //insert
           const { error } = await supabase
