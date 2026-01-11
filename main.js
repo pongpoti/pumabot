@@ -107,11 +107,14 @@ app.post("/callback", (req, res) => {
             res.sendStatus(200)
           }
         } else {
-          //upsert
-          const { error } = await supabase
+          //update
+          console.log("update")
+          const { data, error } = await supabase
             .from("src")
             .update({ header: header, workplace: workplace, link: link })
             .eq("id", data[0].id)
+            .select()
+          console.log(data)
           if (error) {
             console.error(error)
             res.sendStatus(500)
