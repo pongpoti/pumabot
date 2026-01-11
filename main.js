@@ -81,15 +81,15 @@ app.post("/callback", (req, res) => {
   req.on("end", async () => {
     try {
       const parsedData = JSON.parse(body)
-      const workplace = parsedData.data.fields[0].value.trim().toLowerCase()
-      const link = parsedData.data.fields[1].value.trim().toLowerCase()
+      const workplace = parsedData.data.fields[0].value.trim()
+      const link = parsedData.data.fields[1].value.trim()
       const id = parsedData.data.fields[2].value
       await notifyBot(header, workplace, link, id)
       //check repeated submission
       const { data, error } = await supabase
         .from("src")
         .select()
-        .eq("workplace", workplace)
+        .ilike("workplace", "%" + workplace + "%")
       if (error) {
         console.error(error)
         res.sendStatus(500)
@@ -109,7 +109,8 @@ app.post("/callback", (req, res) => {
           //upsert
           const { error } = await supabase
             .from("src")
-            .upsert({ id: data[0].id, header: header, link: link })
+            .update({ header: header, workplace: workplace, link: link })
+            .eq("id", data[0].id)
           if (error) {
             console.error(error)
             res.sendStatus(500)
