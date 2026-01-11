@@ -158,7 +158,6 @@ const handleEvent = async (event) => {
 }
 //
 const form = async (header) => {
-  console.log("create form for header : " + header)
   const form_name = header_object[header][0] + " - " + header_object[header][1]
   const form_color_hex = color_object[header.charAt(0)][0]
   const id = await createForm(form_name, form_color_hex)
