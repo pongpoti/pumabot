@@ -49,8 +49,10 @@ const color_object = {
 //
 axios.defaults.headers.post["Content-Type"] = "application/json"
 axios.defaults.headers.post["Authorization"] = "Bearer tly-ASqvEMi4UuCizMUvSXDMTaH8L2Fqe7Ax"
-axios.defaults.headers.patch["Content-Type"] = "application/json"
-axios.defaults.headers.patch["Authorization"] = "Bearer tly-ASqvEMi4UuCizMUvSXDMTaH8L2Fqe7Ax"
+//
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`)
+})
 //
 app.use(express.static(path.join(import.meta.dirname, "public")))
 app.use("/form/insert/activate", express.static("form"))
@@ -123,7 +125,6 @@ const handleEvent = async (event) => {
 const form = async (header) => {
   const form_name = header_object[header][0] + " - " + header_object[header][1]
   const form_color_hex = color_object[header.charAt(0)][0]
-  const form_color_tw = color_object[header.charAt(0)][1]
   const id = await createForm(form_name, form_color_hex)
   await addWebhook(id, header)
   return id
@@ -134,7 +135,6 @@ const createForm = async (form_name, form_color_hex) => {
     const { data } = await axios.post("https://api.tally.so/forms", {
       name: form_name,
       status: "PUBLISHED",
-      workspaceId: "mKVXND",
       settings: {
         styles: {
           theme: "LIGHT",
@@ -200,10 +200,10 @@ const createForm = async (form_name, form_color_hex) => {
           groupUuid: uuid(),
           groupType: "HIDDEN_FIELDS",
           payload: {
-            fields: [
+            hiddenFields: [
               {
-                uuid: uuid(),
-                name: "id"
+                "uuid": uuid(),
+                "name": "id"
               }
             ]
           }
@@ -228,6 +228,3 @@ const addWebhook = async (id, header) => {
   }
 }
 
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}`)
-})
