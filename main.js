@@ -85,6 +85,7 @@ app.post("/callback", (req, res) => {
       const link = parsedData.data.fields[1].value.trim().toLowerCase()
       const id = parsedData.data.fields[2].value
       await notifyBot(header, workplace, link, id)
+      //check repeated submission
       const { data, error } = await supabase
         .from("src")
         .select()
@@ -94,6 +95,7 @@ app.post("/callback", (req, res) => {
         res.sendStatus(500)
       } else {
         if (data.length === 0) {
+          //insert
           const { error } = await supabase
             .from("src")
             .insert([
@@ -106,7 +108,17 @@ app.post("/callback", (req, res) => {
             res.sendStatus(200)
           }
         } else {
-          res.sendStatus(200)
+          //update
+          const { error } = await supabase
+            .from("src")
+            .update({ header: header, link: link })
+            .eq("workplace", workplace)
+          if (error) {
+            console.error(error)
+            res.sendStatus(500)
+          } else {
+            res.sendStatus(200)
+          }
         }
       }
     } catch (error) {
