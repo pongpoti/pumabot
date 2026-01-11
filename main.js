@@ -84,7 +84,7 @@ app.post("/callback", (req, res) => {
       const link = parsedData.data.fields[1].value.trim().toLowerCase()
       const header = parsedData.data.fields[2].value
       const id = parsedData.data.fields[3].value
-      //await notifyBot(header, workplace, link, id)
+      await notifyBot(header, workplace, link, id)
       //check repeated submission
       const { data, error } = await supabase
         .from("src")
@@ -104,7 +104,7 @@ app.post("/callback", (req, res) => {
             console.error(error)
             res.sendStatus(500)
           } else {
-            //await deleteForm(id)
+            await deleteForm(id)
             res.sendStatus(200)
           }
         } else {
@@ -117,7 +117,7 @@ app.post("/callback", (req, res) => {
             console.error(error)
             res.sendStatus(500)
           } else {
-            //await deleteForm(id)
+            await deleteForm(id)
             res.sendStatus(200)
           }
         }
