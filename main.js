@@ -1,6 +1,6 @@
 import express from "express"
 import process from "node:process"
-import path from "node:path"
+import path, { parse } from "node:path"
 import axios from "axios"
 import * as line from "@line/bot-sdk"
 import { v4 as uuid } from "uuid"
@@ -57,7 +57,6 @@ app.listen(port, () => {
 app.use(express.static(path.join(import.meta.dirname, "public")))
 app.use("/form/insert/activate", express.static("form"))
 //
-const i = 0
 app.get("/form/insert/initiate", (req, res) => {
   form(req.query.header).then(id => res.redirect("https://pumabot.pongpoti.deno.net/form/insert/activate?id=" + id))
 })
@@ -77,24 +76,30 @@ app.post("/callback", (req, res) => {
   req.on("data", chunk => {
     body += chunk.toString()
   })
-  req.on("end", () => {
+  req.on("end", async () => {
     try {
       const parsedData = JSON.parse(body)
       const workplace = parsedData.data.fields[0].value
       const link = parsedData.data.fields[1].value
-      axios.post("https://api.telegram.org/bot8304418735:AAEzik9XwKKWOt5c2Ya0p72WKloJjj-_zaM/sendMessage", {
-        chat_id: "1228757332",
-        text: "[ form submit ]\n" + header_object[header][0] + " - " + header_object[header][1] +
-          "\nheader : " + header + "\nworkplace : " + workplace + "\nlink : " + link
-      }).then(() => res.sendStatus(200)).catch(() => res.sendStatus(400))
+      const id = parsedData.data.fields[2].value
+      await notifyBot(header, workplace, link, id)
+      const { data, error } = await supabase
+        .from("src")
+        .insert([
+          { header: header, workplace: workplace, link: link }
+        ])
+      if (data.status === 201) {
+        res.sendStatus(200)
+      } else {
+        res.sendStatus(500)
+      }
     } catch (error) {
-      res.status(400).send("Bad Request")
+      console.error(error)
+      res.sendStatus(500)
     }
   })
 })
 //
-
-
 const handleEvent = async (event) => {
   try {
     await axios.post("https://api.line.me/v2/bot/chat/loading/start",
@@ -122,7 +127,7 @@ const handleEvent = async (event) => {
     messages: [echo],
   })
 }
-
+//
 const form = async (header) => {
   const form_name = header_object[header][0] + " - " + header_object[header][1]
   const form_color_hex = color_object[header.charAt(0)][0]
@@ -130,7 +135,7 @@ const form = async (header) => {
   await addWebhook(id, header)
   return id
 }
-
+//
 const createForm = async (form_name, form_color_hex) => {
   try {
     const { data } = await axios.post("https://api.tally.so/forms", {
@@ -216,7 +221,7 @@ const createForm = async (form_name, form_color_hex) => {
     console.error(error)
   }
 }
-
+//
 const addWebhook = async (id, header) => {
   try {
     await axios.post("https://api.tally.so/webhooks", {
@@ -228,4 +233,15 @@ const addWebhook = async (id, header) => {
     console.error(error)
   }
 }
-
+//
+const notifyBot = async (header, workplace, link, id) => {
+  try {
+    await axios.post("https://api.telegram.org/bot8304418735:AAEzik9XwKKWOt5c2Ya0p72WKloJjj-_zaM/sendMessage", {
+      chat_id: "1228757332",
+      text: "[ form submit ]\n" + header_object[header][0] + " - " + header_object[header][1] +
+        "\nheader : " + header + "\nworkplace : " + workplace + "\nlink : " + link + "\nid : " + id
+    })
+  } catch (error) {
+    console.error(error)
+  }
+}
