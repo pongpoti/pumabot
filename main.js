@@ -53,23 +53,10 @@ axios.defaults.headers.patch["Content-Type"] = "application/json"
 axios.defaults.headers.patch["Authorization"] = "Bearer tly-ASqvEMi4UuCizMUvSXDMTaH8L2Fqe7Ax"
 //
 app.use(express.static(path.join(import.meta.dirname, "public")))
-app.use("/form/insert/active", express.static("form-insert"))
-app.use("/form/submit/active", express.static("form-submit"))
+app.use("/form/insert/activate", express.static("form"))
 //
 app.get("/form/insert/initiate", (req, res) => {
-  form(req.query.header).then(id => res.redirect("https://pumabot.pongpoti.deno.net/form/insert/active?id=" + id))
-})
-app.get("/form/submit/initiate", (req, res) => {
-  axios.delete("https://api.tally.so/forms/" + req.query.id, {
-    headers: {
-      "Authorization": "Bearer tly-ASqvEMi4UuCizMUvSXDMTaH8L2Fqe7Ax",
-      "Content-Type": "application/json"
-    }
-  }).then(() => {
-    res.redirect("https://pumabot.pongpoti.deno.net/form/submit/active?color=" + req.query.color)
-  }).catch((error) => {
-    console.error(error)
-  })
+  form(req.query.header).then(id => res.redirect("https://pumabot.pongpoti.deno.net/form/insert/activate?id=" + id))
 })
 //
 app.post("/line", line.middleware(config), (req, res) => {
@@ -138,7 +125,6 @@ const form = async (header) => {
   const form_color_hex = color_object[header.charAt(0)][0]
   const form_color_tw = color_object[header.charAt(0)][1]
   const id = await createForm(form_name, form_color_hex)
-  await patchForm(id, form_color_tw)
   await addWebhook(id, header)
   return id
 }
@@ -207,24 +193,24 @@ const createForm = async (form_name, form_color_hex) => {
             isRequired: true,
             placeholder: ""
           }
+        },
+        {
+          uuid: uuid(),
+          type: "HIDDEN_FIELDS",
+          groupUuid: uuid(),
+          groupType: "HIDDEN_FIELDS",
+          payload: {
+            fields: [
+              {
+                uuid: uuid(),
+                name: "id"
+              }
+            ]
+          }
         }
       ]
     })
     return data.id
-  } catch (error) {
-    console.error(error)
-  }
-}
-
-const patchForm = async (id, form_color_tw) => {
-  try {
-    await axios.patch("https://api.tally.so/forms/" + id, {
-      settings: {
-        redirectOnCompletion: {
-          html: "https://pumabot.pongpoti.deno.net/form/submit/initiate?id=" + id + "&color=" + form_color_tw
-        }
-      }
-    })
   } catch (error) {
     console.error(error)
   }
