@@ -82,7 +82,7 @@ app.post("/callback", (req, res) => {
     try {
       const parsedData = JSON.parse(body)
       const workplace = parsedData.data.fields[0].value.trim()
-      const link = parsedData.data.fields[1].value.trim()
+      const link = parsedData.data.fields[1].value.trim().toLowerCase()
       const id = parsedData.data.fields[2].value
       await notifyBot(header, workplace, link, id)
       //check repeated submission
@@ -95,7 +95,6 @@ app.post("/callback", (req, res) => {
         res.sendStatus(500)
       } else {
         const filteredData = data
-        console.log(filteredData)
         if (filteredData.length === 0) {
           //insert
           const { error } = await supabase
@@ -105,21 +104,20 @@ app.post("/callback", (req, res) => {
             console.error(error)
             res.sendStatus(500)
           } else {
+            await deleteForm(id)
             res.sendStatus(200)
           }
         } else {
           //update
-          console.log("update")
-          const { data, error } = await supabase
+          const { error } = await supabase
             .from("src")
             .update({ header: header, workplace: workplace, link: link })
             .eq("id", filteredData[0].id)
-            .select()
-          console.log(data)
           if (error) {
             console.error(error)
             res.sendStatus(500)
           } else {
+            await deleteForm(id)
             res.sendStatus(200)
           }
         }
@@ -257,7 +255,7 @@ const addWebhook = async (id, header) => {
   try {
     await axios.post("https://api.tally.so/webhooks", {
       formId: id,
-      url: "https://pumabot.pongpoti.deno.net/callback?header=" + header,
+      url: "https://pumabot.pongpoti.deno.net/callback?header=" + header + "&id=" + id,
       eventTypes: ["FORM_RESPONSE"]
     })
   } catch (error) {
