@@ -56,7 +56,7 @@ app.listen(port, () => {
   console.log(`Server is running on port ${port}`)
 })
 //
-app.use(express.static(path.join(import.meta.dirname, "public")))
+app.use("/display", express.static("display"))
 app.use("/form/insert/activate", express.static("form"))
 //
 app.get("/form/insert/initiate", (req, res) => {

@@ -28,14 +28,111 @@
             <div id="subheader" class="text-center text-lg italic text-sky-900 font-semibold tracking-wider"></div>
         </div>
     </div>
-    <div class="grid grid-cols-1">
+    <div class="grid grid-cols-1 gap-4 px-10 pt-4">
+        <div class="bg-base-100 collapse shadow-sm">
+            <input type="checkbox" class="peer" />
+            <div class="collapse-title bg-white peer-checked:bg-red-200">
+                <div class="pl-6 text-center text-sky-900 text-lg">adfadf</div>
+            </div>
+        </div>
+        <div class="bg-base-100 collapse shadow-sm">
+            <input type="checkbox" class="peer" />
+            <div class="collapse-title bg-white peer-checked:bg-red-200">
+                <div class="pl-6 text-center text-sky-900 text-lg">adfadf</div>
+            </div>
+        </div>
+        <div class="bg-base-100 collapse shadow-sm">
+            <input type="checkbox" class="peer" />
+            <div class="collapse-title bg-white peer-checked:bg-red-200">
+                <div class="pl-6 text-center text-sky-900 text-lg">adfadf</div>
+            </div>
+        </div>
+        <div class="bg-base-100 collapse shadow-sm">
+            <input type="checkbox" class="peer" />
+            <div class="collapse-title bg-white peer-checked:bg-red-200">
+                <div class="pl-6 text-center text-sky-900 text-lg">adfadf</div>
+            </div>
+        </div>
+        <div class="bg-base-100 collapse shadow-sm">
+            <input type="checkbox" class="peer" />
+            <div class="collapse-title bg-white peer-checked:bg-red-200">
+                <div class="pl-6 text-center text-sky-900 text-lg">adfadf</div>
+            </div>
+        </div>
+        <div class="bg-base-100 collapse shadow-sm">
+            <input type="checkbox" class="peer" />
+            <div class="collapse-title bg-white peer-checked:bg-red-200">
+                <div class="pl-6 text-center text-sky-900 text-lg">adfadf</div>
+            </div>
+        </div>
+        <div class="bg-base-100 collapse shadow-sm">
+            <input type="checkbox" class="peer" />
+            <div class="collapse-title bg-white peer-checked:bg-red-200">
+                <div class="pl-6 text-center text-sky-900 text-lg">adfadf</div>
+            </div>
+        </div>
+        <div class="bg-base-100 collapse shadow-sm">
+            <input type="checkbox" class="peer" />
+            <div class="collapse-title bg-white peer-checked:bg-red-200">
+                <div class="pl-6 text-center text-sky-900 text-lg">adfadf</div>
+            </div>
+        </div>
+        <div class="bg-base-100 collapse shadow-sm">
+            <input type="checkbox" class="peer" />
+            <div class="collapse-title bg-white peer-checked:bg-red-200">
+                <div class="pl-6 text-center text-sky-900 text-lg">adfadf</div>
+            </div>
+        </div>
+        <div class="bg-base-100 collapse shadow-sm">
+            <input type="checkbox" class="peer" />
+            <div class="collapse-title bg-white peer-checked:bg-red-200">
+                <div class="pl-6 text-center text-sky-900 text-lg">adfadf</div>
+            </div>
+        </div>
+        <div class="bg-base-100 collapse shadow-sm">
+            <input type="checkbox" class="peer" />
+            <div class="collapse-title bg-white peer-checked:bg-red-200">
+                <div class="pl-6 text-center text-sky-900 text-lg">adfadf</div>
+            </div>
+        </div>
+        <div class="bg-base-100 collapse shadow-sm">
+            <input type="checkbox" class="peer" />
+            <div class="collapse-title bg-white peer-checked:bg-red-200">
+                <div class="pl-6 text-center text-sky-900 text-lg">adfadf</div>
+            </div>
+        </div>
+        <div class="bg-base-100 collapse shadow-sm">
+            <input type="checkbox" class="peer" />
+            <div class="collapse-title bg-white peer-checked:bg-red-200">
+                <div class="pl-6 text-center text-sky-900 text-lg">adfadf</div>
+            </div>
+        </div>
+        <div class="bg-base-100 collapse shadow-sm">
+            <input type="checkbox" class="peer" />
+            <div class="collapse-title bg-white peer-checked:bg-red-200">
+                <div class="pl-6 text-center text-sky-900 text-lg">adfadf</div>
+            </div>
+        </div>
+        <div class="bg-base-100 collapse shadow-sm">
+            <input type="checkbox" class="peer" />
+            <div class="collapse-title bg-white peer-checked:bg-red-200">
+                <div class="pl-6 text-center text-sky-900 text-lg">adfadf</div>
+            </div>
+        </div>
+        <div class="bg-base-100 collapse shadow-sm">
+            <input type="checkbox" class="peer" />
+            <div class="collapse-title bg-white peer-checked:bg-red-200">
+                <div class="pl-6 text-center text-sky-900 text-lg">adfadf</div>
+            </div>
+        </div>
+
     </div>
 
     <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
     <script>
-        const query_string = decodeURIComponent(window.location.search)
-        const query_header = new URLSearchParams(queryString).get("header")
-        const query_color = new URLSearchParams(queryString).get("color")
+        const query = new URLSearchParams(window.location.search)
+        const query_header = query.get("header")
+        const query_color = query.get("color")
         //
         const body = document.getElementById("body")
         const container = document.getElementById("container")
@@ -72,9 +169,9 @@
         }
         //
         const main = async () => {
-            if (window.innerWidth < 481) {
-                await liff.init({ liffId: "2008812156-UdgwP1vW" })
-                if (liff.isInClient()) {
+            if (true) {
+                //await liff.init({ liffId: "2008812156-UdgwP1vW" })
+                if (true) {
                     body.style.display = "block"
                     container.classList.add(color_object[query_color])
                     image.src = category_object[query_header.slice(0, 1)]
