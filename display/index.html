@@ -20,7 +20,8 @@
 </head>
 
 <body id="body" class="min-h-screen border-r-10 border-l-10 border-sky-900 bg-base-300 relative">
-    <div id="container" class="navbar flex justify-center w-full border-sky-900 border-b-10 border-t-10 sticky top-0 py-6 z-10">
+    <div id="container"
+        class="navbar flex justify-center w-full border-sky-900 border-b-10 border-t-10 sticky top-0 py-6 z-10">
         <img id="image" class="ml-4">
         <div class="divider divider-horizontal"></div>
         <div class="w-60 flex-none">
@@ -28,117 +29,31 @@
             <div id="subheader" class="text-center text-lg italic text-sky-900 font-semibold tracking-wider"></div>
         </div>
     </div>
-    <div class="grid grid-cols-1 gap-4 px-10 pt-4 z-0">
+    <div id="content" class="grid grid-cols-1 gap-6 px-10 pt-6 z-0">
         <div class="bg-base-100 collapse shadow-sm">
             <input type="checkbox" class="peer" />
             <div class="collapse-title bg-white peer-checked:bg-red-200">
                 <div class="pl-6 text-center text-sky-900 text-lg">adfadf</div>
             </div>
         </div>
-        <div class="bg-base-100 collapse shadow-sm">
-            <input type="checkbox" class="peer" />
-            <div class="collapse-title bg-white peer-checked:bg-red-200">
-                <div class="pl-6 text-center text-sky-900 text-lg">adfadf</div>
-            </div>
-        </div>
-        <div class="bg-base-100 collapse shadow-sm">
-            <input type="checkbox" class="peer" />
-            <div class="collapse-title bg-white peer-checked:bg-red-200">
-                <div class="pl-6 text-center text-sky-900 text-lg">adfadf</div>
-            </div>
-        </div>
-        <div class="bg-base-100 collapse shadow-sm">
-            <input type="checkbox" class="peer" />
-            <div class="collapse-title bg-white peer-checked:bg-red-200">
-                <div class="pl-6 text-center text-sky-900 text-lg">adfadf</div>
-            </div>
-        </div>
-        <div class="bg-base-100 collapse shadow-sm">
-            <input type="checkbox" class="peer" />
-            <div class="collapse-title bg-white peer-checked:bg-red-200">
-                <div class="pl-6 text-center text-sky-900 text-lg">adfadf</div>
-            </div>
-        </div>
-        <div class="bg-base-100 collapse shadow-sm">
-            <input type="checkbox" class="peer" />
-            <div class="collapse-title bg-white peer-checked:bg-red-200">
-                <div class="pl-6 text-center text-sky-900 text-lg">adfadf</div>
-            </div>
-        </div>
-        <div class="bg-base-100 collapse shadow-sm">
-            <input type="checkbox" class="peer" />
-            <div class="collapse-title bg-white peer-checked:bg-red-200">
-                <div class="pl-6 text-center text-sky-900 text-lg">adfadf</div>
-            </div>
-        </div>
-        <div class="bg-base-100 collapse shadow-sm">
-            <input type="checkbox" class="peer" />
-            <div class="collapse-title bg-white peer-checked:bg-red-200">
-                <div class="pl-6 text-center text-sky-900 text-lg">adfadf</div>
-            </div>
-        </div>
-        <div class="bg-base-100 collapse shadow-sm">
-            <input type="checkbox" class="peer" />
-            <div class="collapse-title bg-white peer-checked:bg-red-200">
-                <div class="pl-6 text-center text-sky-900 text-lg">adfadf</div>
-            </div>
-        </div>
-        <div class="bg-base-100 collapse shadow-sm">
-            <input type="checkbox" class="peer" />
-            <div class="collapse-title bg-white peer-checked:bg-red-200">
-                <div class="pl-6 text-center text-sky-900 text-lg">adfadf</div>
-            </div>
-        </div>
-        <div class="bg-base-100 collapse shadow-sm">
-            <input type="checkbox" class="peer" />
-            <div class="collapse-title bg-white peer-checked:bg-red-200">
-                <div class="pl-6 text-center text-sky-900 text-lg">adfadf</div>
-            </div>
-        </div>
-        <div class="bg-base-100 collapse shadow-sm">
-            <input type="checkbox" class="peer" />
-            <div class="collapse-title bg-white peer-checked:bg-red-200">
-                <div class="pl-6 text-center text-sky-900 text-lg">adfadf</div>
-            </div>
-        </div>
-        <div class="bg-base-100 collapse shadow-sm">
-            <input type="checkbox" class="peer" />
-            <div class="collapse-title bg-white peer-checked:bg-red-200">
-                <div class="pl-6 text-center text-sky-900 text-lg">adfadf</div>
-            </div>
-        </div>
-        <div class="bg-base-100 collapse shadow-sm">
-            <input type="checkbox" class="peer" />
-            <div class="collapse-title bg-white peer-checked:bg-red-200">
-                <div class="pl-6 text-center text-sky-900 text-lg">adfadf</div>
-            </div>
-        </div>
-        <div class="bg-base-100 collapse shadow-sm">
-            <input type="checkbox" class="peer" />
-            <div class="collapse-title bg-white peer-checked:bg-red-200">
-                <div class="pl-6 text-center text-sky-900 text-lg">adfadf</div>
-            </div>
-        </div>
-        <div class="bg-base-100 collapse shadow-sm">
-            <input type="checkbox" class="peer" />
-            <div class="collapse-title bg-white peer-checked:bg-red-200">
-                <div class="pl-6 text-center text-sky-900 text-lg">adfadf</div>
-            </div>
-        </div>
-
     </div>
 
     <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
         const query = new URLSearchParams(window.location.search)
         const query_header = query.get("header")
         const query_color = query.get("color")
+        //
+        const { createClient } = supabase
+        const _supabase = createClient("https://lbgaqfzogwnvssnmcdxo.supabase.co", "sb_publishable_eUvAfwidgh5iVLW5YU0zXQ_Aj_uTMAa")
         //
         const body = document.getElementById("body")
         const container = document.getElementById("container")
         const image = document.getElementById("image")
         const header = document.getElementById("header")
         const subheader = document.getElementById("subheader")
+        const content = document.getElementById("content")
         //
         const category_object = {
             M: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' height='60px' viewBox='0 -960 960 960' width='60px' fill='%23024a70'%3E%3Cpath d='m200-120-80-480h720l-80 480H200Zm67-80h426l51-320H216l51 320Zm133-160h160q17 0 28.5-11.5T600-400q0-17-11.5-28.5T560-440H400q-17 0-28.5 11.5T360-400q0 17 11.5 28.5T400-360ZM240-640q-17 0-28.5-11.5T200-680q0-17 11.5-28.5T240-720h480q17 0 28.5 11.5T760-680q0 17-11.5 28.5T720-640H240Zm80-120q-17 0-28.5-11.5T280-800q0-17 11.5-28.5T320-840h320q17 0 28.5 11.5T680-800q0 17-11.5 28.5T640-760H320Zm-53 560h426-426Z'/%3E%3C/svg%3E",
@@ -172,12 +87,90 @@
             if (true) {
                 //await liff.init({ liffId: "2008812156-UdgwP1vW" })
                 if (true) {
+                    //
                     body.style.display = "block"
                     container.classList.add(color_object[query_color])
                     image.src = category_object[query_header.slice(0, 1)]
                     header.innerText = header_object[query_header][0]
                     subheader.innerText = header_object[query_header][1]
+                    //
+                    const array = await getDataByHeader(query_header)
+                    for (const a of array) {
+                        content.appendChild(createDisplayList(a[0]))
+                    }
+                    //
+                    const checkboxes = document.getElementsByClassName("checkbox")
+                    const collapses = document.getElementsByClassName("collapse")
+                    const texts = document.getElementsByClassName("text")
+                    //
+                    for (let i = 0; i < checkboxes.length; i++) {
+                        checkboxes[i].addEventListener("change", function () {
+                            if (this.checked) {
+                                addCollapseGradient(collapses[i], color_object[query_color])
+                            } else {
+                                collapses[i].classList.remove(color_object[query_color].slice(-3) + "-300")
+                                collapses[i].classList.add("bg-base-100")
+                            }
+                        })
+                    }
                 }
+            }
+        }
+        //
+        const getDataByHeader = async (header) => {
+            try {
+                const { data, error } = await _supabase.from("src").select().eq("header", header)
+                let array = []
+                for (const d of data) {
+                    array.push([d.workplace, d.link])
+                }
+                return array
+            } catch (error) {
+                console.error(error)
+            }
+        }
+        //
+        const createDisplayList = (text) => {
+            const div = document.createElement("div")
+            div.className = "bg-base-100 collapse shadow-sm"
+            const input = document.createElement("input")
+            input.type = "checkbox"
+            input.className = "checkbox"
+            const title = document.createElement("div")
+            title.className = "collapse-title"
+            const content = document.createElement("div")
+            content.className = "text pl-6 text-center text-sky-900 text-lg"
+            content.innerText = text
+            title.appendChild(content)
+            div.appendChild(input)
+            div.appendChild(title)
+            return div
+        }
+        const addCollapseGradient = (collapse, gradient) => {
+            gradient = gradient.slice(-3)
+            setTimeout(() => {
+                collapse.classList.remove("bg-base-100")
+                collapse.classList.add(gradient + "-50")
+            }, 500);
+            setTimeout(() => {
+                collapse.classList.remove(gradient + "-50")
+                collapse.classList.add(gradient + "-100")
+            }, 500);
+            setTimeout(() => {
+                collapse.classList.remove(gradient + "-100")
+                collapse.classList.add(gradient + "-200")
+            }, 500);
+            setTimeout(() => {
+                collapse.classList.remove(gradient + "-200")
+                collapse.classList.add(gradient + "-300")
+            }, 500);
+        }
+        const addTextEvent = async () => {
+            const texts = document.getElementsByClassName("collapse_txt")
+            for (let i = 0; i < texts.length; i++) {
+                texts[i].addEventListener("click", (e) => {
+                    e.stopPropagation()
+                })
             }
         }
         //
