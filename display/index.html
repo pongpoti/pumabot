@@ -103,7 +103,7 @@
                             if (this.checked) {
                                 addCollapseGradient(collapse_titles[i], color_object[query_color])
                             } else {
-                                collapse_titles[i].classList.remove(color_object[query_color].slice(0, -3) + "-300")
+                                collapse_titles[i].classList.remove(color_object[query_color].slice(0, -3) + "500")
                                 collapse_titles[i].classList.add("bg-base-100")
                             }
                         })
@@ -136,7 +136,7 @@
         //
         const createDisplayList = (text) => {
             const div = document.createElement("div")
-            div.className = "bg-base-100 collapse shadow-sm"
+            div.className = "bg-base-100 collapse shadow-md"
             const input = document.createElement("input")
             input.type = "checkbox"
             input.className = "checkbox"
@@ -170,6 +170,14 @@
             setTimeout(() => {
                 collapse.classList.remove(gradient + "200")
                 collapse.classList.add(gradient + "300")
+            }, 500);
+            setTimeout(() => {
+                collapse.classList.remove(gradient + "300")
+                collapse.classList.add(gradient + "400")
+            }, 500);
+            setTimeout(() => {
+                collapse.classList.remove(gradient + "400")
+                collapse.classList.add(gradient + "500")
             }, 500);
         }
         //
