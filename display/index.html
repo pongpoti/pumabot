@@ -95,16 +95,16 @@
                     }
                     //
                     const checkboxes = document.getElementsByClassName("checkbox")
-                    const collapses = document.getElementsByClassName("collapse")
+                    const collapse_titles = document.getElementsByClassName("collapse-title")
                     const texts = document.getElementsByClassName("text")
                     //
                     for (let i = 0; i < checkboxes.length; i++) {
                         checkboxes[i].addEventListener("change", function () {
                             if (this.checked) {
-                                addCollapseGradient(collapses[i], color_object[query_color])
+                                addCollapseGradient(collapse_titles[i], color_object[query_color])
                             } else {
-                                collapses[i].classList.remove(color_object[query_color].slice(0, -3) + "-300")
-                                collapses[i].classList.add("bg-base-100")
+                                collapse_titles[i].classList.remove(color_object[query_color].slice(0, -3) + "-300")
+                                collapse_titles[i].classList.add("bg-base-100")
                             }
                         })
                     }
@@ -154,21 +154,22 @@
         //
         const addCollapseGradient = (collapse, gradient) => {
             gradient = gradient.slice(0, -3)
+            console.log("gradient: " + gradient)
             setTimeout(() => {
                 collapse.classList.remove("bg-base-100")
-                collapse.classList.add(gradient + "-50")
+                collapse.classList.add(gradient + "50")
             }, 500);
             setTimeout(() => {
-                collapse.classList.remove(gradient + "-50")
-                collapse.classList.add(gradient + "-100")
+                collapse.classList.remove(gradient + "50")
+                collapse.classList.add(gradient + "100")
             }, 500);
             setTimeout(() => {
-                collapse.classList.remove(gradient + "-100")
-                collapse.classList.add(gradient + "-200")
+                collapse.classList.remove(gradient + "100")
+                collapse.classList.add(gradient + "200")
             }, 500);
             setTimeout(() => {
-                collapse.classList.remove(gradient + "-200")
-                collapse.classList.add(gradient + "-300")
+                collapse.classList.remove(gradient + "200")
+                collapse.classList.add(gradient + "300")
             }, 500);
         }
         //
