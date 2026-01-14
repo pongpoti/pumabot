@@ -30,12 +30,6 @@
         </div>
     </div>
     <div id="content" class="grid grid-cols-1 gap-6 px-10 pt-6 z-0">
-        <div class="bg-base-100 collapse shadow-sm">
-            <input type="checkbox" class="peer" />
-            <div class="collapse-title bg-white peer-checked:bg-red-200">
-                <div class="pl-6 text-center text-sky-900 text-lg">adfadf</div>
-            </div>
-        </div>
     </div>
 
     <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
@@ -108,7 +102,7 @@
                             if (this.checked) {
                                 addCollapseGradient(collapses[i], color_object[query_color])
                             } else {
-                                collapses[i].classList.remove(color_object[query_color].slice(-3) + "-300")
+                                collapses[i].classList.remove(color_object[query_color].slice(0, -3) + "-300")
                                 collapses[i].classList.add("bg-base-100")
                             }
                         })
@@ -124,6 +118,15 @@
                 for (const d of data) {
                     array.push([d.workplace, d.link])
                 }
+                array.sort((a, b) => {
+                    if (a[0] < b[0]) {
+                        return -1
+                    }
+                    if (a[0] > b[0]) {
+                        return 1
+                    }
+                    return 0
+                });
                 return array
             } catch (error) {
                 console.error(error)
@@ -146,8 +149,9 @@
             div.appendChild(title)
             return div
         }
+        //
         const addCollapseGradient = (collapse, gradient) => {
-            gradient = gradient.slice(-3)
+            gradient = gradient.slice(0, -3)
             setTimeout(() => {
                 collapse.classList.remove("bg-base-100")
                 collapse.classList.add(gradient + "-50")
@@ -165,6 +169,7 @@
                 collapse.classList.add(gradient + "-300")
             }, 500);
         }
+        //
         const addTextEvent = async () => {
             const texts = document.getElementsByClassName("collapse_txt")
             for (let i = 0; i < texts.length; i++) {
