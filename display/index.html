@@ -79,10 +79,9 @@
         }
         //
         const main = async () => {
-            if (true) {
-                //await liff.init({ liffId: "2008812156-UdgwP1vW" })
-                if (true) {
-                    //
+            if (window.innerWidth < 481) {
+                await liff.init({ liffId: "2008812156-UdgwP1vW" })
+                if (liff.isInClient()) {
                     body.style.display = "block"
                     container.classList.add(color_object[query_color])
                     image.src = category_object[query_header.slice(0, 1)]
