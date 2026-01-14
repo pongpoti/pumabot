@@ -89,7 +89,13 @@
                     header.innerText = header_object[query_header][0]
                     subheader.innerText = header_object[query_header][1]
                     //
+                    const loading = document.createElement("div")
+                    loading.className = "loading loading-ring loading-lg"
+                    content.appendChild(loading)
+                    //
                     const array = await getDataByHeader(query_header)
+                    content.removeChild(loading)
+                    //
                     for (const a of array) {
                         content.appendChild(createDisplayList(a[0]))
                     }
@@ -101,34 +107,8 @@
                     for (let i = 0; i < checkboxes.length; i++) {
                         checkboxes[i].addEventListener("change", function () {
                             if (this.checked) {
-                                gradient = color_object[query_color].slice(0, -3)
-                                setInterval(() => {
-                                    collapses[i].classList.remove("bg-base-100")
-                                    collapses[i].classList.add(gradient + "50")
-                                }, 500);
-                                setInterval(() => {
-                                    collapses[i].classList.remove(gradient + "50")
-                                    collapses[i].classList.add(gradient + "100")
-                                }, 500);
-                                setInterval(() => {
-                                    collapses[i].classList.remove(gradient + "100")
-                                    collapses[i].classList.add(gradient + "200")
-                                }, 500);
-                                setInterval(() => {
-                                    collapses[i].classList.remove(gradient + "200")
-                                    collapses[i].classList.add(gradient + "300")
-                                }, 500);
-                                setInterval(() => {
-                                    collapses[i].classList.remove(gradient + "300")
-                                    collapses[i].classList.add(gradient + "400")
-                                }, 500);
-                                setInterval(() => {
-                                    collapses[i].classList.remove(gradient + "400")
-                                    collapses[i].classList.add(gradient + "500")
-                                }, 500);
                                 texts[i].classList.add("font-bold")
                             } else {
-                                collapses[i].classList.remove(color_object[query_color].slice(0, -3) + "500")
                                 collapses[i].classList.add("bg-base-100")
                                 texts[i].classList.remove("font-bold")
                             }
@@ -160,14 +140,14 @@
             }
         }
         //
-        const createDisplayList = (text) => {
+        const createDisplayList = (text, color) => {
             const div = document.createElement("div")
             div.className = "bg-base-100 collapse shadow-md"
             const input = document.createElement("input")
             input.type = "checkbox"
-            input.className = "checkbox"
+            input.className = "checkbox peer"
             const title = document.createElement("div")
-            title.className = "collapse-title"
+            title.className = "collapse-title peer-checked:bg-" + query_color + "-400"
             const content = document.createElement("div")
             content.className = "text pl-6 text-center text-sky-900 text-lg"
             content.innerText = text
@@ -177,45 +157,6 @@
             div.classList.add("animate__animated", "animate__pulse")
             return div
         }
-        //
-        const addCollapseGradient = (collapse, gradient) => {
-            gradient = gradient.slice(0, -3)
-            setInterval(() => {
-                collapse.classList.remove("bg-base-100")
-                collapse.classList.add(gradient + "50")
-            }, 500);
-            setInterval(() => {
-                collapse.classList.remove(gradient + "50")
-                collapse.classList.add(gradient + "100")
-            }, 500);
-            setInterval(() => {
-                collapse.classList.remove(gradient + "100")
-                collapse.classList.add(gradient + "200")
-            }, 500);
-            setInterval(() => {
-                collapse.classList.remove(gradient + "200")
-                collapse.classList.add(gradient + "300")
-            }, 500);
-            setInterval(() => {
-                collapse.classList.remove(gradient + "300")
-                collapse.classList.add(gradient + "400")
-            }, 500);
-            setInterval(() => {
-                collapse.classList.remove(gradient + "400")
-                collapse.classList.add(gradient + "500")
-            }, 500);
-        }
-        //
-        const addTextEvent = async () => {
-            const texts = document.getElementsByClassName("collapse_txt")
-            for (let i = 0; i < texts.length; i++) {
-                texts[i].addEventListener("click", (e) => {
-                    e.stopPropagation()
-                })
-            }
-        }
-        //
-        main()
     </script>
 
 </body>
