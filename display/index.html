@@ -156,28 +156,27 @@
         //
         const addCollapseGradient = (collapse, gradient) => {
             gradient = gradient.slice(0, -3)
-            console.log("gradient: " + gradient)
-            setTimeout(() => {
+            setInterval(() => {
                 collapse.classList.remove("bg-base-100")
                 collapse.classList.add(gradient + "50")
             }, 500);
-            setTimeout(() => {
+            setInterval(() => {
                 collapse.classList.remove(gradient + "50")
                 collapse.classList.add(gradient + "100")
             }, 500);
-            setTimeout(() => {
+            setInterval(() => {
                 collapse.classList.remove(gradient + "100")
                 collapse.classList.add(gradient + "200")
             }, 500);
-            setTimeout(() => {
+            setInterval(() => {
                 collapse.classList.remove(gradient + "200")
                 collapse.classList.add(gradient + "300")
             }, 500);
-            setTimeout(() => {
+            setInterval(() => {
                 collapse.classList.remove(gradient + "300")
                 collapse.classList.add(gradient + "400")
             }, 500);
-            setTimeout(() => {
+            setInterval(() => {
                 collapse.classList.remove(gradient + "400")
                 collapse.classList.add(gradient + "500")
             }, 500);
