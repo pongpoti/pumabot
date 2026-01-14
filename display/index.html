@@ -95,16 +95,18 @@
                     }
                     //
                     const checkboxes = document.getElementsByClassName("checkbox")
-                    const collapse_titles = document.getElementsByClassName("collapse-title")
+                    const collapses = document.getElementsByClassName("collapse")
                     const texts = document.getElementsByClassName("text")
                     //
                     for (let i = 0; i < checkboxes.length; i++) {
                         checkboxes[i].addEventListener("change", function () {
                             if (this.checked) {
-                                addCollapseGradient(collapse_titles[i], color_object[query_color])
+                                addCollapseGradient(collapses[i], color_object[query_color])
+                                texts[i].classList.add("font-bold")
                             } else {
-                                collapse_titles[i].classList.remove(color_object[query_color].slice(0, -3) + "500")
-                                collapse_titles[i].classList.add("bg-base-100")
+                                collapses[i].classList.remove(color_object[query_color].slice(0, -3) + "500")
+                                collapses[i].classList.add("bg-base-100")
+                                texts[i].classList.remove("font-bold")
                             }
                         })
                     }
