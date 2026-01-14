@@ -101,7 +101,31 @@
                     for (let i = 0; i < checkboxes.length; i++) {
                         checkboxes[i].addEventListener("change", function () {
                             if (this.checked) {
-                                addCollapseGradient(collapses[i], color_object[query_color])
+                                gradient = color_object[query_color].slice(0, -3)
+                                setInterval(() => {
+                                    collapses[i].classList.remove("bg-base-100")
+                                    collapses[i].classList.add(gradient + "50")
+                                }, 500);
+                                setInterval(() => {
+                                    collapses[i].classList.remove(gradient + "50")
+                                    collapses[i].classList.add(gradient + "100")
+                                }, 500);
+                                setInterval(() => {
+                                    collapses[i].classList.remove(gradient + "100")
+                                    collapses[i].classList.add(gradient + "200")
+                                }, 500);
+                                setInterval(() => {
+                                    collapses[i].classList.remove(gradient + "200")
+                                    collapses[i].classList.add(gradient + "300")
+                                }, 500);
+                                setInterval(() => {
+                                    collapses[i].classList.remove(gradient + "300")
+                                    collapses[i].classList.add(gradient + "400")
+                                }, 500);
+                                setInterval(() => {
+                                    collapses[i].classList.remove(gradient + "400")
+                                    collapses[i].classList.add(gradient + "500")
+                                }, 500);
                                 texts[i].classList.add("font-bold")
                             } else {
                                 collapses[i].classList.remove(color_object[query_color].slice(0, -3) + "500")
