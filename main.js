@@ -65,7 +65,7 @@ app.get("/insert/initiate", (req, res) => {
   //const x = req.query.liff.state.replace("?header=", "")
   //console.log(x)
   //const header = req.query.liff.state.replace("%3Fheader%3D", "")
-  form(req.query.header).then(id => res.redirect("https://liff.line.me/2008812156-MigabOZT?header=" + req.query.header + "&id=" + id))
+  //form(req.query.header).then(id => res.redirect("https://liff.line.me/2008812156-MigabOZT?header=" + req.query.header + "&id=" + id))
 })
 //
 app.post("/line", line.middleware(config), (req, res) => {
