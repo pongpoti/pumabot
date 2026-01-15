@@ -19,14 +19,11 @@
 
     <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
     <script>
-        const main = async () => { 
-            if (window.innerWidth < 481) {
-                await liff.init({ liffId: "2008812156-K37Qep7m" })
-                if (liff.isInClient()) {
-                    setTimeout(() => {
-                        liff.closeWindow()
-                    }, 3000)
-                }
+        const main = async () => {
+            if (liff.isInClient()) {
+                setTimeout(() => {
+                    liff.closeWindow()
+                }, 3000)
             }
         }
         main()

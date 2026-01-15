@@ -182,7 +182,7 @@ const createForm = async (form_name, form_color_hex) => {
           }
         },
         redirectOnCompletion: {
-          html: "https://liff.line.me/2008812156-K37Qep7m"
+          html: "https://pumabot.pongpoti.deno.net/submit"
         }
       },
       blocks: [
