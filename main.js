@@ -182,7 +182,7 @@ const createForm = async (form_name, form_color_hex) => {
           }
         },
         redirectOnCompletion: {
-          html: "<https://pumabot.pongpoti.deno.net/submit>"
+          html: "https://pumabot.pongpoti.deno.net/submit@"
         }
       },
       blocks: [
