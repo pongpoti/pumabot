@@ -33,11 +33,8 @@
     const iframe = document.getElementById("iframe")
     //
     const main = async () => {
-      if (window.innerWidth < 481) {
-        await liff.init({ liffId: "2008812156-MigabOZT" })
-        if (liff.isInClient()) {
-          iframe.dataset.tallySrc = "https://tally.so/r/" + id + "?header=" + header + "&id=" + id
-        }
+      if (liff.isInClient()) {
+        iframe.dataset.tallySrc = "https://tally.so/r/" + id + "?header=" + header + "&id=" + id
       }
     }
     //
