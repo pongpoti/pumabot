@@ -57,10 +57,11 @@ app.listen(port, () => {
 })
 //
 app.use("/display", express.static("display"))
-app.use("/form/insert/activate", express.static("form"))
+app.use("/insert/activate", express.static("insert"))
+app.use("/submit", express.static("submit"))
 //
-app.get("/form/insert/initiate", (req, res) => {
-  form(req.query.header).then(id => res.redirect("https://pumabot.pongpoti.deno.net/form/insert/activate?header=" + req.query.header + "&id=" + id))
+app.get("/insert/initiate", (req, res) => {
+  form(req.query.header).then(id => res.redirect("https://liff.line.me/2008812156-MigabOZT?header=" + req.query.header + "&id=" + id))
 })
 //
 app.post("/line", line.middleware(config), (req, res) => {
