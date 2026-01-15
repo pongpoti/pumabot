@@ -61,8 +61,8 @@ app.use("/insert/activate", express.static("insert"))
 app.use("/submit", express.static("submit"))
 //
 app.get("/insert/initiate", (req, res) => {
-  const header = req.query.liff.state.replace("%3Fheader%3D", "")
-  form(header).then(id => res.redirect("https://liff.line.me/2008812156-MigabOZT?header=" + header + "&id=" + id))
+  //const header = req.query.liff.state.replace("%3Fheader%3D", "")
+  form(req.query.header).then(id => res.redirect("https://liff.line.me/2008812156-MigabOZT?header=" + req.query.header + "&id=" + id))
 })
 //
 app.post("/line", line.middleware(config), (req, res) => {
