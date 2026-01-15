@@ -61,7 +61,8 @@ app.use("/insert/activate", express.static("insert"))
 app.use("/submit", express.static("submit"))
 //
 app.get("/insert/initiate", (req, res) => {
-  console.log(req.query.liff)
+  console.log(req.params)
+  console.log(req.query)
   //const x = req.query.liff.state.replace("?header=", "")
   //console.log(x)
   //const header = req.query.liff.state.replace("%3Fheader%3D", "")
