@@ -61,8 +61,9 @@ app.use("/insert/activate", express.static("insert"))
 app.use("/submit", express.static("submit"))
 //
 app.get("/insert/initiate", (req, res) => {
-  console.log(req.query)
-  console.log(req.query.lift.state)
+  console.log(req.query.liff.state)
+  const x = req.query.liff.state.replace("?header=", "")
+  console.log(x)
   //const header = req.query.liff.state.replace("%3Fheader%3D", "")
   form(req.query.header).then(id => res.redirect("https://liff.line.me/2008812156-MigabOZT?header=" + req.query.header + "&id=" + id))
 })
