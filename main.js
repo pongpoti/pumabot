@@ -179,6 +179,9 @@ const createForm = async (form_name, form_color_hex) => {
             text: "#024a70",
             buttonBackground: "#024a70"
           }
+        },
+        redirectOnCompletion: {
+          html: "https://liff.line.me/2008812156-K37Qep7m"
         }
       },
       blocks: [
