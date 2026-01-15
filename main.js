@@ -62,11 +62,7 @@ app.use("/submit", express.static("submit"))
 //
 app.get("/insert/initiate", (req, res) => {
   const header = Object.values(req.query)[0].replace("?header=", "")
-  console.log(header)
-  //const x = req.query.liff.state.replace("?header=", "")
-  //console.log(x)
-  //const header = req.query.liff.state.replace("%3Fheader%3D", "")
-  //form(req.query.header).then(id => res.redirect("https://liff.line.me/2008812156-MigabOZT?header=" + req.query.header + "&id=" + id))
+  form(header).then(id => res.redirect("https://liff.line.me/2008812156-MigabOZT?header=" + header + "&id=" + id))
 })
 //
 app.post("/line", line.middleware(config), (req, res) => {
