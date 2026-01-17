@@ -94,17 +94,13 @@
                     //
                     for (let i = 0; i < checkboxes.length; i++) {
                         checkboxes[i].addEventListener("change", function () {
-                            if (this.checked) {
-                                texts[i].classList.add("font-bold")
-                                setTimeout(() => {
-                                    console.log(array[i][1])
-                                    console.log(array[i][1].replace(/^https?:\/\//i, ""))
-                                    //window.location.assign(array[i][1].replace(/^https?:\/\//i, ""))
-                                }, 1000)
-                                texts[i].classList.remove("font-bold")
-                                this.checked = false
-                            }
-
+                            texts[i].classList.add("font-bold")
+                            console.log(array[i][1])
+                            setTimeout(() => {
+                                console.log(array[i][1])
+                                //console.log(array[i][1].replace(/^https?:\/\//i, ""))
+                                //window.location.assign(array[i][1].replace(/^https?:\/\//i, ""))
+                            }, 1000)
                         })
                     }
                 }
