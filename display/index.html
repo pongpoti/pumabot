@@ -68,43 +68,40 @@
         }
         //
         const main = async () => {
-            if (true) {
-                await liff.init({ liffId: "2008812156-UdgwP1vW" })
-                if (true) {
-                    body.style.display = "block"
-                    container.classList.add(header_object[query][2])
-                    image.src = category_object[query.slice(0, 1)]
-                    header.innerText = header_object[query][0]
-                    subheader.innerText = header_object[query][1]
-                    //
-                    const loading = document.createElement("div")
-                    loading.className = "loading loading-bars loading-xl"
-                    content.appendChild(loading)
-                    //
-                    const array = await getDataByHeader(query)
-                    content.removeChild(loading)
-                    //
-                    for (const a of array) {
-                        content.appendChild(createDisplayList(a[0]))
-                    }
-                    //
-                    const checkboxes = document.getElementsByClassName("checkbox")
-                    const collapses = document.getElementsByClassName("collapse")
-                    const texts = document.getElementsByClassName("text")
-                    //
-                    for (let i = 0; i < checkboxes.length; i++) {
-                        checkboxes[i].addEventListener("change", function () {
-                            if (this.checked) {
-                                texts[i].classList.add("font-bold")
-                                console.log(array[i][1])
-                                setTimeout(() => {
-                                    window.location.assign(array[i][1])
-                                    texts[i].classList.remove("font-bold")
-                                    this.checked = false
-                                }, 1000);
-                            }
-                        })
-                    }
+            if (window.innerWidth < 481 && liff.isInClient()) {
+                body.style.display = "block"
+                container.classList.add(header_object[query][2])
+                image.src = category_object[query.slice(0, 1)]
+                header.innerText = header_object[query][0]
+                subheader.innerText = header_object[query][1]
+                //
+                const loading = document.createElement("div")
+                loading.className = "loading loading-bars loading-xl"
+                content.appendChild(loading)
+                //
+                const array = await getDataByHeader(query)
+                content.removeChild(loading)
+                //
+                for (const a of array) {
+                    content.appendChild(createDisplayList(a[0]))
+                }
+                //
+                const checkboxes = document.getElementsByClassName("checkbox")
+                const collapses = document.getElementsByClassName("collapse")
+                const texts = document.getElementsByClassName("text")
+                //
+                for (let i = 0; i < checkboxes.length; i++) {
+                    checkboxes[i].addEventListener("change", function () {
+                        if (this.checked) {
+                            texts[i].classList.add("font-bold")
+                            console.log(array[i][1])
+                            setTimeout(() => {
+                                window.location.assign(array[i][1])
+                                texts[i].classList.remove("font-bold")
+                                this.checked = false
+                            }, 1000);
+                        }
+                    })
                 }
             }
         }
