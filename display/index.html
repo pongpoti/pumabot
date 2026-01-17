@@ -68,7 +68,8 @@
         }
         //
         const main = async () => {
-            if (window.innerWidth < 481 && liff.isInClient()) {
+            await liff.init({ liffId: "2008812156-UdgwP1vW" })
+            if (window.innerWidth < 481 && liff.isInClient() === true) {
                 body.style.display = "block"
                 container.classList.add(header_object[query][2])
                 image.src = category_object[query.slice(0, 1)]

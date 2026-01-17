@@ -26,7 +26,7 @@
     <script>
         const body = document.getElementById("body")
         const main = async () => {
-            if (window.innerWidth < 481 && liff.isInClient()) {
+            if (window.innerWidth < 481 && liff.isInClient() === true) {
                 body.style.display = "block"
                 setTimeout(() => {
                     liff.closeWindow()
