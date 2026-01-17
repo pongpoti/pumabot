@@ -97,8 +97,7 @@
                             if (this.checked) {
                                 texts[i].classList.add("font-bold")
                                 setTimeout(() => {
-                                    const urlObject = new URL(array[i][1])
-                                    window.location.assign(`${urlObject.host}${urlObject.pathname}`)
+                                    window.location.assign(array[i][1].replace(/^https?:\/\//i, ""))
                                 }, 1000)
                                 texts[i].classList.remove("font-bold")
                                 this.checked = false
