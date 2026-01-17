@@ -93,7 +93,8 @@
                     const texts = document.getElementsByClassName("text")
                     //
                     for (let i = 0; i < checkboxes.length; i++) {
-                       // checkboxes[i].addEventListener("change", function () {
+                       checkboxes[i].addEventListener("change", function () {
+                        /*
                             if (this.checked) {
                                 texts[i].classList.add("font-bold")
                                 setTimeout(() => {
@@ -104,6 +105,7 @@
                                 texts[i].classList.remove("font-bold")
                                 this.checked = false
                             }
+                        */
                         })
                     }
                 }
