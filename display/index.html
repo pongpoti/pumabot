@@ -97,8 +97,11 @@
                             if (this.checked) {
                                 texts[i].classList.add("font-bold")
                                 console.log(array[i][1])
-                                window.location.assign(array[i][1])
-                                texts[i].classList.remove("font-bold")
+                                setTimeout(() => {
+                                    window.location.assign(array[i][1])
+                                    texts[i].classList.remove("font-bold")
+                                    this.checked = false
+                                }, 1000);
                             }
                         })
                     }
