@@ -8,9 +8,14 @@
     <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    <style>
+        #body {
+            display: none;
+        }
+    </style>
 </head>
 
-<body>
+<body id="body">
     <div class="h-screen flex justify-center items-center bg-orange-50">
         <div class="animate__animated animate__pulse animate__infinite infinite">
             <img class="w-50 h-50" src="./cat_say_hi.png">
@@ -19,13 +24,16 @@
 
     <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
     <script>
+        const body = document.getElementById("body")
         const main = async () => {
-            if (liff.isInClient()) {
+            if (window.innerWidth < 481 && liff.isInClient()) {
+                body.style.display = "block"
                 setTimeout(() => {
                     liff.closeWindow()
                 }, 4000)
             }
         }
+        //
         main()
     </script>
 </body>

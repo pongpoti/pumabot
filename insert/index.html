@@ -19,10 +19,14 @@
       left: 0;
       border: 0;
     }
+
+    #body {
+      display: none;
+    }
   </style>
 </head>
 
-<body>
+<body id="body">
   <iframe id="iframe" width="100%" height="100%" frameborder="0" marginheight="0" marginwidth="0"></iframe>
 
   <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
@@ -30,15 +34,17 @@
     const query = new URLSearchParams(window.location.search)
     const header = query.get("header")
     const id = query.get("id")
+    const body = document.getElementById("body")
     const iframe = document.getElementById("iframe")
     //
+    main()
+    //
     const main = async () => {
-      if (liff.isInClient()) {
+      if (window.innerWidth < 481 && liff.isInClient()) {
+        body.style.display = "block"
         iframe.dataset.tallySrc = "https://tally.so/r/" + id + "?header=" + header + "&id=" + id
       }
     }
-    //
-    main()
   </script>
 </body>
 
