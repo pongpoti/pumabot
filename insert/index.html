@@ -37,14 +37,14 @@
     const body = document.getElementById("body")
     const iframe = document.getElementById("iframe")
     //
-    main()
-    //
     const main = async () => {
-      if (liff.isInClient()) {
+      if (window.innerWidth < 481 && liff.isInClient()) {
         body.style.display = "block"
         iframe.dataset.tallySrc = "https://tally.so/r/" + id + "?header=" + header + "&id=" + id
       }
     }
+    //
+    main()
   </script>
 </body>
 
