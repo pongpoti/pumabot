@@ -40,7 +40,7 @@
     main()
     //
     const main = async () => {
-      if (window.innerWidth < 481 && liff.isInClient()) {
+      if (liff.isInClient()) {
         body.style.display = "block"
         iframe.dataset.tallySrc = "https://tally.so/r/" + id + "?header=" + header + "&id=" + id
       }
