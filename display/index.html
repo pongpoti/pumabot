@@ -68,9 +68,9 @@
         }
         //
         const main = async () => {
-            if (window.innerWidth < 481) {
+            if (true) {
                 await liff.init({ liffId: "2008812156-UdgwP1vW" })
-                if (liff.isInClient()) {
+                if (true) {
                     body.style.display = "block"
                     container.classList.add(header_object[query][2])
                     image.src = category_object[query.slice(0, 1)]
@@ -93,10 +93,12 @@
                     const texts = document.getElementsByClassName("text")
                     //
                     for (let i = 0; i < checkboxes.length; i++) {
-                        checkboxes[i].addEventListener("change", function () {
+                       // checkboxes[i].addEventListener("change", function () {
                             if (this.checked) {
                                 texts[i].classList.add("font-bold")
                                 setTimeout(() => {
+                                    console.log(array[i][1])
+                                    console.log(array[i][1].replace(/^https?:\/\//i, ""))
                                     window.location.assign(array[i][1].replace(/^https?:\/\//i, ""))
                                 }, 1000)
                                 texts[i].classList.remove("font-bold")
