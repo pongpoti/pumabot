@@ -56,15 +56,15 @@
             M2: ["MATERIAL", "soft finishes", "bg-purple-200"],
             M3: ["MATERIAL", "hardware", "bg-purple-200"],
             M4: ["MATERIAL", "sanitary", "bg-purple-200"],
-            F1: ["FURNITURE", "indoor","bg-rose-200"],
-            F2: ["FURNITURE", "outdoor","bg-rose-200"],
-            F3: ["FURNITURE", "customized furniture","bg-rose-200"],
-            L1: ["LIGHTING", "general","bg-amber-200"],
-            L2: ["LIGHTING", "decorative lamp","bg-amber-200"],
-            A1: ["ACCESSORIES", "artwork","bg-green-200"],
-            A2: ["ACCESSORIES", "props","bg-green-200"],
-            A3: ["ACCESSORIES", "carpet","bg-green-200"],
-            A4: ["ACCESSORIES", "amenity","bg-green-200"]
+            F1: ["FURNITURE", "indoor", "bg-rose-200"],
+            F2: ["FURNITURE", "outdoor", "bg-rose-200"],
+            F3: ["FURNITURE", "customized furniture", "bg-rose-200"],
+            L1: ["LIGHTING", "general", "bg-amber-200"],
+            L2: ["LIGHTING", "decorative lamp", "bg-amber-200"],
+            A1: ["ACCESSORIES", "artwork", "bg-green-200"],
+            A2: ["ACCESSORIES", "props", "bg-green-200"],
+            A3: ["ACCESSORIES", "carpet", "bg-green-200"],
+            A4: ["ACCESSORIES", "amenity", "bg-green-200"]
         }
         //
         const main = async () => {
@@ -97,7 +97,8 @@
                             if (this.checked) {
                                 texts[i].classList.add("font-bold")
                                 setTimeout(() => {
-                                    window.location.assign("https://" + array[i][1])
+                                    const urlObject = new URL(array[i][1])
+                                    window.location.assign(`${urlObject.host}${urlObject.pathname}`)
                                 }, 1000)
                                 texts[i].classList.remove("font-bold")
                                 this.checked = false
@@ -135,7 +136,7 @@
             input.type = "checkbox"
             input.className = "checkbox peer"
             const title = document.createElement("div")
-            title.className = "collapse-title peer-checked:" + header_object[query][2].slice(0, -4) + "400"
+            title.className = "collapse-title peer-checked:" + header_object[query][2]
             const content = document.createElement("div")
             content.className = "text pl-6 text-center text-sky-900 text-lg tracking-widest"
             const firstLetter = "<b>" + text.charAt(0).toUpperCase() + "</b>"
