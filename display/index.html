@@ -21,29 +21,31 @@
 </head>
 
 <body id="body" class="min-h-screen border-r-10 border-l-10 border-sky-900 bg-base-300 relative">
-    <div id="container"
+    <div id="navbar"
         class="navbar flex justify-center w-full border-sky-900 border-b-10 border-t-10 sticky top-0 py-6 z-10">
         <img id="image" class="ml-4">
         <div class="divider divider-horizontal"></div>
         <div class="w-60 flex-none">
-            <div id="header" class="text-center text-xl text-sky-900 font-bold tracking-widest"></div>
-            <div id="subheader" class="text-center text-lg italic text-sky-900 font-semibold tracking-wider"></div>
+            <div id="title" class="text-center text-xl text-sky-900 font-bold tracking-widest"></div>
+            <div id="subtitle" class="text-center text-lg italic text-sky-900 font-semibold tracking-wider"></div>
         </div>
     </div>
-    <div id="content" class="grid grid-cols-1 justify-items-center gap-6 px-10 pt-6 z-0">
+    <div id="content" class="grid grid-cols-1 justify-items-center gap-6 px-10 pt-6 z-0"></div>
+    <div id="footer" class="navbar flex justify-center w-full h-16 bg-sky-900 sticky bottom-0">
+        <div>this is footer</div>
     </div>
 
     <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
-        const query = (new URLSearchParams(window.location.search)).get("header")
+        const header = (new URLSearchParams(window.location.search)).get("header")
         const { createClient } = supabase
         const _supabase = createClient("https://lbgaqfzogwnvssnmcdxo.supabase.co", "sb_publishable_eUvAfwidgh5iVLW5YU0zXQ_Aj_uTMAa")
         const body = document.getElementById("body")
-        const container = document.getElementById("container")
+        const navbar = document.getElementById("navbar")
         const image = document.getElementById("image")
-        const header = document.getElementById("header")
-        const subheader = document.getElementById("subheader")
+        const title = document.getElementById("title")
+        const subtitle = document.getElementById("subtitle")
         const content = document.getElementById("content")
         const category_object = {
             M: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' height='60px' viewBox='0 -960 960 960' width='60px' fill='%23024a70'%3E%3Cpath d='m200-120-80-480h720l-80 480H200Zm67-80h426l51-320H216l51 320Zm133-160h160q17 0 28.5-11.5T600-400q0-17-11.5-28.5T560-440H400q-17 0-28.5 11.5T360-400q0 17 11.5 28.5T400-360ZM240-640q-17 0-28.5-11.5T200-680q0-17 11.5-28.5T240-720h480q17 0 28.5 11.5T760-680q0 17-11.5 28.5T720-640H240Zm80-120q-17 0-28.5-11.5T280-800q0-17 11.5-28.5T320-840h320q17 0 28.5 11.5T680-800q0 17-11.5 28.5T640-760H320Zm-53 560h426-426Z'/%3E%3C/svg%3E",
@@ -69,12 +71,12 @@
         //
         const main = async () => {
             await liff.init({ liffId: "2008812156-UdgwP1vW" })
-            if (window.innerWidth < 481 && liff.isInClient() === true) {
+            if (window.innerWidth < 481 && liff.isInClient()) {
                 body.style.display = "block"
-                container.classList.add(header_object[query][2])
-                image.src = category_object[query.slice(0, 1)]
-                header.innerText = header_object[query][0]
-                subheader.innerText = header_object[query][1]
+                navbar.classList.add(header_object[header][2])
+                image.src = category_object[header.slice(0, 1)]
+                title.innerText = header_object[header][0]
+                subtitle.innerText = header_object[header][1]
                 //
                 const loading = document.createElement("div")
                 loading.className = "loading loading-bars loading-xl"
