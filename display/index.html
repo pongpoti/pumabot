@@ -31,14 +31,14 @@
         </div>
     </div>
     <div id="content" class="grid grid-cols-1 justify-items-center gap-6 px-10 pt-6 z-0"></div>
-    <div class="fixed bottom-0 left-0 right-0 h-20 bg-sky-900 z-10">
+    <div class="fixed bottom-0 left-0 right-0 bg-sky-900 py-2 z-10">
         <div class="grid grid-cols-1 justify-items-center">
             <div class="flex">
                 <div class="avatar">
                     <div class="w-10 rounded-full">
                         <img id="image_profile">
                     </div>
-                    <div id="text_profile" class="ml-4 text-white font-semibold italic"></div>
+                    <div id="text_profile" class="ml-4 text-white"></div>
                 </div>
             </div>
         </div>
@@ -84,7 +84,7 @@
             if (window.innerWidth < 481 && liff.isInClient()) {
                 const profile = await liff.getProfile()
                 image_profile.src = profile.pictureUrl
-                text_profile.innerText = profile.displayName
+                text_profile.innerHTML = "Welcome back! <b>" + profile.displayName + "</b>"
                 body.style.display = "block"
                 navbar.classList.add(header_object[header][2])
                 image_icon.src = category_object[header.slice(0, 1)]
