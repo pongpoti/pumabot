@@ -82,7 +82,7 @@
             if (window.innerWidth < 481 && liff.isInClient()) {
                 const profile = await liff.getProfile()
                 image_profile.src = profile.pictureUrl
-                text_profile.innerHTML = "Welcome back! <b>" + profile.displayName + "</b>"
+                text_profile.innerHTML = "Hi! <b>" + profile.displayName + "</b>"
                 body.style.display = "block"
                 navbar.classList.add(header_object[header][2])
                 image_icon.src = category_object[header.slice(0, 1)]
