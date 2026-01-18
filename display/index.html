@@ -35,10 +35,10 @@
         <div class="grid grid-cols-1 justify-items-center">
             <div class="flex">
                 <div class="avatar">
-                    <div class="w-16 rounded-full">
+                    <div class="w-10 rounded-full">
                         <img id="image_profile"
                     </div>
-                    <div id="text_profile" class="text-white font-semibold"></div>
+                    <div id="text_profile" class="font-semibold"></div>
                 </div>
             </div>
         </div>
@@ -149,7 +149,7 @@
             input.type = "checkbox"
             input.className = "checkbox peer"
             const title = document.createElement("div")
-            title.className = "collapse-title peer-checked:" + header_object[query][2]
+            title.className = "collapse-title peer-checked:" + header_object[header][2]
             const content = document.createElement("div")
             content.className = "text pl-6 text-center text-sky-900 text-lg tracking-widest"
             const firstLetter = "<b>" + text.charAt(0).toUpperCase() + "</b>"
