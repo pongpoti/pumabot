@@ -23,7 +23,7 @@
 <body id="body" class="min-h-screen border-r-10 border-l-10 border-sky-900 bg-base-300 relative">
     <div id="navbar"
         class="navbar flex justify-center w-full border-sky-900 border-b-10 border-t-10 sticky top-0 py-6 z-10">
-        <img id="image" class="ml-4">
+        <img id="image_icon" class="ml-4">
         <div class="divider divider-horizontal"></div>
         <div class="w-60 flex-none">
             <div id="title" class="text-center text-xl text-sky-900 font-bold tracking-widest"></div>
@@ -32,7 +32,16 @@
     </div>
     <div id="content" class="grid grid-cols-1 justify-items-center gap-6 px-10 pt-6 z-0"></div>
     <div class="fixed bottom-0 left-0 right-0 h-20 bg-sky-900 z-10">
-        <div>this is footer</div>
+        <div class="grid grid-cols-1 justify-items-center">
+            <div class="flex">
+                <div class="avatar">
+                    <div class="w-16 rounded-full">
+                        <img id="image_profile"
+                    </div>
+                    <div id="text_profile" class="text-white font-semibold"></div>
+                </div>
+            </div>
+        </div>
     </div>
     <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -42,10 +51,12 @@
         const _supabase = createClient("https://lbgaqfzogwnvssnmcdxo.supabase.co", "sb_publishable_eUvAfwidgh5iVLW5YU0zXQ_Aj_uTMAa")
         const body = document.getElementById("body")
         const navbar = document.getElementById("navbar")
-        const image = document.getElementById("image")
+        const image_icon = document.getElementById("image_icon")
         const title = document.getElementById("title")
         const subtitle = document.getElementById("subtitle")
         const content = document.getElementById("content")
+        const image_profile = document.getElementById("image_profile")
+        const text_profile = document.getElementById("text_profile")
         const category_object = {
             M: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' height='60px' viewBox='0 -960 960 960' width='60px' fill='%23024a70'%3E%3Cpath d='m200-120-80-480h720l-80 480H200Zm67-80h426l51-320H216l51 320Zm133-160h160q17 0 28.5-11.5T600-400q0-17-11.5-28.5T560-440H400q-17 0-28.5 11.5T360-400q0 17 11.5 28.5T400-360ZM240-640q-17 0-28.5-11.5T200-680q0-17 11.5-28.5T240-720h480q17 0 28.5 11.5T760-680q0 17-11.5 28.5T720-640H240Zm80-120q-17 0-28.5-11.5T280-800q0-17 11.5-28.5T320-840h320q17 0 28.5 11.5T680-800q0 17-11.5 28.5T640-760H320Zm-53 560h426-426Z'/%3E%3C/svg%3E",
             F: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' height='60px' viewBox='0 -960 960 960' width='60px' fill='%23024a70'%3E%3Cpath d='M200-120q-17 0-28.5-11.5T160-160v-40q-50 0-85-35t-35-85v-200q0-50 35-85t85-35v-80q0-50 35-85t85-35h400q50 0 85 35t35 85v80q50 0 85 35t35 85v200q0 50-35 85t-85 35v40q0 17-11.5 28.5T760-120q-17 0-28.5-11.5T720-160v-40H240v40q0 17-11.5 28.5T200-120Zm-40-160h640q17 0 28.5-11.5T840-320v-200q0-17-11.5-28.5T800-560q-17 0-28.5 11.5T760-520v160H200v-160q0-17-11.5-28.5T160-560q-17 0-28.5 11.5T120-520v200q0 17 11.5 28.5T160-280Zm120-160h400v-80q0-27 11-49t29-39v-112q0-17-11.5-28.5T680-760H280q-17 0-28.5 11.5T240-720v112q18 17 29 39t11 49v80Zm200 0Zm0 160Zm0-80Z'/%3E%3C/svg%3E",
@@ -71,9 +82,12 @@
         const main = async () => {
             await liff.init({ liffId: "2008812156-UdgwP1vW" })
             if (window.innerWidth < 481 && liff.isInClient()) {
+                const profile = await liff.getProfile()
+                image_profile.src = profile.pictureUrl
+                text_profile.innerText = profile.displayName
                 body.style.display = "block"
                 navbar.classList.add(header_object[header][2])
-                image.src = category_object[header.slice(0, 1)]
+                image_icon.src = category_object[header.slice(0, 1)]
                 title.innerText = header_object[header][0]
                 subtitle.innerText = header_object[header][1]
                 //
