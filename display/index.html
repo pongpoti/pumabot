@@ -31,7 +31,7 @@
         </div>
     </div>
     <div id="content" class="grid grid-cols-1 justify-items-center gap-6 px-10 pt-6 z-0"></div>
-    <div id="footer" class="navbar flex justify-center w-full h-16 bg-sky-900 sticky bottom-0">
+    <div id="footer" class="footer footer-center w-full h-16 bg-sky-900 sticky bottom-0">
         <div>this is footer</div>
     </div>
 
@@ -82,7 +82,7 @@
                 loading.className = "loading loading-bars loading-xl"
                 content.appendChild(loading)
                 //
-                const array = await getDataByHeader(query)
+                const array = await getDataByHeader(header)
                 content.removeChild(loading)
                 //
                 for (const a of array) {
