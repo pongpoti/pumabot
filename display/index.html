@@ -20,7 +20,7 @@
     </style>
 </head>
 
-<body id="body" class="h-screen border-r-10 border-l-10 border-sky-900 bg-base-300 relative">
+<body id="body" class="min-h-screen border-r-10 border-l-10 border-sky-900 bg-base-300 relative">
     <div id="navbar"
         class="navbar flex justify-center w-full border-sky-900 border-b-10 border-t-10 sticky top-0 py-6 z-10">
         <img id="image_icon" class="ml-4">
@@ -164,7 +164,7 @@
         main()
         //
         const scrolling = () => {
-            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+            if (document.body.scrollTop > 10 || document.documentElement.scrollTop > 10) {
                 footer.style.display = "none"
             } else {
                 footer.style.display = "block"
