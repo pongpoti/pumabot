@@ -31,7 +31,7 @@
         </div>
     </div>
     <div id="content" class="grid grid-cols-1 justify-items-center gap-6 px-10 pt-6 z-0"></div>
-    <div class="fixed bottom-0 left-0 right-0 h-16 bg-sky-900 z-10">
+    <div id="footer" class="fixed bottom-0 left-0 right-0 h-16 bg-sky-900 z-10">
         <div class="flex justify-center items-center mt-2">
             <div class="avatar">
                 <div class="w-10 h-10 rounded-full">
@@ -53,6 +53,7 @@
         const title = document.getElementById("title")
         const subtitle = document.getElementById("subtitle")
         const content = document.getElementById("content")
+        const footer = document.getElementById("footer")
         const image_profile = document.getElementById("image_profile")
         const text_profile = document.getElementById("text_profile")
         const category_object = {
@@ -161,6 +162,15 @@
         }
         //
         main()
+        //
+        const scrolling = () => {
+            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                footer.style.display = "none"
+            } else {
+                footer.style.display = "block"
+            }
+        }
+        window.addEventListener("scroll", scrolling)
     </script>
 
 </body>
