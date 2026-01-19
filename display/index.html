@@ -100,6 +100,9 @@
                 for (const a of array) {
                     content.appendChild(createDisplayList(a[0]))
                 }
+                const footspacer = document.createElement("div")
+                footspacer.className = "h-20"
+                content.appendChild(footspacer)
                 //
                 const checkboxes = document.getElementsByClassName("checkbox")
                 const collapses = document.getElementsByClassName("collapse")
@@ -170,7 +173,7 @@
                 footer.style.display = "block"
             }
         }
-        window.addEventListener("scroll", scrolling)
+        //window.addEventListener("scroll", scrolling)
     </script>
 
 </body>
