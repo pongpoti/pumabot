@@ -135,6 +135,9 @@ app.post("/callback", (req, res) => {
 })
 //
 const handleEvent = async (event) => {
+  if (event.type !== 'message' || event.message.type !== 'text') {
+    return Promise.resolve(null)
+  }
   try {
     await axios.post("https://api.line.me/v2/bot/chat/loading/start",
       { "chatId": event.source.userId },
@@ -143,9 +146,7 @@ const handleEvent = async (event) => {
   } catch (error) {
     console.error(error)
   }
-  if (event.type !== 'message' || event.message.type !== 'text') {
-    return Promise.resolve(null)
-  }
+  //
   const message = event.message.text.trim().toLowerCase()
   try {
     await axios.post("https://api.telegram.org/bot8304418735:AAEzik9XwKKWOt5c2Ya0p72WKloJjj-_zaM/sendMessage", {
