@@ -37,7 +37,10 @@
     const body = document.getElementById("body")
     const iframe = document.getElementById("iframe")
     //
+    console.log("outside main()")
     const main = async () => {
+      console.log("before liff.init()")
+      console.log("header:", header, " & id:", id)
       await liff.init({ liffId: "2008812156-cgGRzGOW" })
       if (true) {
         body.style.display = "block"
