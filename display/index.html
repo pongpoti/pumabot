@@ -112,7 +112,6 @@
                     checkboxes[i].addEventListener("change", function () {
                         if (this.checked) {
                             texts[i].classList.add("font-bold")
-                            console.log(array[i][1])
                             setTimeout(() => {
                                 window.location.assign(array[i][1])
                                 texts[i].classList.remove("font-bold")
@@ -165,15 +164,6 @@
         }
         //
         main()
-        //
-        const scrolling = () => {
-            if (document.body.scrollTop > 10 || document.documentElement.scrollTop > 10) {
-                footer.style.display = "none"
-            } else {
-                footer.style.display = "block"
-            }
-        }
-        //window.addEventListener("scroll", scrolling)
     </script>
 
 </body>

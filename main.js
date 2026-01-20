@@ -84,6 +84,9 @@ app.post("/callback", (req, res) => {
       const parsedData = JSON.parse(body)
       const workplace = parsedData.data.fields[0].value.trim()
       const link = parsedData.data.fields[1].value.trim().toLowerCase()
+      if (!(/^https?:\/\//).test(link)) {
+        link = "https://" + link
+      }
       const header = parsedData.data.fields[2].value
       const id = parsedData.data.fields[3].value
       await notifyBot(header, workplace, link, id)
