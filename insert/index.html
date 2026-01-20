@@ -38,12 +38,10 @@
     const iframe = document.getElementById("iframe")
     //
     const main = async () => {
-      //await liff.init({ liffId: "2008812156-cgGRzGOW" })
-      if (window.innerWidth > 481) {
-        //console.log(liff.isInClient())
+      await liff.init({ liffId: "2008812156-cgGRzGOW" })
+      if (window.innerWidth < 481 && liff.isInClient()) {
         body.style.display = "block"
         iframe.dataset.tallySrc = "https://tally.so/r/" + id + "?header=" + header + "&id=" + id
-        console.log("LIFF status:", liff.isInClient())
       }
     }
     //
