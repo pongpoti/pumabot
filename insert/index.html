@@ -38,9 +38,10 @@
     const iframe = document.getElementById("iframe")
     //
     const main = async () => {
-      if (window.innerWidth > 481 && liff.isInClient()) {
+      if (window.innerWidth > 481) {
         body.style.display = "block"
         iframe.src = "https://tally.so/r/" + id + "?header=" + header + "&id=" + id
+        console.log("liff status : " + liff.isInClient())
       }
     }
     //
