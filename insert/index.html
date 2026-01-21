@@ -32,16 +32,36 @@
   <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <script>
-    const body = document.getElementById("body")
-    const iframe = document.getElementById("iframe")
-    //
     axios.defaults.headers.post["Content-Type"] = "application/json"
     axios.defaults.headers.post["Authorization"] = "Bearer tly-ASqvEMi4UuCizMUvSXDMTaH8L2Fqe7Ax"
+    const body = document.getElementById("body")
+    const iframe = document.getElementById("iframe")
+    const header_object = {
+      M1: ["MATERIAL", "hard finishes"],
+      M2: ["MATERIAL", "soft finishes"],
+      M3: ["MATERIAL", "hardware"],
+      M4: ["MATERIAL", "sanitary"],
+      F1: ["FURNITURE", "indoor"],
+      F2: ["FURNITURE", "outdoor"],
+      F3: ["FURNITURE", "customized furniture"],
+      L1: ["LIGHTING", "general"],
+      L2: ["LIGHTING", "decorative lamp"],
+      A1: ["ACCESSORIES", "artwork"],
+      A2: ["ACCESSORIES", "props"],
+      A3: ["ACCESSORIES", "carpet"],
+      A4: ["ACCESSORIES", "amenity"]
+    }
+    const color_object = {
+      M: "#e9d4ff",
+      F: "#ffccd3",
+      L: "#fee685",
+      A: "#b9f8cf"
+    }
     //
     const main = async () => {
       await liff.init({ liffId: "2008812156-dBTVy4pC" })
       if (true) {
-        const header= (new URLSearchParams(window.location.search)).get("header")
+        const header = (new URLSearchParams(window.location.search)).get("header")
         const id = await form(header)
         body.style.display = "block"
         iframe.src = "https://tally.so/r/" + id + "?header=" + header + "&id=" + id
@@ -49,7 +69,7 @@
     }
     const form = async (header) => {
       const form_name = header_object[header][0] + " - " + header_object[header][1]
-      const form_color_hex = color_object[header.charAt(0)][0]
+      const form_color_hex = color_object[header.charAt(0)]
       const id = await createForm(form_name, form_color_hex)
       await addWebhook(id, header)
       return id
