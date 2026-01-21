@@ -60,7 +60,7 @@
     //
     const main = async () => {
       await liff.init({ liffId: "2008812156-dBTVy4pC" })
-      if (true) {
+      if (window.innerWidth < 481 && liff.isInClient()) {
         const header = (new URLSearchParams(window.location.search)).get("header")
         const id = await form(header)
         body.style.display = "block"
