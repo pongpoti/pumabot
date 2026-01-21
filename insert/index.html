@@ -99,9 +99,9 @@
           },
           blocks: [
             {
-              uuid: uuid(),
+              uuid: crypto.randomUUID(),
               type: "FORM_TITLE",
-              groupUuid: uuid(),
+              groupUuid: crypto.randomUUID(),
               groupType: "FORM_TITLE",
               payload: {
                 html: form_name,
@@ -109,18 +109,18 @@
               }
             },
             {
-              uuid: uuid(),
+              uuid: crypto.randomUUID(),
               type: "TITLE",
-              groupUuid: uuid(),
+              groupUuid: crypto.randomUUID(),
               groupType: "QUESTION",
               payload: {
                 html: "workplace :"
               }
             },
             {
-              uuid: uuid(),
+              uuid: crypto.randomUUID(),
               type: "INPUT_TEXT",
-              groupUuid: uuid(),
+              groupUuid: crypto.randomUUID(),
               groupType: "INPUT_TEXT",
               payload: {
                 isRequired: true,
@@ -128,18 +128,18 @@
               }
             },
             {
-              uuid: uuid(),
+              uuid: crypto.randomUUID(),
               type: "TITLE",
-              groupUuid: uuid(),
+              groupUuid: crypto.randomUUID(),
               groupType: "QUESTION",
               payload: {
                 html: "link :"
               }
             },
             {
-              uuid: uuid(),
+              uuid: crypto.randomUUID(),
               type: "INPUT_LINK",
-              groupUuid: uuid(),
+              groupUuid: crypto.randomUUID(),
               groupType: "INPUT_LINK",
               payload: {
                 isRequired: true,
@@ -147,28 +147,28 @@
               }
             },
             {
-              uuid: uuid(),
+              uuid: crypto.randomUUID(),
               type: "HIDDEN_FIELDS",
-              groupUuid: uuid(),
+              groupUuid: crypto.randomUUID(),
               groupType: "HIDDEN_FIELDS",
               payload: {
                 hiddenFields: [
                   {
-                    "uuid": uuid(),
+                    "uuid": crypto.randomUUID(),
                     "name": "header"
                   }
                 ]
               }
             },
             {
-              uuid: uuid(),
+              uuid: crypto.randomUUID(),
               type: "HIDDEN_FIELDS",
-              groupUuid: uuid(),
+              groupUuid: crypto.randomUUID(),
               groupType: "HIDDEN_FIELDS",
               payload: {
                 hiddenFields: [
                   {
-                    "uuid": uuid(),
+                    "uuid": crypto.randomUUID(),
                     "name": "id"
                   }
                 ]
