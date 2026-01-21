@@ -61,8 +61,8 @@ app.use("/insert/activate", express.static("insert"))
 app.use("/submit", express.static("submit"))
 //
 app.get("/insert/initiate", (req, res) => {
-  //const header = Object.values(req.query)[0].replace("?header=", "")
-  form(req.query.header).then(id => res.redirect("https://liff.line.me/2008812156-cgGRzGOW?header=" + req.query.header + "&id=" + id))
+  const header = Object.values(req.query)[0].replace("?header=", "")
+  form(header).then(id => res.redirect("https://pumabot.pongpoti.deno.net/insert/activate?header=" + header + "&id=" + id))
 })
 //
 app.post("/line", line.middleware(config), (req, res) => {
@@ -84,7 +84,8 @@ app.post("/callback", (req, res) => {
       const parsedData = JSON.parse(body)
       const workplace = parsedData.data.fields[0].value.trim()
       const link = parsedData.data.fields[1].value.trim().toLowerCase()
-      if (!(/^https?:\/\//).test(link)) {
+      const regex = /^https?:\/\//
+      if (!regex.test(link)) {
         link = "https://" + link
       }
       const header = parsedData.data.fields[2].value
