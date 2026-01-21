@@ -22,6 +22,21 @@ const client = new line.messagingApi.MessagingApiClient({
 const supabase = createClient("https://lbgaqfzogwnvssnmcdxo.supabase.co", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxiZ2FxZnpvZ3dudnNzbm1jZHhvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njc0NTU1NjcsImV4cCI6MjA4MzAzMTU2N30.MD5gKKP7jhAVyW7bd4tscxTPZllvWM1OGIe9l8hFxuU")
 axios.defaults.headers.delete["Content-Type"] = "application/json"
 axios.defaults.headers.delete["Authorization"] = "Bearer tly-ASqvEMi4UuCizMUvSXDMTaH8L2Fqe7Ax"
+const header_object = {
+  M1: ["MATERIAL", "hard finishes"],
+  M2: ["MATERIAL", "soft finishes"],
+  M3: ["MATERIAL", "hardware"],
+  M4: ["MATERIAL", "sanitary"],
+  F1: ["FURNITURE", "indoor"],
+  F2: ["FURNITURE", "outdoor"],
+  F3: ["FURNITURE", "customized furniture"],
+  L1: ["LIGHTING", "general"],
+  L2: ["LIGHTING", "decorative lamp"],
+  A1: ["ACCESSORIES", "artwork"],
+  A2: ["ACCESSORIES", "props"],
+  A3: ["ACCESSORIES", "carpet"],
+  A4: ["ACCESSORIES", "amenity"]
+}
 //
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`)
@@ -53,8 +68,8 @@ app.post("/callback", (req, res) => {
       console.log(parsedData)
       const workplace = parsedData.data.fields[0].value.trim()
       let link = parsedData.data.fields[1].value.trim().toLowerCase()
-      const regex = /^https?:\/\//
-      if (!regex.test(link)) {
+      //const regex = /^https?:\/\//
+      if (!(/^https?:\/\//).test(link)) {
         link = "https://" + link
       }
       const header = parsedData.data.fields[2].value

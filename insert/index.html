@@ -38,25 +38,19 @@
     const body = document.getElementById("body")
     const iframe = document.getElementById("iframe")
     const header_object = {
-      M1: ["MATERIAL", "hard finishes"],
-      M2: ["MATERIAL", "soft finishes"],
-      M3: ["MATERIAL", "hardware"],
-      M4: ["MATERIAL", "sanitary"],
-      F1: ["FURNITURE", "indoor"],
-      F2: ["FURNITURE", "outdoor"],
-      F3: ["FURNITURE", "customized furniture"],
-      L1: ["LIGHTING", "general"],
-      L2: ["LIGHTING", "decorative lamp"],
-      A1: ["ACCESSORIES", "artwork"],
-      A2: ["ACCESSORIES", "props"],
-      A3: ["ACCESSORIES", "carpet"],
-      A4: ["ACCESSORIES", "amenity"]
-    }
-    const color_object = {
-      M: "#e9d4ff",
-      F: "#ffccd3",
-      L: "#fee685",
-      A: "#b9f8cf"
+      M1: ["MATERIAL", "hard finishes", "#e9d4ff"],
+      M2: ["MATERIAL", "soft finishes", "#e9d4ff"],
+      M3: ["MATERIAL", "hardware", "#e9d4ff"],
+      M4: ["MATERIAL", "sanitary", "#e9d4ff"],
+      F1: ["FURNITURE", "indoor", "#ffccd3"],
+      F2: ["FURNITURE", "outdoor", "#ffccd3"],
+      F3: ["FURNITURE", "customized furniture", "#ffccd3"],
+      L1: ["LIGHTING", "general", "#fee685"],
+      L2: ["LIGHTING", "decorative lamp", "#fee685"],
+      A1: ["ACCESSORIES", "artwork", "#b9f8cf"],
+      A2: ["ACCESSORIES", "props", "#b9f8cf"],
+      A3: ["ACCESSORIES", "carpet", "#b9f8cf"],
+      A4: ["ACCESSORIES", "amenity", "#b9f8cf"]
     }
     //
     const main = async () => {
@@ -69,7 +63,7 @@
     }
     const form = async (header) => {
       const form_name = header_object[header][0] + " - " + header_object[header][1]
-      const form_color_hex = color_object[header.charAt(0)]
+      const form_color_hex = header_object[header][2]
       const id = await createForm(form_name, form_color_hex)
       await addWebhook(id, header)
       return id
