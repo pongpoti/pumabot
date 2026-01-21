@@ -43,11 +43,14 @@ app.post("/line", line.middleware(config), (req, res) => {
 app.post("/callback", (req, res) => {
   let body = ""
   req.on("data", chunk => {
+    console.log("REQ DATA")
     body += chunk.toString()
   })
   req.on("end", async () => {
+    console.log("REQ END")
     try {
       const parsedData = JSON.parse(body)
+      console.log(parsedData)
       const workplace = parsedData.data.fields[0].value.trim()
       const link = parsedData.data.fields[1].value.trim().toLowerCase()
       const regex = /^https?:\/\//
@@ -57,7 +60,6 @@ app.post("/callback", (req, res) => {
       const header = parsedData.data.fields[2].value
       const id = parsedData.data.fields[3].value
       await notifyBot(header, workplace, link, id)
-      //check repeated submission
       const { data, error } = await supabase
         .from("src")
         .select()
@@ -68,7 +70,6 @@ app.post("/callback", (req, res) => {
       } else {
         const filteredData = data
         if (filteredData.length === 0) {
-          //insert
           const { error } = await supabase
             .from("src")
             .insert({ header: header, workplace: workplace, link: link })
@@ -80,7 +81,6 @@ app.post("/callback", (req, res) => {
             res.sendStatus(200)
           }
         } else {
-          //update
           const { error } = await supabase
             .from("src")
             .update({ header: header, workplace: workplace, link: link })
