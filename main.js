@@ -57,7 +57,7 @@ app.listen(port, () => {
 })
 //
 app.use("/display", express.static("display"))
-app.use("/insert/activate", express.static("insert"))
+app.use("/insert", express.static("insert"))
 app.use("/submit", express.static("submit"))
 //
 app.get("/insert/initiate", (req, res) => {

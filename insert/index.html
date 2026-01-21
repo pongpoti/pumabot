@@ -30,17 +30,148 @@
   <iframe id="iframe" width="100%" height="100%" frameborder="0" marginheight="0" marginwidth="0"></iframe>
 
   <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <script>
     const query = new URLSearchParams(window.location.search)
     const header = query.get("header")
-    const id = query.get("id")
     const body = document.getElementById("body")
     const iframe = document.getElementById("iframe")
     //
+    axios.defaults.headers.post["Content-Type"] = "application/json"
+    axios.defaults.headers.post["Authorization"] = "Bearer tly-ASqvEMi4UuCizMUvSXDMTaH8L2Fqe7Ax"
+    //
     const main = async () => {
       await liff.init({ liffId: "2008812156-cgGRzGOW" })
-      body.style.display = "block"
-      iframe.src = "https://tally.so/r/" + id + "?header=" + header + "&id=" + id
+      if (true) {
+        const id = await form(header)
+        body.style.display = "block"
+        iframe.src = "https://tally.so/r/" + id + "?header=" + header + "&id=" + id
+      }
+    }
+    const form = async (header) => {
+      const form_name = header_object[header][0] + " - " + header_object[header][1]
+      const form_color_hex = color_object[header.charAt(0)][0]
+      const id = await createForm(form_name, form_color_hex)
+      await addWebhook(id, header)
+      return id
+    }
+    const createForm = async (form_name, form_color_hex) => {
+      try {
+        const { data } = await axios.post("https://api.tally.so/forms", {
+          name: form_name,
+          status: "PUBLISHED",
+          settings: {
+            styles: {
+              theme: "LIGHT",
+              color: {
+                background: form_color_hex,
+                text: "#024a70",
+                buttonBackground: "#024a70"
+              }
+            },
+            redirectOnCompletion: {
+              safeHTMLSchema: [
+                [
+                  "https://pumabot.pongpoti.deno.net/submit"
+                ]
+              ],
+              mentions: []
+            }
+          },
+          blocks: [
+            {
+              uuid: uuid(),
+              type: "FORM_TITLE",
+              groupUuid: uuid(),
+              groupType: "FORM_TITLE",
+              payload: {
+                html: form_name,
+                title: form_name
+              }
+            },
+            {
+              uuid: uuid(),
+              type: "TITLE",
+              groupUuid: uuid(),
+              groupType: "QUESTION",
+              payload: {
+                html: "workplace :"
+              }
+            },
+            {
+              uuid: uuid(),
+              type: "INPUT_TEXT",
+              groupUuid: uuid(),
+              groupType: "INPUT_TEXT",
+              payload: {
+                isRequired: true,
+                placeholder: ""
+              }
+            },
+            {
+              uuid: uuid(),
+              type: "TITLE",
+              groupUuid: uuid(),
+              groupType: "QUESTION",
+              payload: {
+                html: "link :"
+              }
+            },
+            {
+              uuid: uuid(),
+              type: "INPUT_LINK",
+              groupUuid: uuid(),
+              groupType: "INPUT_LINK",
+              payload: {
+                isRequired: true,
+                placeholder: ""
+              }
+            },
+            {
+              uuid: uuid(),
+              type: "HIDDEN_FIELDS",
+              groupUuid: uuid(),
+              groupType: "HIDDEN_FIELDS",
+              payload: {
+                hiddenFields: [
+                  {
+                    "uuid": uuid(),
+                    "name": "header"
+                  }
+                ]
+              }
+            },
+            {
+              uuid: uuid(),
+              type: "HIDDEN_FIELDS",
+              groupUuid: uuid(),
+              groupType: "HIDDEN_FIELDS",
+              payload: {
+                hiddenFields: [
+                  {
+                    "uuid": uuid(),
+                    "name": "id"
+                  }
+                ]
+              }
+            }
+          ]
+        })
+        return data.id
+      } catch (error) {
+        console.error(error)
+      }
+    }
+    const addWebhook = async (id, header) => {
+      try {
+        await axios.post("https://api.tally.so/webhooks", {
+          formId: id,
+          url: "https://pumabot.pongpoti.deno.net/callback",
+          eventTypes: ["FORM_RESPONSE"]
+        })
+      } catch (error) {
+        console.error(error)
+      }
     }
     //
     main()
