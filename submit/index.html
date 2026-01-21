@@ -26,12 +26,10 @@
     <script>
         const body = document.getElementById("body")
         const main = async () => {
-            if (window.innerWidth < 481 && liff.isInClient()) {
-                body.style.display = "block"
-                setTimeout(() => {
-                    liff.closeWindow()
-                }, 4000)
-            }
+            body.style.display = "block"
+            setTimeout(() => {
+                liff.closeWindow()
+            }, 4000)
         }
         //
         main()
