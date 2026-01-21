@@ -65,10 +65,8 @@ app.post("/callback", (req, res) => {
     console.log("REQ END")
     try {
       const parsedData = JSON.parse(body)
-      console.log(parsedData)
       const workplace = parsedData.data.fields[0].value.trim()
       let link = parsedData.data.fields[1].value.trim().toLowerCase()
-      //const regex = /^https?:\/\//
       if (!(/^https?:\/\//).test(link)) {
         link = "https://" + link
       }
