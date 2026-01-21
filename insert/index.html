@@ -32,8 +32,6 @@
   <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <script>
-    const query = new URLSearchParams(window.location.search)
-    const header = query.get("header")
     const body = document.getElementById("body")
     const iframe = document.getElementById("iframe")
     //
@@ -43,6 +41,7 @@
     const main = async () => {
       await liff.init({ liffId: "2008812156-dBTVy4pC" })
       if (true) {
+        const header= (new URLSearchParams(window.location.search)).get("header")
         const id = await form(header)
         body.style.display = "block"
         iframe.src = "https://tally.so/r/" + id + "?header=" + header + "&id=" + id
