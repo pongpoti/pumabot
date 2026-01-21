@@ -1,9 +1,7 @@
 import express from "express"
 import process from "node:process"
-import path, { parse } from "node:path"
 import axios from "axios"
 import * as line from "@line/bot-sdk"
-import { v4 as uuid } from "uuid"
 import { createClient } from '@supabase/supabase-js'
 
 /*
@@ -13,7 +11,6 @@ U9cde6d2edaf30e56479c95ee8618c9cd
 
 const app = express()
 const port = process.env.PORT || 3030
-//
 const headers = {
   "Content-Type": "application/json",
   "Authorization": "Bearer uWCHXalmoUA95FiGl298LqCvCiMrRyebRez/hbfEUiV1Xilk4ZdULAImv2vAdJRmc+v9GNyL2HXQ0gNCFBNAD3aNZpWyhAxK16sIGB/BrQ7oaSLdHjClBUFk8CgXLClQlyeRngref8TbpfBZN0JuEgdB04t89/1O/w1cDnyilFU=",
@@ -22,33 +19,7 @@ const config = { channelSecret: "c5cefb180914e47e06498b342b77582c" }
 const client = new line.messagingApi.MessagingApiClient({
   channelAccessToken: "uWCHXalmoUA95FiGl298LqCvCiMrRyebRez/hbfEUiV1Xilk4ZdULAImv2vAdJRmc+v9GNyL2HXQ0gNCFBNAD3aNZpWyhAxK16sIGB/BrQ7oaSLdHjClBUFk8CgXLClQlyeRngref8TbpfBZN0JuEgdB04t89/1O/w1cDnyilFU=",
 })
-//
 const supabase = createClient("https://lbgaqfzogwnvssnmcdxo.supabase.co", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxiZ2FxZnpvZ3dudnNzbm1jZHhvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njc0NTU1NjcsImV4cCI6MjA4MzAzMTU2N30.MD5gKKP7jhAVyW7bd4tscxTPZllvWM1OGIe9l8hFxuU")
-//
-const header_object = {
-  M1: ["MATERIAL", "hard finishes"],
-  M2: ["MATERIAL", "soft finishes"],
-  M3: ["MATERIAL", "hardware"],
-  M4: ["MATERIAL", "sanitary"],
-  F1: ["FURNITURE", "indoor"],
-  F2: ["FURNITURE", "outdoor"],
-  F3: ["FURNITURE", "customized furniture"],
-  L1: ["LIGHTING", "general"],
-  L2: ["LIGHTING", "decorative lamp"],
-  A1: ["ACCESSORIES", "artwork"],
-  A2: ["ACCESSORIES", "props"],
-  A3: ["ACCESSORIES", "carpet"],
-  A4: ["ACCESSORIES", "amenity"]
-}
-const color_object = {
-  M: ["#e9d4ff", "purple-200"],
-  F: ["#ffccd3", "rose-200"],
-  L: ["#fee685", "amber-200"],
-  A: ["#b9f8cf", "green-200"]
-}
-//
-axios.defaults.headers.post["Content-Type"] = "application/json"
-axios.defaults.headers.post["Authorization"] = "Bearer tly-ASqvEMi4UuCizMUvSXDMTaH8L2Fqe7Ax"
 axios.defaults.headers.delete["Content-Type"] = "application/json"
 axios.defaults.headers.delete["Authorization"] = "Bearer tly-ASqvEMi4UuCizMUvSXDMTaH8L2Fqe7Ax"
 //
@@ -59,11 +30,6 @@ app.listen(port, () => {
 app.use("/display", express.static("display"))
 app.use("/insert", express.static("insert"))
 app.use("/submit", express.static("submit"))
-//
-app.get("/insert/initiate", (req, res) => {
-  const header = Object.values(req.query)[0].replace("?header=", "")
-  form(header).then(id => res.redirect("https://liff.line.me/2008812156-cgGRzGOW?header=" + header + "&id=" + id))
-})
 //
 app.post("/line", line.middleware(config), (req, res) => {
   Promise
@@ -162,134 +128,6 @@ const handleEvent = async (event) => {
     replyToken: event.replyToken,
     messages: [echo],
   })
-}
-//
-const form = async (header) => {
-  const form_name = header_object[header][0] + " - " + header_object[header][1]
-  const form_color_hex = color_object[header.charAt(0)][0]
-  const id = await createForm(form_name, form_color_hex)
-  await addWebhook(id, header)
-  return id
-}
-//
-const createForm = async (form_name, form_color_hex) => {
-  try {
-    const { data } = await axios.post("https://api.tally.so/forms", {
-      name: form_name,
-      status: "PUBLISHED",
-      settings: {
-        styles: {
-          theme: "LIGHT",
-          color: {
-            background: form_color_hex,
-            text: "#024a70",
-            buttonBackground: "#024a70"
-          }
-        },
-        redirectOnCompletion: {
-          safeHTMLSchema: [
-            [
-              "https://pumabot.pongpoti.deno.net/submit"
-            ]
-          ],
-          mentions: []
-        }
-      },
-      blocks: [
-        {
-          uuid: uuid(),
-          type: "FORM_TITLE",
-          groupUuid: uuid(),
-          groupType: "FORM_TITLE",
-          payload: {
-            html: form_name,
-            title: form_name
-          }
-        },
-        {
-          uuid: uuid(),
-          type: "TITLE",
-          groupUuid: uuid(),
-          groupType: "QUESTION",
-          payload: {
-            html: "workplace :"
-          }
-        },
-        {
-          uuid: uuid(),
-          type: "INPUT_TEXT",
-          groupUuid: uuid(),
-          groupType: "INPUT_TEXT",
-          payload: {
-            isRequired: true,
-            placeholder: ""
-          }
-        },
-        {
-          uuid: uuid(),
-          type: "TITLE",
-          groupUuid: uuid(),
-          groupType: "QUESTION",
-          payload: {
-            html: "link :"
-          }
-        },
-        {
-          uuid: uuid(),
-          type: "INPUT_LINK",
-          groupUuid: uuid(),
-          groupType: "INPUT_LINK",
-          payload: {
-            isRequired: true,
-            placeholder: ""
-          }
-        },
-        {
-          uuid: uuid(),
-          type: "HIDDEN_FIELDS",
-          groupUuid: uuid(),
-          groupType: "HIDDEN_FIELDS",
-          payload: {
-            hiddenFields: [
-              {
-                "uuid": uuid(),
-                "name": "header"
-              }
-            ]
-          }
-        },
-        {
-          uuid: uuid(),
-          type: "HIDDEN_FIELDS",
-          groupUuid: uuid(),
-          groupType: "HIDDEN_FIELDS",
-          payload: {
-            hiddenFields: [
-              {
-                "uuid": uuid(),
-                "name": "id"
-              }
-            ]
-          }
-        }
-      ]
-    })
-    return data.id
-  } catch (error) {
-    console.error(error)
-  }
-}
-//
-const addWebhook = async (id, header) => {
-  try {
-    await axios.post("https://api.tally.so/webhooks", {
-      formId: id,
-      url: "https://pumabot.pongpoti.deno.net/callback",
-      eventTypes: ["FORM_RESPONSE"]
-    })
-  } catch (error) {
-    console.error(error)
-  }
 }
 //
 const notifyBot = async (header, workplace, link, id) => {

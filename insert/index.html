@@ -32,6 +32,7 @@
   <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <script>
+    const header = (new URLSearchParams(window.location.search)).get("header")
     axios.defaults.headers.post["Content-Type"] = "application/json"
     axios.defaults.headers.post["Authorization"] = "Bearer tly-ASqvEMi4UuCizMUvSXDMTaH8L2Fqe7Ax"
     const body = document.getElementById("body")
@@ -61,7 +62,6 @@
     const main = async () => {
       await liff.init({ liffId: "2008812156-dBTVy4pC" })
       if (window.innerWidth < 481 && liff.isInClient()) {
-        const header = (new URLSearchParams(window.location.search)).get("header")
         const id = await form(header)
         body.style.display = "block"
         iframe.src = "https://tally.so/r/" + id + "?header=" + header + "&id=" + id
