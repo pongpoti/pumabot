@@ -62,7 +62,7 @@ app.use("/submit", express.static("submit"))
 //
 app.get("/insert/initiate", (req, res) => {
   const header = Object.values(req.query)[0].replace("?header=", "")
-  form(header).then(id => res.redirect("https://pumabot.pongpoti.deno.net/insert/activate?header=" + header + "&id=" + id))
+  form(header).then(id => res.redirect("https://liff.line.me/2008812156-cgGRzGOW?header=" + header + "&id=" + id))
 })
 //
 app.post("/line", line.middleware(config), (req, res) => {

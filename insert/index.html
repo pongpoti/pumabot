@@ -38,7 +38,8 @@
     const iframe = document.getElementById("iframe")
     //
     const main = async () => {
-      if (window.innerWidth > 481) {
+      await liff.init({ liffId: "2008812156-cgGRzGOW" })
+      if (window.innerWidth < 481 && liff.isInClient()) {
         body.style.display = "block"
         iframe.src = "https://tally.so/r/" + id + "?header=" + header + "&id=" + id
         console.log("liff status : " + liff.isInClient())
