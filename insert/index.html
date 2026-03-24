@@ -85,7 +85,7 @@
             redirectOnCompletion: {
               safeHTMLSchema: [
                 [
-                  "https://pumabot.pongpoti.deno.net/submit"
+                  "https://pumabot-pia.vercel.app/submit"
                 ]
               ],
               mentions: []
@@ -179,7 +179,7 @@
       try {
         await axios.post("https://api.tally.so/webhooks", {
           formId: id,
-          url: "https://pumabot.pongpoti.deno.net/callback",
+          url: "https://pumabot-pia.vercel.app/callback",
           eventTypes: ["FORM_RESPONSE"]
         })
       } catch (error) {

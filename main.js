@@ -1,7 +1,7 @@
-import express from "express"
-import axios from "axios"
-import * as line from "@line/bot-sdk"
-import { createClient } from '@supabase/supabase-js'
+const express = require("express")
+const axios = require("axios")
+const line = require("@line/bot-sdk")
+const { createClient } = require('@supabase/supabase-js')
 
 /*
 Ue1dfcb3859e9e726d1839fcbd40ac8ac
@@ -10,15 +10,21 @@ U9cde6d2edaf30e56479c95ee8618c9cd
 
 const app = express()
 const port = process.env.PORT || 3030
+const LINE_ACCESS_TOKEN = process.env.LINE_ACCESS_TOKEN
+const LINE_CHANNEL_SECRET = process.env.LINE_CHANNEL_SECRET
+const SUPABASE_URL = process.env.SUPABASE_URL
+const SUPABASE_KEY = process.env.SUPABASE_KEY
+const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN
+const TELEGRAM_CHAT_ID = process.env.TELEGRAM_CHAT_ID
 const headers = {
   "Content-Type": "application/json",
-  "Authorization": "Bearer uWCHXalmoUA95FiGl298LqCvCiMrRyebRez/hbfEUiV1Xilk4ZdULAImv2vAdJRmc+v9GNyL2HXQ0gNCFBNAD3aNZpWyhAxK16sIGB/BrQ7oaSLdHjClBUFk8CgXLClQlyeRngref8TbpfBZN0JuEgdB04t89/1O/w1cDnyilFU=",
+  "Authorization": "Bearer " + LINE_ACCESS_TOKEN,
 }
-const config = { channelSecret: "c5cefb180914e47e06498b342b77582c" }
+const config = { channelSecret: LINE_CHANNEL_SECRET }
 const client = new line.messagingApi.MessagingApiClient({
-  channelAccessToken: "uWCHXalmoUA95FiGl298LqCvCiMrRyebRez/hbfEUiV1Xilk4ZdULAImv2vAdJRmc+v9GNyL2HXQ0gNCFBNAD3aNZpWyhAxK16sIGB/BrQ7oaSLdHjClBUFk8CgXLClQlyeRngref8TbpfBZN0JuEgdB04t89/1O/w1cDnyilFU=",
+  channelAccessToken: LINE_ACCESS_TOKEN,
 })
-const supabase = createClient("https://lbgaqfzogwnvssnmcdxo.supabase.co", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxiZ2FxZnpvZ3dudnNzbm1jZHhvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njc0NTU1NjcsImV4cCI6MjA4MzAzMTU2N30.MD5gKKP7jhAVyW7bd4tscxTPZllvWM1OGIe9l8hFxuU")
+const supabase = createClient(SUPABASE_URL, SUPABASE_KEY)
 axios.defaults.headers.delete["Content-Type"] = "application/json"
 axios.defaults.headers.delete["Authorization"] = "Bearer tly-ASqvEMi4UuCizMUvSXDMTaH8L2Fqe7Ax"
 const header_object = {
@@ -128,8 +134,8 @@ const handleEvent = async (event) => {
   //
   const message = event.message.text.trim().toLowerCase()
   try {
-    await axios.post("https://api.telegram.org/bot8304418735:AAEzik9XwKKWOt5c2Ya0p72WKloJjj-_zaM/sendMessage", {
-      chat_id: "1228757332",
+    await axios.post("https://api.telegram.org/bot" + TELEGRAM_BOT_TOKEN + "/sendMessage", {
+      chat_id: TELEGRAM_CHAT_ID,
       text: "[ line chat ]\nuserId : " + event.source.userId + "\nmessage : " + message
     })
   } catch (error) {
@@ -144,8 +150,8 @@ const handleEvent = async (event) => {
 //
 const notifyBot = async (header, workplace, link, id) => {
   try {
-    await axios.post("https://api.telegram.org/bot8304418735:AAEzik9XwKKWOt5c2Ya0p72WKloJjj-_zaM/sendMessage", {
-      chat_id: "1228757332",
+    await axios.post("https://api.telegram.org/bot" + TELEGRAM_BOT_TOKEN + "/sendMessage", {
+      chat_id: TELEGRAM_CHAT_ID,
       text: "[ form submit ]\n" + header_object[header][0] + " - " + header_object[header][1] +
         "\nheader : " + header + "\nworkplace : " + workplace + "\nlink : " + link + "\nid : " + id
     })
