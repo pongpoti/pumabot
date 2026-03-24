@@ -1,4 +1,5 @@
 const express = require("express")
+const path = require("path")
 const axios = require("axios")
 const line = require("@line/bot-sdk")
 const { createClient } = require("@supabase/supabase-js")
@@ -49,9 +50,9 @@ app.listen(port, () => {
   console.log(`Server is running on port ${port}`)
 })
 //
-app.use("/display", express.static("display"))
-app.use("/insert", express.static("insert"))
-app.use("/submit", express.static("submit"))
+app.use("/display", express.static(path.join(__dirname, "display")))
+app.use("/insert", express.static(path.join(__dirname, "insert")))
+app.use("/submit", express.static(path.join(__dirname, "submit")))
 //
 app.post("/line", line.middleware(config), (req, res) => {
   Promise
