@@ -1,5 +1,4 @@
 import express from "express"
-import process from "node:process"
 import axios from "axios"
 import * as line from "@line/bot-sdk"
 import { createClient } from '@supabase/supabase-js'
