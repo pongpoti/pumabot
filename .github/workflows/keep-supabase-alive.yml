@@ -1,0 +1,43 @@
+name: Keep Supabase Alive
+
+on:
+  schedule:
+    # Runs every day at 08:00 UTC
+    - cron: '0 8 * * *'
+  workflow_dispatch: # Allows manual trigger from GitHub UI
+
+jobs:
+  ping-supabase:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Ping Supabase to prevent freeze
+        run: |
+          echo "Pinging Supabase project at $(date)"
+
+          RESPONSE=$(curl --silent --write-out "\nHTTP_STATUS:%{http_code}" \
+            --request GET \
+            "https://lbgaqfzogwnvssnmcdxo.supabase.co/rest/v1/" \
+            --header "apikey: sb_publishable_eUvAfwidgh5iVLW5YU0zXQ_Aj_uTMAa" \
+            --header "Authorization: Bearer sb_publishable_eUvAfwidgh5iVLW5YU0zXQ_Aj_uTMAa")
+
+          HTTP_STATUS=$(echo "$RESPONSE" | grep "HTTP_STATUS" | cut -d: -f2)
+          BODY=$(echo "$RESPONSE" | grep -v "HTTP_STATUS")
+
+          echo "HTTP Status: $HTTP_STATUS"
+          echo "Response: $BODY"
+
+          if [[ "$HTTP_STATUS" -ge 200 && "$HTTP_STATUS" -lt 500 ]]; then
+            echo "✅ Supabase is alive and responding (HTTP $HTTP_STATUS)"
+          else
+            echo "❌ Unexpected response: HTTP $HTTP_STATUS"
+            exit 1
+          fi
+
+      - name: Log success
+        if: success()
+        run: echo "✅ Daily Supabase keep-alive ping completed successfully at $(date)"
+
+      - name: Log failure
+        if: failure()
+        run: echo "❌ Keep-alive ping failed at $(date) — check your project status."
