@@ -1,7 +1,9 @@
 const express = require("express")
 const axios = require("axios")
 const line = require("@line/bot-sdk")
-const { createClient } = require('@supabase/supabase-js')
+const { createClient } = require("@supabase/supabase-js")
+const dotenv = require("dotenv")
+dotenv.config()
 
 /*
 Ue1dfcb3859e9e726d1839fcbd40ac8ac
