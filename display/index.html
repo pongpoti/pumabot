@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PUMABOT</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
@@ -14,33 +14,92 @@
         rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
     <style>
-        #body {
-            display: none;
+        * { font-family: 'Inter', sans-serif; }
+        #body { display: none; }
+
+        .nav-glass {
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            background: rgba(255, 255, 255, 0.88);
+            border-bottom: 1px solid rgba(2, 74, 112, 0.08);
+            box-shadow: 0 1px 12px rgba(0, 0, 0, 0.06);
         }
+
+        .footer-glass {
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+
+        .item-card {
+            transition: transform 0.18s cubic-bezier(0.4, 0, 0.2, 1),
+                        box-shadow 0.18s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .item-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 28px rgba(2, 74, 112, 0.13);
+        }
+
+        .item-card:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 8px rgba(2, 74, 112, 0.08);
+        }
+
+        .item-card label {
+            cursor: pointer;
+        }
+
+        .animate-stagger:nth-child(1)  { animation-delay: 0.03s; }
+        .animate-stagger:nth-child(2)  { animation-delay: 0.06s; }
+        .animate-stagger:nth-child(3)  { animation-delay: 0.09s; }
+        .animate-stagger:nth-child(4)  { animation-delay: 0.12s; }
+        .animate-stagger:nth-child(5)  { animation-delay: 0.15s; }
+        .animate-stagger:nth-child(6)  { animation-delay: 0.18s; }
+        .animate-stagger:nth-child(7)  { animation-delay: 0.21s; }
+        .animate-stagger:nth-child(8)  { animation-delay: 0.24s; }
+        .animate-stagger:nth-child(9)  { animation-delay: 0.27s; }
+        .animate-stagger:nth-child(10) { animation-delay: 0.30s; }
+        .animate-stagger:nth-child(n+11) { animation-delay: 0.33s; }
     </style>
 </head>
 
-<body id="body" class="min-h-screen border-r-10 border-l-10 border-sky-900 bg-base-300 relative">
-    <div id="navbar"
-        class="navbar flex justify-center w-full border-sky-900 border-b-10 border-t-10 sticky top-0 py-6 z-10">
-        <img id="image_icon" class="ml-4">
-        <div class="divider divider-horizontal"></div>
-        <div class="w-60 flex-none">
-            <div id="title" class="text-center text-xl text-sky-900 font-bold tracking-widest"></div>
-            <div id="subtitle" class="text-center text-lg italic text-sky-900 font-semibold tracking-wider"></div>
+<body id="body" class="min-h-screen bg-slate-50">
+
+    <!-- Navbar -->
+    <header id="navbar" class="nav-glass sticky top-0 z-20">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center gap-4">
+            <img id="image_icon" class="w-9 h-9 opacity-90 flex-shrink-0">
+            <div class="w-px h-7 bg-sky-900/15 flex-shrink-0"></div>
+            <div class="flex flex-col justify-center min-w-0">
+                <div id="title"
+                    class="text-xs font-black tracking-[0.22em] text-sky-900 uppercase leading-tight truncate"></div>
+                <div id="subtitle"
+                    class="text-xs italic text-sky-600/80 tracking-widest leading-tight truncate"></div>
+            </div>
+            <div class="ml-auto flex-shrink-0">
+                <span id="item_count"
+                    class="text-xs text-slate-400 tracking-wide tabular-nums"></span>
+            </div>
         </div>
-    </div>
-    <div id="content" class="grid grid-cols-1 justify-items-center gap-6 px-10 pt-6 z-0"></div>
-    <div id="footer" class="fixed bottom-0 left-0 right-0 h-16 bg-sky-900 z-10">
-        <div class="flex justify-center items-center mt-2">
+    </header>
+
+    <!-- Content -->
+    <main class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-6 pb-24">
+        <div id="content" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3"></div>
+    </main>
+
+    <!-- Footer (visible only in LINE client) -->
+    <footer id="footer" class="footer-glass fixed bottom-0 left-0 right-0 h-14 bg-sky-950/92 z-20 border-t border-sky-900/40 hidden">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center gap-3">
             <div class="avatar">
-                <div class="w-10 h-10 rounded-full ring-white ring-2">
-                    <img id="image_profile">
+                <div class="w-8 h-8 rounded-full ring-2 ring-white/20 overflow-hidden">
+                    <img id="image_profile" class="w-full h-full object-cover">
                 </div>
             </div>
-            <div id="text_profile" class="ml-4 text-white text-md"></div>
+            <div id="text_profile" class="text-white/85 text-xs tracking-wide"></div>
         </div>
-    </div>
+    </footer>
+
     <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
@@ -48,7 +107,6 @@
         const { createClient } = supabase
         const _supabase = createClient("https://lbgaqfzogwnvssnmcdxo.supabase.co", "sb_publishable_eUvAfwidgh5iVLW5YU0zXQ_Aj_uTMAa")
         const body = document.getElementById("body")
-        const navbar = document.getElementById("navbar")
         const image_icon = document.getElementById("image_icon")
         const title = document.getElementById("title")
         const subtitle = document.getElementById("subtitle")
@@ -56,72 +114,104 @@
         const footer = document.getElementById("footer")
         const image_profile = document.getElementById("image_profile")
         const text_profile = document.getElementById("text_profile")
+        const item_count = document.getElementById("item_count")
+
         const category_object = {
             M: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' height='60px' viewBox='0 -960 960 960' width='60px' fill='%23024a70'%3E%3Cpath d='m200-120-80-480h720l-80 480H200Zm67-80h426l51-320H216l51 320Zm133-160h160q17 0 28.5-11.5T600-400q0-17-11.5-28.5T560-440H400q-17 0-28.5 11.5T360-400q0 17 11.5 28.5T400-360ZM240-640q-17 0-28.5-11.5T200-680q0-17 11.5-28.5T240-720h480q17 0 28.5 11.5T760-680q0 17-11.5 28.5T720-640H240Zm80-120q-17 0-28.5-11.5T280-800q0-17 11.5-28.5T320-840h320q17 0 28.5 11.5T680-800q0 17-11.5 28.5T640-760H320Zm-53 560h426-426Z'/%3E%3C/svg%3E",
             F: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' height='60px' viewBox='0 -960 960 960' width='60px' fill='%23024a70'%3E%3Cpath d='M200-120q-17 0-28.5-11.5T160-160v-40q-50 0-85-35t-35-85v-200q0-50 35-85t85-35v-80q0-50 35-85t85-35h400q50 0 85 35t35 85v80q50 0 85 35t35 85v200q0 50-35 85t-85 35v40q0 17-11.5 28.5T760-120q-17 0-28.5-11.5T720-160v-40H240v40q0 17-11.5 28.5T200-120Zm-40-160h640q17 0 28.5-11.5T840-320v-200q0-17-11.5-28.5T800-560q-17 0-28.5 11.5T760-520v160H200v-160q0-17-11.5-28.5T160-560q-17 0-28.5 11.5T120-520v200q0 17 11.5 28.5T160-280Zm120-160h400v-80q0-27 11-49t29-39v-112q0-17-11.5-28.5T680-760H280q-17 0-28.5 11.5T240-720v112q18 17 29 39t11 49v80Zm200 0Zm0 160Zm0-80Z'/%3E%3C/svg%3E",
             L: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' height='60px' viewBox='0 -960 960 960' width='60px' fill='%23024a70'%3E%3Cpath d='M120-80v-80h320v80H120Zm560-40q-33 0-56.5-23.5T600-200H480q-17 0-28.5-11T440-239q-2-90 56-156.5T640-476v-404h80v404q87 14 144.5 80.5T920-239q0 17-11.5 28T880-200H760q0 33-23 56.5T680-120Zm-440-80v-320H80q-20 0-32-15.5T41-570l75-280q4-13 14.5-21.5T155-880h250q14 0 24.5 8.5T444-850l75 280q5 19-7 34.5T480-520H320v320h-80Zm284-80h312q-12-54-56-87t-100-33q-55 0-99 33t-57 87ZM132-600h296l-53-200H186l-54 200Zm148-100Zm400 360Z'/%3E%3C/svg%3E",
             A: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' height='60px' viewBox='0 -960 960 960' width='60px' fill='%23024a70'%3E%3Cpath d='M120-120v-122q-18-5-30-19t-14-34L40-680h25q23 0 40.5 16t19.5 39l24 265h171q33 0 56.5 23.5T400-280v40h-40v120h-60v-120H180v120h-60Zm320 0v-320H200q0-33 23.5-56.5T280-520h400q33 0 56.5 23.5T760-440H520v320h-80ZM280-600v-40q0-66 47-113t113-47v-120h80v120q66 0 113 47t47 113v40H280Zm91-80h218q-11-19-29-29.5T520-720h-80q-22 0-40 10.5T371-680Zm229 560v-120h-40v-40q0-33 23.5-56.5T640-360h172l24-265q2-23 19-39t40-16h25l-35 385q-2 20-14.5 34T840-242v122h-60v-120H660v120h-60ZM480-680Z'/%3E%3C/svg%3E"
         }
+
         const header_object = {
-            M1: ["MATERIAL", "hard finishes", "bg-purple-200"],
-            M2: ["MATERIAL", "soft finishes", "bg-purple-200"],
-            M3: ["MATERIAL", "hardware", "bg-purple-200"],
-            M4: ["MATERIAL", "sanitary", "bg-purple-200"],
-            F1: ["FURNITURE", "indoor", "bg-rose-200"],
-            F2: ["FURNITURE", "outdoor", "bg-rose-200"],
-            F3: ["FURNITURE", "customized furniture", "bg-rose-200"],
-            L1: ["LIGHTING", "general", "bg-amber-200"],
-            L2: ["LIGHTING", "decorative lamp", "bg-amber-200"],
-            A1: ["ACCESSORIES", "artwork", "bg-green-200"],
-            A2: ["ACCESSORIES", "props", "bg-green-200"],
-            A3: ["ACCESSORIES", "carpet", "bg-green-200"],
-            A4: ["ACCESSORIES", "amenity", "bg-green-200"]
+            M1: ["MATERIAL", "hard finishes"],
+            M2: ["MATERIAL", "soft finishes"],
+            M3: ["MATERIAL", "hardware"],
+            M4: ["MATERIAL", "sanitary"],
+            F1: ["FURNITURE", "indoor"],
+            F2: ["FURNITURE", "outdoor"],
+            F3: ["FURNITURE", "customized furniture"],
+            L1: ["LIGHTING", "general"],
+            L2: ["LIGHTING", "decorative lamp"],
+            A1: ["ACCESSORIES", "artwork"],
+            A2: ["ACCESSORIES", "props"],
+            A3: ["ACCESSORIES", "carpet"],
+            A4: ["ACCESSORIES", "amenity"]
         }
-        //
+
+        const accent_map = {
+            M: { dot: "bg-purple-400", text: "text-purple-600", arrow: "text-purple-300", navBg: "bg-purple-50/60" },
+            F: { dot: "bg-rose-400",   text: "text-rose-600",   arrow: "text-rose-300",   navBg: "bg-rose-50/60"   },
+            L: { dot: "bg-amber-400",  text: "text-amber-600",  arrow: "text-amber-300",  navBg: "bg-amber-50/60"  },
+            A: { dot: "bg-green-400",  text: "text-green-600",  arrow: "text-green-300",  navBg: "bg-green-50/60"  }
+        }
+
         const main = async () => {
             await liff.init({ liffId: "2008812156-UdgwP1vW" })
-            if (window.innerWidth < 481 && liff.isInClient()) {
+
+            body.style.display = "block"
+
+            if (liff.isInClient()) {
                 const profile = await liff.getProfile()
                 image_profile.src = profile.pictureUrl
-                text_profile.innerHTML = "Hi! <b>" + profile.displayName + "</b>"
-                body.style.display = "block"
-                navbar.classList.add(header_object[header][2])
-                image_icon.src = category_object[header.slice(0, 1)]
-                title.innerText = header_object[header][0]
-                subtitle.innerText = header_object[header][1]
-                //
-                const loading = document.createElement("div")
-                loading.className = "loading loading-bars loading-xl"
-                content.appendChild(loading)
-                //
-                const array = await getDataByHeader(header)
-                content.removeChild(loading)
-                //
-                for (const a of array) {
-                    content.appendChild(createDisplayList(a[0]))
-                }
-                const footspacer = document.createElement("div")
-                footspacer.className = "h-20"
-                content.appendChild(footspacer)
-                //
-                const checkboxes = document.getElementsByClassName("checkbox")
-                const collapses = document.getElementsByClassName("collapse")
-                const texts = document.getElementsByClassName("text")
-                //
-                for (let i = 0; i < checkboxes.length; i++) {
-                    checkboxes[i].addEventListener("change", function () {
-                        if (this.checked) {
-                            texts[i].classList.add("font-bold")
-                            setTimeout(() => {
-                                window.location.assign(array[i][1])
-                                texts[i].classList.remove("font-bold")
-                                this.checked = false
-                            }, 1000);
-                        }
-                    })
-                }
+                text_profile.innerHTML = "Hi, <b>" + profile.displayName + "</b>"
+                footer.classList.remove("hidden")
+            }
+
+            const cat = header ? header.slice(0, 1) : "M"
+            const accent = accent_map[cat] || accent_map["M"]
+            const navbar = document.getElementById("navbar")
+            navbar.classList.add(accent.navBg)
+
+            image_icon.src = category_object[cat]
+            title.innerText = header_object[header] ? header_object[header][0] : ""
+            subtitle.innerText = header_object[header] ? header_object[header][1] : ""
+
+            const loading = document.createElement("div")
+            loading.id = "loading_indicator"
+            loading.className = "col-span-full flex justify-center items-center py-20"
+            loading.innerHTML = `<div class="loading loading-bars loading-lg text-sky-700 opacity-60"></div>`
+            content.appendChild(loading)
+
+            const array = await getDataByHeader(header)
+
+            const loadingEl = document.getElementById("loading_indicator")
+            if (loadingEl) content.removeChild(loadingEl)
+
+            if (!array || array.length === 0) {
+                const empty = document.createElement("div")
+                empty.className = "col-span-full flex flex-col items-center justify-center py-20 gap-3"
+                empty.innerHTML = `
+                    <div class="text-slate-300 text-5xl">—</div>
+                    <p class="text-slate-400 text-sm tracking-wide">No items found</p>
+                `
+                content.appendChild(empty)
+                return
+            }
+
+            item_count.textContent = array.length + " item" + (array.length !== 1 ? "s" : "")
+
+            for (const a of array) {
+                content.appendChild(createDisplayList(a[0], accent))
+            }
+
+            const checkboxes = document.getElementsByClassName("checkbox")
+            const texts = document.getElementsByClassName("text")
+
+            for (let i = 0; i < checkboxes.length; i++) {
+                checkboxes[i].addEventListener("change", function () {
+                    if (this.checked) {
+                        texts[i].classList.add("opacity-60")
+                        setTimeout(() => {
+                            window.location.assign(array[i][1])
+                            texts[i].classList.remove("opacity-60")
+                            this.checked = false
+                        }, 800)
+                    }
+                })
             }
         }
+
         const getDataByHeader = async (header) => {
             try {
                 const { data, error } = await _supabase.from("src").select().eq("header", header)
@@ -129,40 +219,46 @@
                 for (const d of data) {
                     array.push([d.workplace, d.link])
                 }
-                array.sort((a, b) => {
-                    if (a[0] < b[0]) {
-                        return -1
-                    }
-                    if (a[0] > b[0]) {
-                        return 1
-                    }
-                    return 0
-                });
+                array.sort((a, b) => a[0] < b[0] ? -1 : a[0] > b[0] ? 1 : 0)
                 return array
             } catch (error) {
                 console.error(error)
+                return []
             }
         }
-        const createDisplayList = (text) => {
-            const div = document.createElement("div")
-            div.className = "bg-base-100 collapse shadow-md"
+
+        const createDisplayList = (text, accent) => {
+            const wrapper = document.createElement("div")
+            wrapper.className = "item-card animate-stagger bg-white rounded-xl border border-slate-100 shadow-sm overflow-hidden animate__animated animate__fadeIn"
+
+            const label = document.createElement("label")
+            label.className = "flex items-center gap-3 px-5 py-4 w-full"
+
             const input = document.createElement("input")
             input.type = "checkbox"
-            input.className = "checkbox peer"
-            const title = document.createElement("div")
-            title.className = "collapse-title peer-checked:" + header_object[header][2]
-            const content = document.createElement("div")
-            content.className = "text pl-6 text-center text-sky-900 text-lg tracking-widest"
-            const firstLetter = "<b>" + text.charAt(0).toUpperCase() + "</b>"
-            const remainingLetters = text.slice(1)
-            content.innerHTML = firstLetter + remainingLetters
-            title.appendChild(content)
-            div.appendChild(input)
-            div.appendChild(title)
-            div.classList.add("animate__animated", "animate__pulse")
-            return div
+            input.className = "checkbox sr-only peer"
+
+            const dot = document.createElement("div")
+            dot.className = `w-1.5 h-1.5 rounded-full flex-shrink-0 ${accent.dot} opacity-50`
+
+            const textEl = document.createElement("div")
+            textEl.className = "text text-slate-700 text-sm font-medium tracking-wide flex-1 transition-opacity duration-200"
+            const firstLetter = `<span class="${accent.text} font-bold">${text.charAt(0).toUpperCase()}</span>`
+            textEl.innerHTML = firstLetter + text.slice(1)
+
+            const arrow = document.createElement("div")
+            arrow.className = `${accent.arrow} flex-shrink-0 transition-colors duration-150`
+            arrow.innerHTML = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>`
+
+            label.appendChild(input)
+            label.appendChild(dot)
+            label.appendChild(textEl)
+            label.appendChild(arrow)
+            wrapper.appendChild(label)
+
+            return wrapper
         }
-        //
+
         main()
     </script>
 

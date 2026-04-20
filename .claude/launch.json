@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "Express API",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["main.js"],
+      "port": 3030
+    }
+  ]
+}
